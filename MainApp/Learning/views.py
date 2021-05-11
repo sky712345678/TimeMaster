@@ -20,7 +20,7 @@ def inputCourse(request):
         credits = request.form['credits']
 
         result = Courses.query.filter_by(CourseNumber=courseNumber).first()
-
+        # Check the request and upload the database
         if result is None:
             tupleToInsert = Courses(semester, courseNumber, courseName, credits)
             db.session.add(tupleToInsert)
