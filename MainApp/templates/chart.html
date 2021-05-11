@@ -1,0 +1,71 @@
+<meta charset="utf-8">
+<title>Chart Test</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='chart.css') }}"/>    
+<body>
+    <h1>Flask Chart</h1>
+    <!-- 調整大小參考 https://www.chartjs.org/docs/latest/configuration/responsive.html -->
+    <div  class="chart-container" style="  position: absolute; top: 10%; left: 20%; height:5vh; width:50vw">
+        <canvas id="myChart" ></canvas>
+        <canvas id="pieChart" ></canvas>
+    </div>
+    
+    
+</body>
+<!-- jinja2 一些傳遞限制語法 https://hackmd.io/@shaoeChen/SJ0X-PnkG?type=view -->
+<script>
+    const name = {{values}};
+    const labels = {{ pass_labels|tojson }};
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Learning Curve',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{values}},
+            },{
+            label: 'Learning Curve2',
+            backgroundColor: 'rgb(10, 60, 219)',
+            borderColor: 'rgb(10, 60, 219)',
+            data: {{values2}},
+            }]
+    };
+    const pie_data = {
+        labels: labels,
+        datasets: [{
+            label: 'My First Dataset',
+            data: name,
+            backgroundColor: [
+            'rgb(250, 20, 20)',
+            'rgb(250, 120, 20)',
+            'rgb(250, 219, 20)',
+            'rgb(20, 219, 20)',
+            'rgb(20, 219, 219)',
+            'rgb(20, 120, 219)',
+            'rgb(170, 20, 219)',
+            'rgb(219, 120, 219)'
+            ],
+            hoverOffset: 30}]
+        };
+    const config = {
+        type: 'line',
+        data,
+        options: {}
+        };
+    const pie_config = {
+        type: 'doughnut',
+        data: pie_data,
+        };
+    // === include 'setup' then 'config' above ===
+
+    var myChart = new Chart(
+        document.getElementById('myChart'),
+        config,
+    );
+    var pie_Chart = new Chart(
+        document.getElementById('pieChart'),
+        pie_config,
+    );
+
+
+</script>
