@@ -1,5 +1,6 @@
 # TimeMaster
-This is a project for Database System course at NCKU
+This is a project for Database System course at NCKU  
+To read this in HackMD, go to: https://hackmd.io/@zewunwang/Sy-qZ3P_d
 
 ## Prerequisites ##
 #### Create a virtual environment ####
