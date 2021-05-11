@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <title>List courses</title>
+
+    <body>
+        <div class="jumbotron jumbotron-fluid mt-5">
+            <div class="container">
+                <h1 class="display-4">View all the courses</h1>
+
+                <ul class="list-group">
+                    {% for item in values%}
+                    <li class="list-group-item">
+                        <h3 class="mb-1" id="courseName">{{item.CourseName}}</h3>
+                        <p class="mb-1" id="schoolYear&semester">{{item.Semester}}</p>
+                        <p class="mb-1" id="courseNumber">Course number: {{item.CourseNumber}}</p>
+                        <p class="mb-1" id="credits">Credits: {{item.Credits}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
