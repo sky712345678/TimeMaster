@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 '''
 
-@app.route('/helloworld')
+@app.route('/')
 def hello_world():
     return 'Hello world!'
 
