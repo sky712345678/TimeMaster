@@ -4,10 +4,10 @@ To read this in HackMD, go to: https://hackmd.io/@zewunwang/Sy-qZ3P_d
 
 ## Prerequisites ##
 #### Create a virtual environment ####
-On Linux: `$ python3 -m venv venv`
+On Linux: `$ python3 -m venv venv`  
 On Windows: `> py -3 -m venv venv`
 #### Activate/deactivate virtual environment ####
-On Linux: `$ . venv/bin/activate`
+On Linux: `$ . venv/bin/activate`  
 On Windows: `> venv\Scripts\activate`
 #### Install Flask in virtual environment ####
 `$ pip install Flask`
