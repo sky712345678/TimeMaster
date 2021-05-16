@@ -54,15 +54,41 @@ def inputStudy(request):
         duration = request.form['duration']
         content = request.form['content']
 
-        tupleToInsert = Studies(courseNumber, date, duration, content)
-        db.session.add(tupleToInsert)
-        db.session.commit()
-        return '<h2>Successfully added.</h2>'
+        result = Studies.query.filter_by(CourseNumber=courseNumber, Content=content).first()
+
+        if result is None:
+            tupleToInsert = Studies(courseNumber, date, duration, content)
+            db.session.add(tupleToInsert)
+            db.session.commit()
+            return '<h2>Successfully added.</h2>'
+        else:
+            return '<h2>Course already existed!!!</h2>'
 
 def listAllStudies():
-    return render_template('learning/learning_courses_listAll.html', courses=Studies.query.all())
+    return render_template('learning/learning_study_listAll.html', studies=Studies.query.all())
 
-def assignments():
-    returnedTuples = Courses.query.with_entities(Courses.CourseNumber)
-    courseNumbers = [r.CourseNumber for r in returnedTuples]
-    return render_template('learning/learning_study_input.html', courseNumbers=courseNumbers)
+def assignment():
+    return render_template('learning/learning_assignment_input.html', courses=Courses.query.all())
+
+def inputAssignment(request):
+    courseNumber = None
+    assignmentNumber = None
+    grade = None
+
+    if request.method == 'POST':
+        courseNumber = request.form['courseNumber']
+        assignmentNumber = request.form['assignmentNumber']
+        grade = request.form['grade']
+
+        result = Assignments.query.filter_by(CourseNumber=courseNumber, AssignmentNumber=assignmentNumber).first()
+
+        if result is None:
+            tupleToInsert = Assignments(courseNumber, assignmentNumber, grade)
+            db.session.add(tupleToInsert)
+            db.session.commit()
+            return '<h2>Successfully added.</h2>'
+        else:
+            return '<h2>Course already existed!!!</h2>'
+
+def listAllAssignments():
+    return render_template('learning/learning_assignment_listAll.html', assignments=Assignments.query.all())

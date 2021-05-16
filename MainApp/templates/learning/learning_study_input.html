@@ -5,8 +5,8 @@
         <div>
             <h2 id="title">Please enter what you study</h2>
 
-            <form action="/learning/StudyInput/submit" method="post" id="study">
-                CourseNumber:<select name="courseNumber" form="study">
+            <form action="/learning/Study/input/submit" method="post" id="study">
+                Course Number:<select name="courseNumber" form="study">
                             <option value="{{courses[0].CourseNumber}}" selected>{{courses[0].CourseNumber}} - {{courses[0].CourseName}}</option>
                             {% for c in courses[1:] %}
                                 <option value="{{c.CourseNumber}}">{{c.CourseNumber}} - {{c.CourseName}}</option>

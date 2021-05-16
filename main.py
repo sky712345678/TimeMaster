@@ -19,30 +19,41 @@ db = SQLAlchemy(app)
 def hello_world():
     return 'Hello world!'
 
-@app.route('/learning/Courses/input')
+@app.route('/learning/Course/input')
 def course():
     return learning.course()
 
-@app.route('/learning/Courses/input/submit', methods=['POST', 'GET'])
+@app.route('/learning/Course/input/submit', methods=['POST', 'GET'])
 def inputCourse():
     return learning.inputCourse(request)
 
-@app.route('/learning/Courses/listAll')
+@app.route('/learning/Course/listAll')
 def listCourses():
     return learning.listAllCourses()
 
-@app.route('/learning/Studies/input')
+@app.route('/learning/Study/input')
 def study():
     return learning.study()
 
-@app.route('/learning/Studies/input/submit', methods=['POST', 'GET'])
+@app.route('/learning/Study/input/submit', methods=['POST', 'GET'])
 def inputStudy():
     return learning.inputStudy(request)
 
-@app.route('/learning/Studies/listAll')
+@app.route('/learning/Study/listAll')
 def listStudies():
     return learning.listAllStudies()
 
+@app.route('/learning/Assignment/input')
+def assignment():
+    return learning.assignment()
+
+@app.route('/learning/Assignment/input/submit', methods=['POST', 'GET'])
+def inputAssignment():
+    return learning.inputAssignment(request)
+
+@app.route('/learning/Assignment/listAll')
+def listAssignments():
+    return learning.listAllAssignments()
 
 
 if __name__ == '__main__':
