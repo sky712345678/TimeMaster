@@ -7,9 +7,9 @@
 
             <form action="/learning/TestInput/submit" method="post" id="test">
                 CourseNumber:<select name="courseNumber" form="test">
-                            <option value="{{courseNumbers[0]}}" selected>{{courseNumbers[0]}}</option>
-                            {% for c in coursesNumbers[1:] %}
-                                <option value="{{c}}">{{c}}</option>
+                            <option value="{{courses[0].CourseNumber}}" selected>{{courses[0].CourseNumber}} - {{courses[0].CourseName}}</option>
+                            {% for c in courses[1:] %}
+                                <option value="{{c.CourseNumber}}">{{c.CourseNumber}} - {{c.CourseName}}</option>
                             {% endfor %}
                         </select>
                 <br>

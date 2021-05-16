@@ -18,7 +18,7 @@ class Studies(db.Model):
     CourseNumber = db.Column(db.CHAR(6), primary_key = True)
     Date = db.Column(db.CHAR(8), nullable = False)
     Duration = db.Column(db.Integer, nullable = False)
-    Content = db.Column(db.VARCHAR(100))
+    Content = db.Column(db.VARCHAR(100), primary_key = True)
 
     def __init__(self, CourseNumber, Date, Duration, Content):
         self.CourseNumber = CourseNumber

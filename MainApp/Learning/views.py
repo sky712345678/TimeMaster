@@ -40,9 +40,7 @@ def listAllCourses():
     return render_template('learning/learning_courses_listAll.html', courses=Courses.query.all())
 
 def study():
-    returnedTuples = Courses.query.with_entities(Courses.CourseNumber)
-    courseNumbers = [r.CourseNumber for r in returnedTuples]
-    return render_template('learning/learning_study_input.html', courseNumbers=courseNumbers)
+    return render_template('learning/learning_study_input.html', courses=Courses.query.all())
 
 def inputStudy(request):
     courseNumber = None
@@ -56,10 +54,15 @@ def inputStudy(request):
         duration = request.form['duration']
         content = request.form['content']
 
-        # tupleToInsert = Studies(courseNumber, date, duration, content)
-        # db.session.add(tupleToInsert)
-        # db.session.commit()
-        result = Courses.query.filter_by(CourseNumber=courseNumber).first()
-        db.session.delete(result)
+        tupleToInsert = Studies(courseNumber, date, duration, content)
+        db.session.add(tupleToInsert)
         db.session.commit()
         return '<h2>Successfully added.</h2>'
+
+def listAllStudies():
+    return render_template('learning/learning_courses_listAll.html', courses=Studies.query.all())
+
+def assignments():
+    returnedTuples = Courses.query.with_entities(Courses.CourseNumber)
+    courseNumbers = [r.CourseNumber for r in returnedTuples]
+    return render_template('learning/learning_study_input.html', courseNumbers=courseNumbers)

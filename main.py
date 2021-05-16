@@ -19,25 +19,31 @@ db = SQLAlchemy(app)
 def hello_world():
     return 'Hello world!'
 
-@app.route('/learning/CourseInput')
+@app.route('/learning/Courses/input')
 def course():
     return learning.course()
 
-@app.route('/learning/CourseInput/submit', methods=['POST', 'GET'])
+@app.route('/learning/Courses/input/submit', methods=['POST', 'GET'])
 def inputCourse():
     return learning.inputCourse(request)
 
-@app.route('/learning/ListCourses')
+@app.route('/learning/Courses/listAll')
 def listCourses():
     return learning.listAllCourses()
 
-@app.route('/learning/StudyInput')
+@app.route('/learning/Studies/input')
 def study():
     return learning.study()
 
-@app.route('/learning/StudyInput/submit', methods=['POST', 'GET'])
+@app.route('/learning/Studies/input/submit', methods=['POST', 'GET'])
 def inputStudy():
     return learning.inputStudy(request)
+
+@app.route('/learning/Studies/listAll')
+def listStudies():
+    return learning.listAllStudies()
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
