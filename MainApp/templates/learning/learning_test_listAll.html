@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+    <title>(Learning) List test record</title>
+
+    <body>
+        <div class="testContainer">
+            <h1 class="testContainer">View all the tests</h1>
+
+            <ul class="testList">
+                {% for t in tests%}
+                <li class="listItem">
+                    <h3 class="listItem" id="courseNumber">{{t.CourseNumber}}</h3>
+                    <p class="listItem" id="date">Date: {{t.Date}}</p>
+                    <p class="listItem" id="grade">Grade: {{t.Grade}}</p>
+                    <p class="listItem" id="comment">Comment: {{t.Comment}}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>

@@ -31,5 +31,13 @@ def inputCourse():
 def listCourses():
     return learning.listAllCourses()
 
+@app.route('/learning/StudyInput')
+def study():
+    return learning.study()
+
+@app.route('/learning/StudyInput/submit', methods=['POST', 'GET'])
+def inputStudy():
+    return learning.inputStudy(request)
+
 if __name__ == '__main__':
     app.run(debug=True)

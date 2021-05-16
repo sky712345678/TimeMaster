@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <title>(Learning) Test Input</title>
+    <body>
+        <div>
+            <h2 id="title">Please enter what test you take</h2>
+
+            <form action="/learning/TestInput/submit" method="post" id="test">
+                CourseNumber:<select name="courseNumber" form="test">
+                            <option value="{{courseNumbers[0]}}" selected>{{courseNumbers[0]}}</option>
+                            {% for c in coursesNumbers[1:] %}
+                                <option value="{{c}}">{{c}}</option>
+                            {% endfor %}
+                        </select>
+                <br>
+                Date:<input type="test" name="date" placeholder="Please enter the date">
+                <br>
+                Grade:<input type="test" name="grade" placeholder="Please enter how long you study">
+                <br>
+                Comment:<input type="test" name="comment" placeholder="Please enter what you study">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

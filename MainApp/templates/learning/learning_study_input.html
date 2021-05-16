@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <title>(Learning) Study Input</title>
+    <body>
+        <div>
+            <h2 id="title">Please enter what you study</h2>
+
+            <form action="/learning/StudyInput/submit" method="post" id="study">
+                CourseNumber:<select name="courseNumber" form="study">
+                            <option value="{{courseNumbers[0]}}" selected>{{courseNumbers[0]}}</option>
+                            {% for c in courseNumbers[1:] %}
+                                <option value="{{c}}">{{c}}</option>
+                            {% endfor %}
+                        </select>
+                <br>
+                Date:<input type="study" name="date" placeholder="Please enter the date">
+                <br>
+                Duration:<input type="study" name="duration" placeholder="Please enter how long you study">
+                <br>
+                Content:<input type="study" name="content" placeholder="Please enter what you study">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

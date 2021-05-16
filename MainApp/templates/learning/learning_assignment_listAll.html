@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <title>(Learning) List assignment record</title>
+
+    <body>
+        <div class="assignmentContainer">
+            <h1 class="assignmentContainer">View all the assignments</h1>
+
+            <ul class="assignmentList">
+                {% for a in assignments%}
+                <li class="listItem">
+                    <h3 class="listItem" id="courseNumber">{{a.CourseNumber}}</h3>
+                    <p class="listItem" id="assignmentNumber">Assignment number: {{a.AssignmentNumber}}</p>
+                    <p class="listItem" id="grade">Grade: {{a.Grade}}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
