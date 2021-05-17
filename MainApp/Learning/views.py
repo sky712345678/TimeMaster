@@ -7,6 +7,10 @@ from MainApp.models import Studies
 from MainApp.models import Assignments
 from MainApp.models import Tests
 
+def insertTuple(tupleToInsert):
+    db.session.add(tupleToInsert)
+    db.session.commit()
+
 def course():
     return render_template('learning/learning_course_input.html')
 
@@ -23,11 +27,10 @@ def inputCourse(request):
         credits = request.form['credits']
 
         result = Courses.query.filter_by(CourseNumber=courseNumber).first()
-        # Check the request and upload the database
+        # Check the request and update the database
         if result is None:
             tupleToInsert = Courses(semester, courseNumber, courseName, credits)
-            db.session.add(tupleToInsert)
-            db.session.commit()
+            insertTuple(tupleToInsert)
             return '<h2>Successfully added.</h2>'
         else:
             return '<h2>Course already existed!!!</h2>'
@@ -54,41 +57,79 @@ def inputStudy(request):
         duration = request.form['duration']
         content = request.form['content']
 
-        result = Studies.query.filter_by(CourseNumber=courseNumber, Content=content).first()
+        result = Studies.query.filter_by(CourseNumber=courseNumber, Date=date, Content=content).first()
 
         if result is None:
             tupleToInsert = Studies(courseNumber, date, duration, content)
-            db.session.add(tupleToInsert)
-            db.session.commit()
+            insertTuple(tupleToInsert)
             return '<h2>Successfully added.</h2>'
         else:
-            return '<h2>Course already existed!!!</h2>'
+            return '<h2>Study record already existed!!!</h2>'
 
 def listAllStudies():
-    return render_template('learning/learning_study_listAll.html', studies=Studies.query.all())
+    result = db.session.execute('SELECT S.CourseNumber, C.CourseName, S.Date, S.Duration, S.Content '+
+                                'FROM Studies AS S, Courses AS C '+
+                                'WHERE S.CourseNumber=C.CourseNumber')
+    return render_template('learning/learning_study_listAll.html', studies=result)
+    
+    # return render_template('learning/learning_study_listAll.html', studies=Studies.query.all())
+
+def test():
+    return render_template('learning/learning_test_input.html', courses=Courses.query.all())
+
+def inputTest(request):
+    courseNumber = None
+    date = None
+    grade = None
+    comment = None
+
+    if request.method == 'POST':
+        courseNumber = request.form['courseNumber']
+        date = request.form['date']
+        grade = request.form['grade']
+        comment = request.form['comment']
+
+        result = Tests.query.filter_by(CourseNumber=courseNumber, Date=date).first()
+
+        if result is None:
+            tupleToInsert = Tests(courseNumber, date, grade, comment)
+            insertTuple(tupleToInsert)
+            return '<h2>Successfully added.</h2>'
+        else:
+            return '<h2>Test record already existed!!!</h2>'
+
+def listAllTests():
+    result = db.session.execute('SELECT T.CourseNumber, C.CourseName, T.Date, T.Grade, T.Comment '+
+                                'FROM Tests AS T, Courses AS C '+
+                                'WHERE T.CourseNumber=C.CourseNumber')
+    return render_template('learning/learning_test_listAll.html', tests=result)
+    # return render_template('learning/learning_test_listAll.html', tests=Tests.query.all())
 
 def assignment():
     return render_template('learning/learning_assignment_input.html', courses=Courses.query.all())
 
 def inputAssignment(request):
     courseNumber = None
-    assignmentNumber = None
+    description = None
     grade = None
 
     if request.method == 'POST':
         courseNumber = request.form['courseNumber']
-        assignmentNumber = request.form['assignmentNumber']
+        description = request.form['description']
         grade = request.form['grade']
 
-        result = Assignments.query.filter_by(CourseNumber=courseNumber, AssignmentNumber=assignmentNumber).first()
+        result = Assignments.query.filter_by(CourseNumber=courseNumber, Description=description).first()
 
         if result is None:
-            tupleToInsert = Assignments(courseNumber, assignmentNumber, grade)
-            db.session.add(tupleToInsert)
-            db.session.commit()
+            tupleToInsert = Assignments(courseNumber, description, grade)
+            insertTuple(tupleToInsert)
             return '<h2>Successfully added.</h2>'
         else:
-            return '<h2>Course already existed!!!</h2>'
+            return '<h2>Assignment already existed!!!</h2>'
 
 def listAllAssignments():
-    return render_template('learning/learning_assignment_listAll.html', assignments=Assignments.query.all())
+    result = db.session.execute('SELECT A.CourseNumber, C.CourseName, A.Description, A.Grade '+
+                                'FROM Assignments AS A, Courses AS C '+
+                                'WHERE A.CourseNumber=C.CourseNumber')
+    return render_template('learning/learning_assignment_listAll.html', assignments=result)
+    # return render_template('learning/learning_assignment_listAll.html', assignments=Assignments.query.all())

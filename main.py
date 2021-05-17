@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask, request, session
+from flask import Flask, request, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from MainApp import create
 from MainApp.Learning import views as learning
@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello world!'
+    return render_template('homepage.html')
 
 @app.route('/learning/Course/input')
 def course():
@@ -42,6 +42,18 @@ def inputStudy():
 @app.route('/learning/Study/listAll')
 def listStudies():
     return learning.listAllStudies()
+
+@app.route('/learning/Test/input')
+def test():
+    return learning.test()
+
+@app.route('/learning/Test/input/submit', methods=['POST', 'GET'])
+def inputTest():
+    return learning.inputTest(request)
+
+@app.route('/learning/Test/listAll')
+def listTests():
+    return learning.listAllTests()
 
 @app.route('/learning/Assignment/input')
 def assignment():

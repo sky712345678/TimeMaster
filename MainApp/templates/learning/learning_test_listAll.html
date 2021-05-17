@@ -9,7 +9,7 @@
             <ul class="testList">
                 {% for t in tests%}
                 <li class="listItem">
-                    <h3 class="listItem" id="courseNumber">{{t.CourseNumber}}</h3>
+                    <h3 class="listItem" id="courseNumber">{{t.CourseNumber}}, {{t.CourseName}}</h3>
                     <p class="listItem" id="date">Date: {{t.Date}}</p>
                     <p class="listItem" id="grade">Grade: {{t.Grade}}</p>
                     <p class="listItem" id="comment">Comment: {{t.Comment}}</p>

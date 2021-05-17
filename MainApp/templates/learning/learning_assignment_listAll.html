@@ -9,8 +9,8 @@
             <ul class="assignmentList">
                 {% for a in assignments%}
                 <li class="listItem">
-                    <h3 class="listItem" id="courseNumber">{{a.CourseNumber}}</h3>
-                    <p class="listItem" id="assignmentNumber">Assignment number: {{a.AssignmentNumber}}</p>
+                    <h3 class="listItem" id="courseNumber">{{a.CourseNumber}}, {{a.CourseName}}</h3>
+                    <p class="listItem" id="assignmentNumber">Description: {{a.Description}}</p>
                     <p class="listItem" id="grade">Grade: {{a.Grade}}</p>
                 </li>
                 {% endfor %}
