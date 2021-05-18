@@ -71,8 +71,6 @@ def listAllStudies():
                                 'FROM Studies AS S, Courses AS C '+
                                 'WHERE S.CourseNumber=C.CourseNumber')
     return render_template('learning/learning_study_listAll.html', studies=result)
-    
-    # return render_template('learning/learning_study_listAll.html', studies=Studies.query.all())
 
 def test():
     return render_template('learning/learning_test_input.html', courses=Courses.query.all())
