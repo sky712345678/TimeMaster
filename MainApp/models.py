@@ -2,7 +2,7 @@ from .database import db
 
 # Learning
 class Courses(db.Model):
-    Semester = db.Column(db.VARCHAR(6), nullable=False)
+    Semester = db.Column(db.VARCHAR(10), nullable=False)
     CourseNumber = db.Column(db.CHAR(6), primary_key=True)
     CourseName = db.Column(db.VARCHAR(50), nullable=False)
     Credits = db.Column(db.Integer)
