@@ -50,7 +50,7 @@ def choose(request):
                                     'Date':         data.Date,
                                     'Duration':     data.Duration,
                                     'Content':      data.Content}, ignore_index=True)
-    print(course_df)
+    #print(course_df)
     date_reord, time_record = course_statics(course_df.values)
     print(date_reord, time_record)
 
@@ -60,7 +60,7 @@ def choose(request):
         list_time = time_record[choose_course]
         list_date, list_time = (list(t) for t in zip(*sorted(zip(list_date, list_time))))
         list_date, list_time = learning_curve(list_date, list_time)
-        print(request.values['courseNumber'])
+        print("The selected course", request.values['courseNumber'])
         return render_template('presentation/choose.html', courses=Courses.query.all(),
                             date=list_date, time=list_time)
     else:
@@ -73,7 +73,6 @@ return learning curve like, date['20210301','20210302',...]
                             values[0, 0, 0, 60, 60, 60, 180,...]
 '''
 def learning_curve(list_date, list_time):
-    print(list_date, list_time)
     start = '20210301'
     num_days = 120
     date = [(datetime.strptime(start,'%Y%m%d')+timedelta(days=i)).strftime('%Y%m%d') for i in range(num_days)]
@@ -81,13 +80,10 @@ def learning_curve(list_date, list_time):
     for i in range(1, num_days):
         for j in range(len(list_date)):
             if date[i] == list_date[j]:
-                print(date[i], list_date[j], values[i], list_time[j])
                 values[i] = list_time[j] + values[i-1]
-                print(values[i])
                 break
             else:
                 values[i] = values[i-1]
-    print(date, values)
     return date, values
                 
 
