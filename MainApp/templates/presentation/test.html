@@ -5,7 +5,7 @@
 <body>
     <h1>Flask Chart</h1>
     <!-- 調整大小參考 https://www.chartjs.org/docs/latest/configuration/responsive.html -->
-    <div  class="chart-container" style="  position: absolute; top: 10%; left: 20%; height:5vh; width:50vw">
+    <div  class="chart-container" style="  position: absolute; top: 10%; left: 20%; height:10vh; width:50vw">
         <canvas id="myChart" ></canvas>
         <canvas id="pieChart" ></canvas>
     </div>
@@ -23,13 +23,9 @@
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: {{values}},
-            },{
-            label: 'Learning Curve2',
-            backgroundColor: 'rgb(10, 60, 219)',
-            borderColor: 'rgb(10, 60, 219)',
-            data: {{values2}},
             }]
     };
+    /*
     const pie_data = {
         labels: labels,
         datasets: [{
@@ -47,25 +43,41 @@
             ],
             hoverOffset: 30}]
         };
-    const config = {
-        type: 'line',
-        data,
-        options: {}
-        };
     const pie_config = {
         type: 'doughnut',
         data: pie_data,
-        };
+    };
+    var pie_Chart = new Chart(
+        document.getElementById('pieChart'),
+        pie_config,
+    );
+    */
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+        scales: {
+            x: {
+                ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(val, index) {
+                         // Hide the label of every 2nd dataset
+                        return index % 15 === 0 ? this.getLabelForValue(val) : '';
+                    },
+                    color: 'black',
+                }
+            }
+        }
+        }
+    };
+
     // === include 'setup' then 'config' above ===
 
     var myChart = new Chart(
         document.getElementById('myChart'),
         config,
     );
-    var pie_Chart = new Chart(
-        document.getElementById('pieChart'),
-        pie_config,
-    );
+
 
 
 </script>

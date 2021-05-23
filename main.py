@@ -4,6 +4,7 @@ from flask import Flask, request, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from MainApp import create
 from MainApp.Learning import views as learning
+from MainApp import chart 
 
 app = create()
 
@@ -67,6 +68,17 @@ def inputAssignment():
 def listAssignments():
     return learning.listAllAssignments()
 
+@app.route('/presentation/test')
+def test_chart():
+    return chart.test()
+
+@app.route('/presentation/chart')
+def check_chart():
+    return chart.chart()
+
+@app.route('/presentation/choose', methods=['POST', 'GET'])
+def choose_chart():
+    return chart.choose(request)
 
 if __name__ == '__main__':
     app.run(debug=True)
