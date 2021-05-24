@@ -3,23 +3,16 @@ from datetime import datetime
 from flask import Flask, request, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from MainApp import create
-from MainApp.Learning import views as learning
+from MainApp.Items import views as items_views
 from MainApp import chart 
 
 app = create()
-
-'''
-app = Flask(__name__)
-databasePath = os.getcwd()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + databasePath + '/MainDatabase.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-'''
 
 @app.route('/')
 def hello_world():
     return render_template('homepage.html')
 
+'''
 @app.route('/learning/Course/input')
 def course():
     return learning.course()
@@ -67,6 +60,12 @@ def inputAssignment():
 @app.route('/learning/Assignment/listAll')
 def listAssignments():
     return learning.listAllAssignments()
+'''
+
+@app.route('/items/input', methods=['POST', 'GET'])
+@app.route('/items/input/submit', methods=['POST', 'GET'])
+def items():
+    return items_views.inputItem(request)
 
 @app.route('/presentation/test')
 def test_chart():

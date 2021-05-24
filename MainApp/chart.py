@@ -2,10 +2,10 @@ from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from MainApp.database import db          #created database
-from MainApp.models import Courses       #include the table in database
-from MainApp.models import Studies
-from MainApp.models import Assignments
-from MainApp.models import Tests
+# from MainApp.models import Courses       #include the table in database
+# from MainApp.models import Studies
+# from MainApp.models import Assignments
+# from MainApp.models import Tests
 import pandas as pd
 import random
 from datetime import datetime, timedelta

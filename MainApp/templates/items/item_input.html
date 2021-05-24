@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <title>Item Input</title>
+    <body>
+        <div>
+            <h1 id="title">Please enter the item</h1>
+
+            <form action="/items/input/submit" method="post" id="itemInfo">
+                Semester:<select name="category" form="itemInfo">
+                            <option value="Learning">Learning</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Leisure">Leisure</option>
+                        </select>
+                <br>
+                Serial number:<input type="item" name="serialNumber" placeholder="Please enter serial number">
+                <br>
+                Name:<input type="item" name="name" placeholder="Please enter item name">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
