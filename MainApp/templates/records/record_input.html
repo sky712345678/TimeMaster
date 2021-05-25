@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <title>Record Input</title>
+    <body>
+        <div>
+            <h1 id="title">Please enter the time record</h1>
+
+            <form action="/records/input/submit" method="post" id="recordInfo">
+                Item:<select name="serialNumber" form="recordInfo" onchange="categoryCheck(this)">
+                            <option value="{{items[0].SerialNumber}}">{{items[0].Name}}</option>
+                            {% for i in items[1:] %}
+                                <option value="{{i.SerialNumber}}">{{i.Name}}</option>
+                            {% endfor %}
+                        </select>
+                <br>
+                Duration:<input name="duration" placeholder="Please enter the time you spent (min.)">
+                Goal:<select name="goal" form="recordInfo"></select>
+                AchievePercentage: <input name="achievePercentage" placeholder="%">
+                Description: <input name="description">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/record_input_js.js"></script>
+    </body>
+</html>

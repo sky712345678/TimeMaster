@@ -1,4 +1,5 @@
 from .database import db
+from datetime import datetime
 
 class Items(db.Model):
     Category = db.Column(db.VARCHAR(20), nullable=False)
@@ -12,15 +13,15 @@ class Items(db.Model):
 
 class Records(db.Model):
     SerialNumber = db.Column(db.CHAR(6), primary_key=True)
-    Date = db.Column(db.CHAR(8), primary_key=True)
+    Date = db.Column(db.CHAR(10), primary_key=True, default=datetime.today().strftime("%Y/%m/%d"))
     Duration = db.Column(db.Integer, nullable=False)
     Goal = db.Column(db.VARCHAR(100))
     AchievePercentage = db.Column(db.Integer)
     Description = db.Column(db.VARCHAR(100))
 
-    def __init__(self, SerialNumber, Date, Duration, Goal, AchievePercentage, Description):
+    def __init__(self, SerialNumber, Duration, Goal, AchievePercentage, Description):
         self.SerialNumber = SerialNumber
-        self.Date = Date
+        # self.Date = Date
         self.Duration = Duration
         self.Goal = Goal
         self.AchievePercentage = AchievePercentage
@@ -30,12 +31,12 @@ class Goals(db.Model):
     SerialNumber = db.Column(db.CHAR(6), primary_key=True)
     Goal = db.Column(db.VARCHAR(100), primary_key=True)
     Achieved = db.Column(db.CHAR(1), nullable=False)
-    SetDate = db.Column(db.CHAR(8), primary_key=True)
-    AchieveDate = db.Column(db.CHAR(8))
+    SetDate = db.Column(db.CHAR(10), primary_key=True)
+    AchieveDate = db.Column(db.DateTime)
 
-    def __init__(self, SerialNumber, Goal, Achieved, SetDate, AchieveDate):
+    def __init__(self, SerialNumber, Goal):
         self.SerialNumber = SerialNumber
         self.Goal = Goal
-        self.Achieved = Achieved
-        self.SetDate = SetDate
-        self.AchieveDate = AchieveDate
+        self.Achieved = 'N'
+        self.SetDate = datetime.today().strftime("%Y/%m/%d")
+        self.AchieveDate = None

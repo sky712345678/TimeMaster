@@ -7,14 +7,15 @@ from MainApp.models import Items
 
 
 def inputItem(request):
-    category = None
-    serialNumber = None
-    name = None
-    tupleToInsert = None
-
     if request.method == 'GET':
         return render_template('items/item_input.html')
+
     elif request.method == 'POST':
+        category = None
+        serialNumber = None
+        name = None
+        tupleToInsert = None
+
         category = request.form['category']
         serialNumber = request.form['serialNumber']
         name = request.form['name']
@@ -23,7 +24,6 @@ def inputItem(request):
             result = Items.query.filter_by(SerialNumber=serialNumber, Name=name).first()
             if result is None:
                 tupleToInsert = Items(category, serialNumber, name)
-            
         else:
             # existedSerialNumber = Items.query.filter_by(Category=category).with_entities(Items.SerialNumber).order_by(desc(Items.SerialNumber))
             result = Items.query.filter_by(Name=name).first()

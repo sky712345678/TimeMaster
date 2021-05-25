@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <title>List goals</title>
+
+    <body>
+        <div class="goalContainer">
+            <h1 class="goalContainer">View all set goals</h1>
+
+            <ul class="setGoal">
+                <li class="setGoal">
+                {% for g in goals %}
+                    <h3 class="setGoal" id="goal">Goal: {{g.Goal}}</h3>
+                    <p class="setGoal" id="item">Item: {{g.Name}}</p>
+                    <p class="setGoal" id="achieved">Achieved: {{g.Achieved}}</p>
+                    <p class="setGoal" id="setDate">Set date: {{g.SetDate}}</p>
+                    <p class="setGoal" id="achieveDate">Set date: {{g.AchieveDate}}</p>
+                {% endfor %}
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

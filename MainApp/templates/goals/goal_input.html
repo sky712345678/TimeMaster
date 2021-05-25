@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <title>Goal Input</title>
+    <body>
+        <div>
+            <h1 id="title">Please enter a goal</h1>
+
+            <form action="/goals/input/submit" method="post" id="goalInfo">
+                Item:<select name="serialNumber" form="goalInfo">
+                    <option value="{{items[0].SerialNumber}}">{{items[0].Name}}</option>
+                    {% for i in items[1:] %}
+                        <option value="{{i.SerialNumber}}">{{i.Name}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                Goal:<input name="goal" placeholder="Please describe a goal">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        
+        <script src="/static/item_input_js.js"></script>
+    </body>
+</html>

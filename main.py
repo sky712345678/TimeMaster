@@ -4,6 +4,8 @@ from flask import Flask, request, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from MainApp import create
 from MainApp.Items import views as items_views
+from MainApp.Records import views as records_views
+from MainApp.Goals import views as goals_views
 from MainApp import chart 
 
 app = create()
@@ -14,12 +16,21 @@ def hello_world():
 
 @app.route('/items/input', methods=['POST', 'GET'])
 @app.route('/items/input/submit', methods=['POST', 'GET'])
-def items():
+def items_input():
     return items_views.inputItem(request)
 
 @app.route('/items/listAll')
-def listItems():
+def items_listAll():
     return items_views.listItems()
+
+@app.route('/goals/input', methods=['POST', 'GET'])
+@app.route('/goals/input/submit', methods=['POST', 'GET'])
+def goals_input():
+    return goals_views.inputGoal(request)
+
+@app.route('/goals/listAll')
+def goals_listAll():
+    return goals_views.listGoals()
 
 @app.route('/presentation/test')
 def test_chart():
