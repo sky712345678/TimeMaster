@@ -32,6 +32,15 @@ def goals_input():
 def goals_listAll():
     return goals_views.listGoals()
 
+@app.route('/records/input', methods=['POST', 'GET'])
+@app.route('/records/input/submit', methods=['POST', 'GET'])
+def records_input():
+    return records_views.inputRecord(request)
+
+@app.route('/records/listAll')
+def records_listAll():
+    return records_views.listRecords()
+
 @app.route('/presentation/test')
 def test_chart():
     return chart.test()

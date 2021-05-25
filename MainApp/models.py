@@ -19,9 +19,9 @@ class Records(db.Model):
     AchievePercentage = db.Column(db.Integer)
     Description = db.Column(db.VARCHAR(100))
 
-    def __init__(self, SerialNumber, Duration, Goal, AchievePercentage, Description):
+    def __init__(self, SerialNumber, Date, Duration, Goal, AchievePercentage, Description):
         self.SerialNumber = SerialNumber
-        # self.Date = Date
+        self.Date = Date
         self.Duration = Duration
         self.Goal = Goal
         self.AchievePercentage = AchievePercentage
@@ -32,7 +32,7 @@ class Goals(db.Model):
     Goal = db.Column(db.VARCHAR(100), primary_key=True)
     Achieved = db.Column(db.CHAR(1), nullable=False)
     SetDate = db.Column(db.CHAR(10), primary_key=True)
-    AchieveDate = db.Column(db.DateTime)
+    AchieveDate = db.Column(db.CHAR(10))
 
     def __init__(self, SerialNumber, Goal):
         self.SerialNumber = SerialNumber

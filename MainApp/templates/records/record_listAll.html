@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <title>List records</title>
+
+    <body>
+        <div class="recordContainer">
+            <h1 class="recordContainer">View all the records</h1>
+
+            <ul class="allRecords">
+                <li class="allRecords">
+                {% for r in records %}
+                    <h3 class="allRecords" id="item">{{r.Name}}</h3>
+                    <p class="allRecords" id="date">Date: {{r.Date}}</p>
+                    <p class="allRecords" id="duration">Duration: {{r.Duration}}</p>
+                    <p class="allRecords" id="goal">Goal: {{r.Goal}}</p>
+                    <p class="allRecords" id="achievePercentage">Achieve percentage: {{r.AchievePercentage}}</p>
+                    <p class="allRecords" id="description">Description: {{r.Description}}</p>
+                {% endfor %}
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
