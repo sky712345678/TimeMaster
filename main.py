@@ -12,6 +12,27 @@ app = create()
 def hello_world():
     return render_template('homepage.html')
 
+@app.route('/items/input', methods=['POST', 'GET'])
+@app.route('/items/input/submit', methods=['POST', 'GET'])
+def items():
+    return items_views.inputItem(request)
+
+@app.route('/items/listAll')
+def listItems():
+    return items_views.listItems()
+
+@app.route('/presentation/test')
+def test_chart():
+    return chart.test()
+
+@app.route('/presentation/chart')
+def check_chart():
+    return chart.chart()
+
+@app.route('/presentation/choose', methods=['POST', 'GET'])
+def choose_chart():
+    return chart.choose(request)
+
 '''
 @app.route('/learning/Course/input')
 def course():
@@ -61,23 +82,6 @@ def inputAssignment():
 def listAssignments():
     return learning.listAllAssignments()
 '''
-
-@app.route('/items/input', methods=['POST', 'GET'])
-@app.route('/items/input/submit', methods=['POST', 'GET'])
-def items():
-    return items_views.inputItem(request)
-
-@app.route('/presentation/test')
-def test_chart():
-    return chart.test()
-
-@app.route('/presentation/chart')
-def check_chart():
-    return chart.chart()
-
-@app.route('/presentation/choose', methods=['POST', 'GET'])
-def choose_chart():
-    return chart.choose(request)
 
 if __name__ == '__main__':
     app.run(debug=True)

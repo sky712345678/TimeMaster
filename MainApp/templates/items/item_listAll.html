@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <title>List items</title>
+
+    <body>
+        <div class="itemContainer">
+            <h1 class="itemContainer">View all items</h1>
+
+            <ul class="itemList">
+                {% for i in items%}
+                <li class="item">
+                    <h3 class="item" id="name">{{i.Name}}</h3>
+                    <p class="item" id="category">Category: {{i.Category}}</p>
+                    <p class="item" id="serialNumber">{{i.SerialNumber}}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
