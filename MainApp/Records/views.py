@@ -11,12 +11,15 @@ def inputRecord(request):
     if request.method == 'GET':
         return render_template('records/record_input.html', items=Items.query.all())
     elif request.method == 'POST':
+        '''
         serialNumber = None
         date = None
         duration = None
         goal = None
         achievePercentage = None
+        setDate = None
         description = None
+        '''
 
         tupleToInsert = None
 
@@ -25,14 +28,21 @@ def inputRecord(request):
         duration = request.form['duration']
         goal = request.form['goal']
         achievePercentage = request.form['achievePercentage']
+        setDate = request.form['setDate']
         description = request.form['description']
 
         result = Records.query.filter_by(SerialNumber=serialNumber, Date=date).first()
 
+        if goal == '':
+            goal = None
+        if setDate == '':
+            setDate = None
+
         if result is None:
-            tupleToInsert = Records(serialNumber, date, duration, goal, achievePercentage, description)
+            tupleToInsert = Records(serialNumber, date, duration, goal, achievePercentage, setDate, description)
         
         if tupleToInsert is not None:
+            db.session.execute('PRAGMA foreign_keys=ON')
             db.session.add(tupleToInsert)
             db.session.commit()
 

@@ -3,10 +3,11 @@ from flask import Flask
 from .database import db
 
 def create():
-    app = Flask(__name__)
+    mainApp = Flask(__name__)
     databasePath = os.getcwd()
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + databasePath + '/MainDatabase.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.init_app(app)
-    db.create_all(app=app)
-    return app
+    mainApp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + databasePath + '/MainDatabase.db'
+    mainApp.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(mainApp)
+    db.create_all(app=mainApp)
+    
+    return mainApp
