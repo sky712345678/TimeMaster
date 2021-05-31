@@ -11,19 +11,16 @@ def inputItem(request):
         return render_template('items/item_input.html')
 
     elif request.method == 'POST':
-        category = None
-        serialNumber = None
-        name = None
         tupleToInsert = None
 
         category = request.form['category']
-        serialNumber = request.form['serialNumber']
+        itemNumber = request.form['itemNumber']
         name = request.form['name']
         
         if category == 'Learning':
-            result = Items.query.filter_by(SerialNumber=serialNumber, Name=name).first()
+            result = Items.query.filter_by(ItemNumber=itemNumber, Name=name).first()
             if result is None:
-                tupleToInsert = Items(category, serialNumber, name)
+                tupleToInsert = Items(category, itemNumber, name)
         else:
             # existedSerialNumber = Items.query.filter_by(Category=category).with_entities(Items.SerialNumber).order_by(desc(Items.SerialNumber))
             result = Items.query.filter_by(Name=name).first()
@@ -34,16 +31,16 @@ def inputItem(request):
                                                                 'WHERE Category <> "Learning"').fetchall()[0].number
                 
                 if numberOfNonLearningTuples > 0:
-                    existedSerialNumber = db.session.execute('SELECT SerialNumber '+
+                    existedItemNumber = db.session.execute('SELECT ItemNumber '+
                                                             'FROM Items '+
                                                             'WHERE Category <> "Learning" '+
-                                                            'ORDER BY SerialNumber DESC').fetchall()
-                    latest = existedSerialNumber[0].SerialNumber
-                    serialNumber = str(int(latest)+1).zfill(5)
+                                                            'ORDER BY ItemNumber DESC').fetchall()
+                    latest = existedItemNumber[0].ItemNumber
+                    itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
                 else:
-                    serialNumber = str(1).zfill(5)
+                    itemNumber = 'I'+str(1).zfill(5)
 
-                tupleToInsert = Items(category, serialNumber, name)
+                tupleToInsert = Items(category, itemNumber, name)
         
         if tupleToInsert is not None:
             db.session.add(tupleToInsert)

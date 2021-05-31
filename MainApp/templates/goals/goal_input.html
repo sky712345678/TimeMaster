@@ -6,10 +6,10 @@
             <h1 id="title">Please enter a goal</h1>
 
             <form action="/goals/input/submit" method="post" id="goalInfo">
-                Item:<select name="serialNumber" form="goalInfo">
-                    <option value="{{items[0].SerialNumber}}">{{items[0].Name}}</option>
+                Item:<select name="itemNumber" form="goalInfo">
+                    <option value="{{items[0].ItemNumber}}">{{items[0].Name}}</option>
                     {% for i in items[1:] %}
-                        <option value="{{i.SerialNumber}}">{{i.Name}}</option>
+                        <option value="{{i.ItemNumber}}">{{i.Name}}</option>
                     {% endfor %}
                 </select>
                 <br>

@@ -11,35 +11,25 @@ def inputRecord(request):
     if request.method == 'GET':
         return render_template('records/record_input.html', items=Items.query.all())
     elif request.method == 'POST':
-        '''
-        serialNumber = None
-        date = None
-        duration = None
-        goal = None
-        achievePercentage = None
-        setDate = None
-        description = None
-        '''
-
         tupleToInsert = None
 
-        serialNumber = request.form['serialNumber']
+        itemNumber = request.form['itemNumber']
         date = request.form['date']
         duration = request.form['duration']
-        goal = request.form['goal']
+        goalNumber = request.form['goalNumber']
         achievePercentage = request.form['achievePercentage']
-        setDate = request.form['setDate']
         description = request.form['description']
 
-        result = Records.query.filter_by(SerialNumber=serialNumber, Date=date).first()
+        result = Records.query.filter_by(ItemNumber=itemNumber, Date=date).first()
 
-        if goal == '':
-            goal = None
-        if setDate == '':
-            setDate = None
+        # make sure nullable attributes are NULL if user didn't type anything
+        if goalNumber == '':
+            goalNumber = None
+        if achievePercentage == '':
+            achievePercentage = None
 
         if result is None:
-            tupleToInsert = Records(serialNumber, date, duration, goal, achievePercentage, setDate, description)
+            tupleToInsert = Records(itemNumber, date, duration, goalNumber, achievePercentage, description)
         
         if tupleToInsert is not None:
             db.session.execute('PRAGMA foreign_keys=ON')
@@ -47,22 +37,27 @@ def inputRecord(request):
             db.session.commit()
 
             if achievePercentage == '100':
-                Goals.query.filter_by(SerialNumber=serialNumber, Goal=goal).update({'Achieved': 'Y', 'AchieveDate': date})
-                db.session.commit()
-
+                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber)
+                if goalToUpdate.Achieved == 'N':
+                    goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
+                    db.session.commit()
+                else:
+                    return '<h2>The goal has already achieved'
 
             return '<h2>Successfully added.</h2>'
         else:
-            existedRecord = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Records.Goal, Records.AchievePercentage, Records.Description '+
-                                               'FROM Items, Records '+
-                                               'WHERE Records.SerialNumber = :sn '+
+            existedRecord = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                               'FROM Items, Records, Goals '+
+                                               'WHERE Records.ItemNumber = :it '+
                                                  'AND Records.Date = :dt '+
-                                                 'AND Records.SerialNumber = Items.SerialNumber',
-                                               {'sn': serialNumber, 'dt': date}).first()
+                                                 'AND Records.ItemNumber = Items.ItemNumber '+
+                                                 'AND Records.GoalNumber = Goals.GoalNumber',
+                                               {'it': itemNumber, 'dt': date}).first()
             return render_template('records/record_existed.html', record=existedRecord)
 
 def listRecords():
-    allRecords = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Records.Goal, Records.AchievePercentage, Records.Description '+
+    allRecords = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                   'FROM Items, Records '+
-                                  'WHERE Items.SerialNumber = Records.SerialNumber')
+                                  'WHERE Records.ItemNumber = Items.ItemNumber '+
+                                    'AND Records.GoalNumber = Goals.GoalNumber')
     return render_template('records/record_listAll.html', records=allRecords)

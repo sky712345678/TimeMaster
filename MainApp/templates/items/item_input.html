@@ -6,16 +6,16 @@
             <h1 id="title">Please enter an item</h1>
 
             <form action="/items/input/submit" method="post" id="itemInfo">
-                Semester:<select name="category" form="itemInfo" onchange="categoryCheck(this)">
+                Category:<select name="category" form="itemInfo" onchange="categoryCheck(this)">
                             <option value="Learning">Learning</option>
                             <option value="Sports">Sports</option>
                             <option value="Leisure">Leisure</option>
                         </select>
                 <br>
-                <div id="serialNumberContainer" style="display: block;">
-                    Serial number:<input type="item" name="serialNumber" placeholder="Please enter serial number">
+                <div id="itemNumberContainer" style="display: block;">
+                    Course number:<input type="item" name="itemNumber" placeholder="Please enter course number">
                 </div>
-                Name:<input type="item" name="name" placeholder="Please enter item name">
+                Name:<input type="item" id="nameInput" name="name" placeholder="Please enter course name">
                 <br>
                 <button type="submit">Submit</button>
             </form>

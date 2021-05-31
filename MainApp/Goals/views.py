@@ -10,35 +10,51 @@ def inputGoal(request):
     if request.method == 'GET':
         return render_template('goals/goal_input.html', items=Items.query.all())
     elif request.method == 'POST':
-        serialNumber = None
-        goal = None
-
         tupleToInsert = None
-
-        serialNumber = request.form['serialNumber']
+        
+        goalNumber = None
+        itemNumber = request.form['itemNumber']
         goal = request.form['goal']
 
-        result = Goals.query.filter_by(SerialNumber=serialNumber, Goal=goal, Achieved='N').first()
+        result = Goals.query.filter_by(ItemNumber=itemNumber, Goal=goal, Achieved='N').first()
 
+        # if no tuple is retrieved, create a new tuple
         if result is None:
-            tupleToInsert = Goals(serialNumber, goal)
+            numberOfGoals = db.session.execute('SELECT COUNT (*) AS number '+
+                                               'FROM Goals').fetchall()[0].number
+            
+            if numberOfGoals > 0:
+                latest = db.session.execute('SELECT GoalNumber '+
+                                            'FROM Goals '+
+                                            'ORDER BY GoalNumber DESC').fetchall()[0].GoalNumber
+                # latest = existedGoalNumber
+                goalNumber = 'G'+str(int(latest[1:])+1).zfill(5)
+            else:
+                goalNumber = 'G'+str(1).zfill(5)
+            
+            print('\n\n'+itemNumber+'\n\n')
+            
+            tupleToInsert = Goals(goalNumber, itemNumber, goal)
         
         if tupleToInsert is not None:
+            # if a new tuple is created, insert it
+            db.session.execute('PRAGMA foreign_keys=ON')
             db.session.add(tupleToInsert)
             db.session.commit()
             return '<h2>Successfully added.</h2>'
         else:
-            existingGoal = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate '+
+            # else, show existied, unfinished goal
+            existedGoal = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate '+
                                               'FROM Items, Goals '+
-                                              'WHERE Goals.SerialNumber = :sn '+
+                                              'WHERE Goals.ItemNumber = :in '+
                                                 'AND Goals.Goal = goal '+
                                                 'AND Goals.Achieved = "N" '+
-                                                'AND Goals.SerialNumber = Items.SerialNumber',
-                                              {'sn': serialNumber}).first()
-            return render_template('goals/goal_existed.html', goal=existingGoal)
+                                                'AND Goals.ItemNumber = Items.ItemNumber',
+                                              {'in': itemNumber}).first()
+            return render_template('goals/goal_existed.html', goal=existedGoal)
 
 def listGoals():
     allGoals = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
                                   'FROM Goals, Items '+
-                                  'WHERE Goals.SerialNumber = Items.SerialNumber')
+                                  'WHERE Goals.ItemNumber = Items.ItemNumber')
     return render_template('goals/goal_listAll.html', goals=allGoals)
