@@ -38,7 +38,7 @@ def inputRecord(request):
 
             if achievePercentage == '100':
                 goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber)
-                if goalToUpdate.Achieved == 'N':
+                if goalToUpdate.first().Achieved == 'N':
                     goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
                     db.session.commit()
                 else:
@@ -55,9 +55,31 @@ def inputRecord(request):
                                                {'it': itemNumber, 'dt': date}).first()
             return render_template('records/record_existed.html', record=existedRecord)
 
+
 def listRecords():
-    allRecords = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
-                                  'FROM Items, Records '+
-                                  'WHERE Records.ItemNumber = Items.ItemNumber '+
-                                    'AND Records.GoalNumber = Goals.GoalNumber')
-    return render_template('records/record_listAll.html', records=allRecords)
+    numberOfRecords = db.session.execute('SELECT COUNT(*) AS Number '+
+                                         'FROM Records').fetchall()[0].Number
+    
+    if numberOfRecords > 0:
+        allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Records.GoalNumber, Records.AchievePercentage, Records.Description '+
+                                        'FROM Items, Records, Goals '+
+                                        'WHERE Records.ItemNumber = Items.ItemNumber')
+                                          # 'AND Records.GoalNumber = Goals.GoalNumber')
+        return render_template('records/record_listAll.html', records=allRecords)
+    else:
+        return '<h2>There isn\'t any record</h2>'
+
+
+def deleteRecord(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+        date = request.form['date']
+
+        tupleToDelete = Records.query.filter_by(ItemNumber=itemNumber, Date=date).first()
+
+        if tupleToDelete is not None:
+            db.session.delete(tupleToDelete)
+            db.session.commit()
+            return listRecords()
+        else:
+            return '<h2>Failed to delete item. Unknown error occured</h2>'

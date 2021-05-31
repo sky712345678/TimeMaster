@@ -12,12 +12,17 @@
                     <h3 class="allRecords" id="item">{{r.Name}}</h3>
                     <p class="allRecords" id="date">Date: {{r.Date}}</p>
                     <p class="allRecords" id="duration">Duration: {{r.Duration}}</p>
-                    <p class="allRecords" id="goal">Goal: {{r.Goal}}</p>
+                    <p class="allRecords" id="goal">Goal: {{r.GoalNumber}}</p>
                     <p class="allRecords" id="achievePercentage">Achieve percentage: {{r.AchievePercentage}}</p>
                     <p class="allRecords" id="description">Description: {{r.Description}}</p>
+                    <button type="deleteRequest" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}')">Delete</button>
                 {% endfor %}
                 </li>
             </ul>
         </div>
+        <div id="deleteRequestContainer" style="display: none;"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/record_listAll_js.js"></script>
     </body>
 </html>

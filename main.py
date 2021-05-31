@@ -23,6 +23,10 @@ def items_input():
 def items_listAll():
     return items_views.listItems()
 
+@app.route('/items/delete', methods=['POST', 'GET'])
+def item_delete():
+    return items_views.deleteItem(request)
+
 @app.route('/goals/input', methods=['POST', 'GET'])
 @app.route('/goals/input/submit', methods=['POST', 'GET'])
 def goals_input():
@@ -40,6 +44,10 @@ def records_input():
 @app.route('/records/listAll')
 def records_listAll():
     return records_views.listRecords()
+
+@app.route('/records/delete', methods=['POST', 'GET'])
+def records_delete():
+    return records_views.deleteRecord(request)
 
 @app.route('/presentation/test')
 def test_chart():

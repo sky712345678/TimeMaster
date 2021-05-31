@@ -49,5 +49,26 @@ def inputItem(request):
         else:
             return '<h2>Course already existed!!!</h2>'
 
+
 def listItems():
-    return render_template('items/item_listAll.html', items=Items.query.all())
+    numberOfItems = db.session.execute('SELECT COUNT(*) AS Number '+
+                                       'FROM Items').fetchall()[0].Number
+    
+    if numberOfItems > 0:
+        return render_template('items/item_listAll.html', items=Items.query.all())
+    else:
+        return '<h2>There isn\'t any item</h2>'
+
+
+def deleteItem(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+
+        tupleToDelete = Items.query.filter_by(ItemNumber=itemNumber).first()
+
+        if tupleToDelete is not None:
+            db.session.delete(tupleToDelete)
+            db.session.commit()
+            return listItems()
+        else:
+            return '<h2>Failed to delete item. Unknown error occured</h2>'

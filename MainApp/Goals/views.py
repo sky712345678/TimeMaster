@@ -20,8 +20,8 @@ def inputGoal(request):
 
         # if no tuple is retrieved, create a new tuple
         if result is None:
-            numberOfGoals = db.session.execute('SELECT COUNT (*) AS number '+
-                                               'FROM Goals').fetchall()[0].number
+            numberOfGoals = db.session.execute('SELECT COUNT (*) AS Number '+
+                                               'FROM Goals').fetchall()[0].Number
             
             if numberOfGoals > 0:
                 latest = db.session.execute('SELECT GoalNumber '+
@@ -53,8 +53,15 @@ def inputGoal(request):
                                               {'in': itemNumber}).first()
             return render_template('goals/goal_existed.html', goal=existedGoal)
 
+
 def listGoals():
-    allGoals = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
-                                  'FROM Goals, Items '+
-                                  'WHERE Goals.ItemNumber = Items.ItemNumber')
-    return render_template('goals/goal_listAll.html', goals=allGoals)
+    numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
+                                       'FROM Goals').fetchall()[0].Number
+    
+    if numberOfGoals > 0:
+        allGoals = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+                                      'FROM Goals, Items '+
+                                      'WHERE Goals.ItemNumber = Items.ItemNumber')
+        return render_template('goals/goal_listAll.html', goals=allGoals)
+    else:
+        return '<h2>There isn\'t any set goal</h2>'

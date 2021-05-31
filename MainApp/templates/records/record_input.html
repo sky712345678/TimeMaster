@@ -6,22 +6,22 @@
             <h1 id="title">Please enter the time record</h1>
 
             <form action="/records/input/submit" method="post" id="recordInfo">
-                Item:<select name="itemNumber" form="recordInfo"><!--onchange="categoryCheck(this)"-->
+                Item:<select type="record" name="itemNumber" form="recordInfo"><!--onchange="categoryCheck(this)"-->
                             <option value="{{items[0].ItemNumber}}">{{items[0].Name}}</option>
                             {% for i in items[1:] %}
                                 <option value="{{i.ItemNumber}}">{{i.Name}}</option>
                             {% endfor %}
                         </select>
                 <br>
-                Date:<input name="date" placeholder="YYYY/MM/DD">
+                Date:<input type="record" name="date" placeholder="YYYY/MM/DD">
                 <br>
-                Duration:<input name="duration" placeholder="Please enter the time you spent (min.)">
+                Duration:<input type="record" name="duration" placeholder="Please enter the time you spent (min.)">
                 <br>
-                Goal:<input name="goalNumber"></select>
+                Goal:<input type="record" name="goalNumber"></select>
                 <br>
-                Achieve percentage: <input name="achievePercentage" placeholder="%">
+                Achieve percentage: <input type="record" name="achievePercentage" placeholder="%">
                 <br>
-                Description: <input name="description">
+                Description: <input type="record" name="description">
                 <br>
                 <button type="submit">Submit</button>
             </form>
