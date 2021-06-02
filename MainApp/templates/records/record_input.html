@@ -7,8 +7,7 @@
 
             <form action="/records/input/submit" method="post" id="recordInfo">
                 Item:<select type="record" name="itemNumber" form="recordInfo"><!--onchange="categoryCheck(this)"-->
-                            <option value="{{items[0].ItemNumber}}">{{items[0].Name}}</option>
-                            {% for i in items[1:] %}
+                            {% for i in items %}
                                 <option value="{{i.ItemNumber}}">{{i.Name}}</option>
                             {% endfor %}
                         </select>
@@ -17,7 +16,12 @@
                 <br>
                 Duration:<input type="record" name="duration" placeholder="Please enter the time you spent (min.)">
                 <br>
-                Goal:<input type="record" name="goalNumber"></select>
+                <!--temporary-->
+                Goal:<select type="record" name="goalNumber" form="recordInfo">
+                        {% for g in goals %}
+                            <option value="{{g.GoalNumber}}">{{g.ItemName}} - {{g.Goal}}</option>
+                        {% endfor %}
+                    </select>
                 <br>
                 Achieve percentage: <input type="record" name="achievePercentage" placeholder="%">
                 <br>
@@ -28,6 +32,6 @@
         </div>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="/static/record_input_js.js"></script>
+        <script src="/static/records/record_input_js.js"></script>
     </body>
 </html>

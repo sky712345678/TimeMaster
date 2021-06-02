@@ -6,17 +6,22 @@
         <div class="goalContainer">
             <h1 class="goalContainer">View all set goals</h1>
 
-            <ul class="setGoal">
-                <li class="setGoal">
+            <ul class="setGoals">
+                <li class="setGoals">
                 {% for g in goals %}
-                    <h3 class="setGoal" id="goal">Goal: {{g.Goal}}</h3>
-                    <p class="setGoal" id="item">Item: {{g.Name}}</p>
-                    <p class="setGoal" id="achieved">Achieved: {{g.Achieved}}</p>
-                    <p class="setGoal" id="setDate">Set date: {{g.SetDate}}</p>
-                    <p class="setGoal" id="achieveDate">Set date: {{g.AchieveDate}}</p>
+                    <h3 class="goal" id="goal">Goal: {{g.Goal}}</h3>
+                    <p class="goal" id="item">Item: {{g.Name}}</p>
+                    <p class="goal" id="achieved">Achieved: {{g.Achieved}}</p>
+                    <p class="goal" id="setDate">Set date: {{g.SetDate}}</p>
+                    <p class="goal" id="achieveDate">Set date: {{g.AchieveDate}}</p>
+                    <button type="deleteRequest" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 {% endfor %}
                 </li>
             </ul>
         </div>
+        <div id="deleteRequestContainer" style="display: none;"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/goals/goal_listAll_js.js"></script>
     </body>
 </html>

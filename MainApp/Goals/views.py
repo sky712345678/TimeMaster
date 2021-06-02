@@ -1,5 +1,4 @@
-from flask import Flask                  #Flask
-from flask import render_template        #rendering template
+from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -59,9 +58,23 @@ def listGoals():
                                        'FROM Goals').fetchall()[0].Number
     
     if numberOfGoals > 0:
-        allGoals = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+        allGoals = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
                                       'FROM Goals, Items '+
                                       'WHERE Goals.ItemNumber = Items.ItemNumber')
         return render_template('goals/goal_listAll.html', goals=allGoals)
     else:
         return '<h2>There isn\'t any set goal</h2>'
+
+
+def deleteGoal(request):
+    if request.method == 'POST':
+        goalNumber = request.form['goalNumber']
+
+        tupleToDelete = Goals.query.filter_by(GoalNumber=goalNumber).first()
+
+        if tupleToDelete is not None:
+            db.session.delete(tupleToDelete)
+            db.session.commit()
+            return redirect('/goals/listAll')
+        else:
+            return '<h2>Failed to delete item. Unknown error occured</h2>'

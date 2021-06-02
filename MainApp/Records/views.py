@@ -1,5 +1,4 @@
-from flask import Flask                  #Flask
-from flask import render_template        #rendering template
+from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -9,7 +8,11 @@ from MainApp.models import Goals
 
 def inputRecord(request):
     if request.method == 'GET':
-        return render_template('records/record_input.html', items=Items.query.all())
+        availableGoals = db.session.execute('SELECT Items.Name AS ItemName, Goals.GoalNumber, Goals.Goal '+
+                                            'FROM Items, Goals '+
+                                            'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                              'AND Goals.Achieved = "N"')
+        return render_template('records/record_input.html', items=Items.query.all(), goals=availableGoals)
     elif request.method == 'POST':
         tupleToInsert = None
 
@@ -61,9 +64,11 @@ def listRecords():
                                          'FROM Records').fetchall()[0].Number
     
     if numberOfRecords > 0:
-        allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Records.GoalNumber, Records.AchievePercentage, Records.Description '+
-                                        'FROM Items, Records, Goals '+
-                                        'WHERE Records.ItemNumber = Items.ItemNumber')
+        allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                        # 'FROM Items, Records, Goals '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber)')
+                                        # 'WHERE Records.ItemNumber = Items.ItemNumber')
                                           # 'AND Records.GoalNumber = Goals.GoalNumber')
         return render_template('records/record_listAll.html', records=allRecords)
     else:
@@ -80,6 +85,6 @@ def deleteRecord(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
-            return listRecords()
+            return redirect('/records/listAll')
         else:
             return '<h2>Failed to delete item. Unknown error occured</h2>'

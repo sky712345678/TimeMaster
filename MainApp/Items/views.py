@@ -1,5 +1,4 @@
-from flask import Flask                  #Flask
-from flask import render_template        #rendering template
+from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -69,6 +68,6 @@ def deleteItem(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
-            return listItems()
+            return redirect('/items/listAll')
         else:
             return '<h2>Failed to delete item. Unknown error occured</h2>'
