@@ -6,6 +6,7 @@ from MainApp.database import db          #created database
 # from MainApp.models import Studies
 # from MainApp.models import Assignments
 # from MainApp.models import Tests
+from MainApp.models import Items
 import pandas as pd
 import random
 from datetime import datetime, timedelta
@@ -21,23 +22,37 @@ def test():
     values2 = [9, 4, 3, 8, 9, 6, 7, 6]
     return render_template('presentation/test.html', values=values, pass_labels=date, values2=values2)
 
-def chart():
-    result = db.session.execute('SELECT S.CourseNumber, C.CourseName, S.Date, S.Duration, S.Content '+
-                                'FROM Studies AS S, Courses AS C '+
-                                'WHERE S.CourseNumber=C.CourseNumber')
-    course_df = pd.DataFrame(columns=['CourseNumber', 'CourseName', 'Date', 'Duration', 'Content'])
-    for i,data in enumerate(result):
-        course_df = course_df.append({'CourseNumber': data.CourseNumber,
-                                    'CourseName':   data.CourseName,
-                                    'Date':         data.Date,
-                                    'Duration':     data.Duration,
-                                    'Content':      data.Content}, ignore_index=True)
-    print(course_df)
-    date_reord, time_record = course_statics(course_df.values)
-    print(date_reord, time_record)
-    print("----------")                                
-    
-    return render_template('presentation/chart.html', studies=course_df.values, date=date_reord, time=time_record)
+def chart(request):
+    if request.method=='POST':
+        choose_item = request.values['item_name']
+        numberOfRecords = db.session.execute('SELECT COUNT(*) AS Number '+
+                                            'FROM Records').fetchall()[0].Number
+        
+        if numberOfRecords > 0:
+            allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                            # 'FROM Items, Records, Goals '+
+                                            'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                    'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                            'ORDER BY Records.Date ASC')
+                                            # 'WHERE Records.ItemNumber = Items.ItemNumber')
+                                            # 'AND Records.GoalNumber = Goals.GoalNumber')
+            record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
+            for i,data in enumerate(allRecords):
+                record_df = record_df.append({  'ItemName': data.Name,
+                                                'Date': data.Date,
+                                                'Duration': data.Duration,
+                                                'Content': data.Description}, ignore_index=True)
+            date_reord, time_record = course_statics(record_df.values)
+            list_date = date_reord[choose_item]
+            list_time = time_record[choose_item]
+            list_date, list_time = learning_curve(list_date, list_time)
+            print("The selected course:", choose_item)
+            return render_template('presentation/choose.html', items=Items.query.all(),
+                            date=list_date, time=list_time, selected_item=choose_item)
+    else:
+        #print(Items.query.all())
+        return render_template('presentation/choose.html', items=Items.query.all(), selected_item=None,
+                            date=None, time=None)
 
 def choose(request):
     result = db.session.execute('SELECT S.CourseNumber, C.CourseName, S.Date, S.Duration, S.Content '+
@@ -73,9 +88,9 @@ return learning curve like, date['20210301','20210302',...]
                             values[0, 0, 0, 60, 60, 60, 180,...]
 '''
 def learning_curve(list_date, list_time):
-    start = '20210301'
+    start = '2021/03/01'
     num_days = 120
-    date = [(datetime.strptime(start,'%Y%m%d')+timedelta(days=i)).strftime('%Y%m%d') for i in range(num_days)]
+    date = [(datetime.strptime(start,'%Y/%m/%d')+timedelta(days=i)).strftime('%Y/%m/%d') for i in range(num_days)]
     values = [0 for i in range(num_days)]
     for i in range(1, num_days):
         for j in range(len(list_date)):
@@ -93,11 +108,11 @@ def course_statics(npdata):
     time = {}
     for i in npdata:
         if i[0] in time:
-            date[i[0]].append(i[2])
-            time[i[0]].append(i[3])
+            date[i[0]].append(i[1])
+            time[i[0]].append(i[2])
         else:
-            date[i[0]] = [i[2]]
-            time[i[0]] = [i[3]]
+            date[i[0]] = [i[1]]
+            time[i[0]] = [i[2]]
     return date, time
     
 

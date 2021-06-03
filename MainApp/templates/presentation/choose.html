@@ -5,18 +5,19 @@
     <body>
         <div>
             <h1 id="title">Please choose which you want to check</h1>
-
-            <form method="post" id="study">
-                Course Number:<select name="courseNumber" form="study">
-                            <option value="{{courses[0].CourseNumber}}" selected>{{courses[0].CourseNumber}} - {{courses[0].CourseName}}</option>
-                            {% for c in courses[1:] %}
-                                <option value="{{c.CourseNumber}}">{{c.CourseNumber}} - {{c.CourseName}}</option>
+            <form method="post" id="item">
+                Item Name:<select name="item_name" form="item">
+                            {% for i in items %}
+                            <option value="{{i.Name}}" selected>{{i.Name}}</option>
                             {% endfor %}
                         </select>
                 <button type="submit">Submit</button>
             </form>
-            {% if date != None %}
-            <canvas id='myChart'></canvas>
+            {% if selected_item != None %}
+            <h2>Learning Curve of {{selected_item}}</h2>
+            <div class="chart-container" style="position: relative; height:30vh; width:60vw">
+                <canvas id="myChart"></canvas>
+            </div>
             {% endif %}
         </div>
     </body>
@@ -42,7 +43,7 @@
                         // Include a dollar sign in the ticks
                         callback: function(val, index) {
                             // Hide the label of every 2nd dataset
-                            return index % 15 === 0 ? this.getLabelForValue(val) : '';
+                            return index % 10 === 0 ? this.getLabelForValue(val) : '';
                         },
                         color: 'black',
                     }

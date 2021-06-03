@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <title>List records</title>
+
+    <body>
+        <div class="recordContainer">
+            <h1 class="recordContainer">View all the records</h1>
+
+            <ul class="allRecords">
+                <li class="allRecords">
+                {% for r in records %}
+                    <h3 class="record" id="item">{{r.Name}}</h3>
+                    <p class="record" id="date">Date: {{r.Date}}</p>
+                    <p class="record" id="duration">Duration: {{r.Duration}}</p>
+                    {% if r.Goal != None %}
+                        <p class="record" id="goal">Goal: {{r.Goal}}</p>
+                        <p class="record" id="achievePercentage">Achieve percentage: {{r.AchievePercentage}}</p>
+                    {% endif %}
+                    <!--p class="allRecords" id="goal">Goal: {{r.GoalNumber}}</p-->
+                    <p class="record" id="description">Description: {{r.Description}}</p>
+                {% endfor %}
+                </li>
+            </ul>
+        </div>
+        <div id="deleteRequestContainer" style="display: none;"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/records/record_listAll_js.js"></script>
+    </body>
+</html>

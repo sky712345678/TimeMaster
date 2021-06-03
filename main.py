@@ -57,9 +57,9 @@ def records_delete():
 def test_chart():
     return chart.test()
 
-@app.route('/presentation/chart')
+@app.route('/presentation/chart', methods=['POST', 'GET'])
 def check_chart():
-    return chart.chart()
+    return chart.chart(request)
 
 @app.route('/presentation/choose', methods=['POST', 'GET'])
 def choose_chart():
