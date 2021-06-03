@@ -18,6 +18,7 @@
                 <br>
                 <!--temporary-->
                 Goal:<select type="record" name="goalNumber" form="recordInfo">
+                        <option value="">None</option>
                         {% for g in goals %}
                             <option value="{{g.GoalNumber}}">{{g.ItemName}} - {{g.Goal}}</option>
                         {% endfor %}

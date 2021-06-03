@@ -67,7 +67,8 @@ def listRecords():
         allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         # 'FROM Items, Records, Goals '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
-                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber)')
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'ORDER BY Records.Date DESC')
                                         # 'WHERE Records.ItemNumber = Items.ItemNumber')
                                           # 'AND Records.GoalNumber = Goals.GoalNumber')
         return render_template('records/record_listAll.html', records=allRecords)
