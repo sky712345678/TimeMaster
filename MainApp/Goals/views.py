@@ -31,8 +31,6 @@ def inputGoal(request):
             else:
                 goalNumber = 'G'+str(1).zfill(5)
             
-            print('\n\n'+itemNumber+'\n\n')
-            
             tupleToInsert = Goals(goalNumber, itemNumber, goal)
         
         if tupleToInsert is not None:
@@ -40,9 +38,11 @@ def inputGoal(request):
             db.session.execute('PRAGMA foreign_keys=ON')
             db.session.add(tupleToInsert)
             db.session.commit()
-            return '<h2>Successfully added.</h2>'
+            return 'Successfully added.'
         else:
             # else, show existied, unfinished goal
+            return 'Goal already existed!'
+            '''
             existedGoal = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate '+
                                               'FROM Items, Goals '+
                                               'WHERE Goals.ItemNumber = :in '+
@@ -51,6 +51,7 @@ def inputGoal(request):
                                                 'AND Goals.ItemNumber = Items.ItemNumber',
                                               {'in': itemNumber}).first()
             return render_template('goals/goal_existed.html', goal=existedGoal)
+            '''
 
 
 def listGoals():

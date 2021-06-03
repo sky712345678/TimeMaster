@@ -5,7 +5,8 @@
         <div>
             <h1 id="title">Please enter the time record</h1>
 
-            <form action="/records/input/submit" method="post" id="recordInfo">
+            <!--form action="/records/input/submit" method="post" id="recordInfo"-->
+            <form id="recordInfo" enctype="multipart/form-data">
                 Item:<select type="record" name="itemNumber" form="recordInfo"><!--onchange="categoryCheck(this)"-->
                             {% for i in items %}
                                 <option value="{{i.ItemNumber}}">{{i.Name}}</option>
@@ -28,7 +29,7 @@
                 <br>
                 Description: <input type="record" name="description">
                 <br>
-                <button type="submit">Submit</button>
+                <button type="submit" id="submitButton">Submit</button>
             </form>
         </div>
         

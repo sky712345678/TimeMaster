@@ -8,3 +8,23 @@ function categoryCheck(that) {
         document.getElementById("nameInput").placeholder = "Please enter course name";
     }
 }
+
+$('#submitButton').click(function (e) {
+    e.preventDefault();
+    var form = $('#itemInfo')[0];
+    var formData = new FormData(form);
+    $.ajax({
+        url: '/items/input/submit',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            window.alert(data)
+        },
+        error: function () {
+            window.alert('error occured')
+        }
+    })
+})

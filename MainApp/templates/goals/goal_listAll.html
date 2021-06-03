@@ -7,16 +7,16 @@
             <h1 class="goalContainer">View all set goals</h1>
 
             <ul class="setGoals">
-                <li class="setGoals">
                 {% for g in goals %}
+                <li class="goals">
                     <h3 class="goal" id="goal">Goal: {{g.Goal}}</h3>
                     <p class="goal" id="item">Item: {{g.Name}}</p>
                     <p class="goal" id="achieved">Achieved: {{g.Achieved}}</p>
                     <p class="goal" id="setDate">Set date: {{g.SetDate}}</p>
                     <p class="goal" id="achieveDate">Set date: {{g.AchieveDate}}</p>
                     <button type="deleteRequest" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
-                {% endfor %}
                 </li>
+                {% endfor %}
             </ul>
         </div>
         <div id="deleteRequestContainer" style="display: none;"></div>

@@ -5,7 +5,8 @@
         <div>
             <h1 id="title">Please enter a goal</h1>
 
-            <form action="/goals/input/submit" method="post" id="goalInfo">
+            <!--form action="/goals/input/submit" method="post" id="goalInfo"-->
+            <form id="goalInfo" enctype="multipart/form-data">
                 Item:<select type="goal" name="itemNumber" form="goalInfo">
                     <option value="{{items[0].ItemNumber}}">{{items[0].Name}}</option>
                     {% for i in items[1:] %}
@@ -15,8 +16,11 @@
                 <br>
                 Goal:<input type="goal" name="goal" placeholder="Please describe a goal">
                 <br>
-                <button type="submit">Submit</button>
+                <button type="submit" id="submitButton">Submit</button>
             </form>
         </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/goals/goal_input_js.js"></script>
     </body>
 </html>

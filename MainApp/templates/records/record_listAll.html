@@ -7,8 +7,8 @@
             <h1 class="recordContainer">View all the records</h1>
 
             <ul class="allRecords">
-                <li class="allRecords">
                 {% for r in records %}
+                <li class="records">
                     <h3 class="record" id="item">{{r.Name}}</h3>
                     <p class="record" id="date">Date: {{r.Date}}</p>
                     <p class="record" id="duration">Duration: {{r.Duration}}</p>
@@ -19,8 +19,8 @@
                     <!--p class="allRecords" id="goal">Goal: {{r.GoalNumber}}</p-->
                     <p class="record" id="description">Description: {{r.Description}}</p>
                     <button type="deleteRequest" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}')">Delete</button>
-                {% endfor %}
                 </li>
+                {% endfor %}
             </ul>
         </div>
         <div id="deleteRequestContainer" style="display: none;"></div>

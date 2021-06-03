@@ -5,22 +5,24 @@
         <div>
             <h1 id="title">Please enter an item</h1>
 
-            <form action="/items/input/submit" method="post" id="itemInfo">
-                Category:<select name="category" form="itemInfo" onchange="categoryCheck(this)">
+            <!--form action="/items/input/submit" method="post" id="itemInfo"-->
+            <form id="itemInfo" enctype="multipart/form-data">
+                Category:<select id="categorySelect" name="category" form="itemInfo" onchange="categoryCheck(this)">
                             <option value="Learning">Learning</option>
                             <option value="Sports">Sports</option>
                             <option value="Leisure">Leisure</option>
                         </select>
                 <br>
                 <div id="itemNumberContainer" style="display: block;">
-                    Course number:<input type="item" name="itemNumber" placeholder="Please enter course number">
+                    Course number:<input type="item" id="courseNumberInput" name="itemNumber" placeholder="Please enter course number">
                 </div>
                 Name:<input type="item" id="nameInput" name="name" placeholder="Please enter course name">
                 <br>
-                <button type="submit">Submit</button>
+                <button type="submit" id="submitButton">Submit</button>
             </form>
         </div>
         
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="/static/items/item_input_js.js"></script>
     </body>
 </html>

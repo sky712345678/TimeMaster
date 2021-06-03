@@ -44,9 +44,9 @@ def inputItem(request):
         if tupleToInsert is not None:
             db.session.add(tupleToInsert)
             db.session.commit()
-            return '<h2>Successfully added.</h2>'
+            return 'Successfully added.'
         else:
-            return '<h2>Course already existed!!!</h2>'
+            return 'Item already existed!'
 
 
 def listItems():

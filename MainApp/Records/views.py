@@ -45,10 +45,13 @@ def inputRecord(request):
                     goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
                     db.session.commit()
                 else:
-                    return '<h2>The goal has already achieved'
+                    # normally, this won't be executed
+                    return 'The goal has already achieved'
 
-            return '<h2>Successfully added.</h2>'
+            return 'Successfully added.'
         else:
+            return 'Record already existed!'
+            '''
             existedRecord = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                                'FROM Items, Records, Goals '+
                                                'WHERE Records.ItemNumber = :it '+
@@ -57,6 +60,7 @@ def inputRecord(request):
                                                  'AND Records.GoalNumber = Goals.GoalNumber',
                                                {'it': itemNumber, 'dt': date}).first()
             return render_template('records/record_existed.html', record=existedRecord)
+            '''
 
 
 def listRecords():

@@ -1,9 +1,9 @@
 $('#submitButton').click(function (e) {
     e.preventDefault();
-    var form = $('#recordInfo')[0];
+    var form = $('#goalInfo')[0];
     var formData = new FormData(form);
     $.ajax({
-        url: '/records/input/submit',
+        url: '/goals/input/submit',
         type: 'POST',
         data: formData,
         contentType: false,
