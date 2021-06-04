@@ -6,8 +6,8 @@
             <h1 id="title">Please enter a goal</h1>
 
             <!--form action="/goals/input/submit" method="post" id="goalInfo"-->
-            <form id="goalInfo" enctype="multipart/form-data">
-                Item:<select type="goal" name="itemNumber" form="goalInfo">
+            <form id="goalInfoForm" enctype="multipart/form-data">
+                Item:<select type="goal" name="itemNumber" form="goalInfoForm">
                     <option value="{{items[0].ItemNumber}}">{{items[0].Name}}</option>
                     {% for i in items[1:] %}
                         <option value="{{i.ItemNumber}}">{{i.Name}}</option>

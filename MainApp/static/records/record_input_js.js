@@ -1,6 +1,6 @@
 $('#submitButton').click(function (e) {
     e.preventDefault();
-    var form = $('#recordInfo')[0];
+    var form = $('#recordInfoForm')[0];
     var formData = new FormData(form);
     $.ajax({
         url: '/records/input/submit',
@@ -13,7 +13,7 @@ $('#submitButton').click(function (e) {
             window.alert(data)
         },
         error: function () {
-            window.alert('error occured')
+            window.alert('Ajax error occured')
         }
     })
 })

@@ -1,7 +1,9 @@
 $('#submitButton').click(function (e) {
     e.preventDefault();
-    var form = $('#goalInfo')[0];
+
+    var form = $('#goalInfoForm')[0];
     var formData = new FormData(form);
+
     $.ajax({
         url: '/goals/input/submit',
         type: 'POST',
@@ -13,7 +15,7 @@ $('#submitButton').click(function (e) {
             window.alert(data)
         },
         error: function () {
-            window.alert('error occured')
+            window.alert('Ajax error occured')
         }
     })
 })

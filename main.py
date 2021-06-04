@@ -9,6 +9,7 @@ from MainApp.Goals import views as goals_views
 from MainApp import chart 
 
 app = create()
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/')
 def hello_world():
@@ -26,6 +27,18 @@ def items_listAll():
 @app.route('/items/delete', methods=['POST', 'GET'])
 def item_delete():
     return items_views.deleteItem(request)
+
+@app.route('/items/modify', methods=['POST', 'GET'])
+def item_modify():
+    return items_views.showItemToModify(request)
+
+@app.route('/items/modify/getCategory', methods=['POST', 'GET'])
+def item_modify_getCategory():
+    return items_views.getItemCategory(request)
+
+@app.route('/items/modify/submit', methods=['POST', 'GET'])
+def item_modify_submit():
+    return items_views.modifyItem(request)
 
 @app.route('/goals/input', methods=['POST', 'GET'])
 @app.route('/goals/input/submit', methods=['POST', 'GET'])

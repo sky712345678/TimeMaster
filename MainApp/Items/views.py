@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, flash
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -71,3 +71,42 @@ def deleteItem(request):
             return redirect('/items/listAll')
         else:
             return '<h2>Failed to delete item. Unknown error occured</h2>'
+
+
+def showItemToModify(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+
+        return render_template('items/item_modify.html', item=Items.query.filter_by(ItemNumber=itemNumber).first())
+
+
+def getItemCategory(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+        name = request.form['name']
+
+        retrievedTuple = Items.query.filter_by(ItemNumber=itemNumber, Name=name).first()
+
+        return retrievedTuple.Category
+
+
+def modifyItem(request):
+    if request.method == 'POST':
+        tupleToUpdate = None
+
+        category = request.form['category']
+        itemNumber = request.form['itemNumber']
+        name = request.form['name']
+        originalItemNumber = request.form['originalItemNumber']
+        
+        tupleToUpdate = Items.query.filter_by(ItemNumber=originalItemNumber).first()
+        if tupleToUpdate is not None:
+            tupleToUpdate.Category = category
+            tupleToUpdate.ItemNumber = itemNumber
+            tupleToUpdate.Name = name
+            db.session.commit()
+            flash('Updated successfully')
+            return redirect('/items/listAll')
+        else:
+            flash('Error occured')
+            return redirect('/items/listAll')
