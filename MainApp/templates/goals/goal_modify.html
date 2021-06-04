@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <title>Goal Input</title>
+
+    <body onload="recordAndSetInfo()">
+        <div id="goalContainer">
+            <h1 id="title">Edit goal</h1>
+
+            <!--form action="/goals/input/submit" method="post" id="goalInfo"-->
+            <form id="goalInfoForm" action="/goals/modify/submit" method="post">
+                Item:<select type="goal" id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
+                    {% for i in items %}
+                        <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                Goal:<input type="goal" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}">
+                <br>
+                Achieved:<select type="goal" id="achievedSelect" name="achieved" form="goalInfoForm">
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
+                </select>
+                <br>
+                {% if goal.AchieveDate == None %}
+                    Achieve date:<input type="goal" name="achieveDate" placeholder="YYYY/MM/DD">
+                {% else %}
+                    Achieve date:<input type="goal" name="achieveDate" placeholder="YYYY/MM/DD" value="{{goal.AchieveDate}}">
+                {% endif %}
+                <br>
+                Set date:<input type="goal" id="setDateInput" name="setDate" value="{{goal.SetDate}}" disabled>
+                <br>
+                Goal number:<input type="goal" id="goalNumberInput" name="goalNumber" value="{{goal.GoalNumber}}" disabled>
+                <br>
+                <div id="originalGoalInfoContainer" style="display: none;">
+                    <input type="goal" id="originalItemNumberInput" name="originalItemNumber" value="{{goal.ItemNumber}}">
+                    <input type="goal" id="originalAchievedInput" name="originalAchieved" value="{{goal.Achieved}}">
+                </div>
+            </form>
+            <button type="confirm" id="confirmButton">Confirm</button>
+            <button type="cancel" id="cancelButton">Cancel</button>
+        </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/goals/goal_modify_js.js"></script>
+    </body>
+</html>

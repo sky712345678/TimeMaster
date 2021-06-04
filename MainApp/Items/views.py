@@ -82,7 +82,7 @@ def showItemToModify(request):
         return render_template('items/item_modify.html', item=Items.query.filter_by(ItemNumber=itemNumber).first())
 
 
-def getItemCategory(request):
+def getItemInfo(request):
     if request.method == 'POST':
         itemNumber = request.form['itemNumber']
         name = request.form['name']
@@ -102,11 +102,14 @@ def modifyItem(request):
         originalItemNumber = request.form['originalItemNumber']
         
         tupleToUpdate = Items.query.filter_by(ItemNumber=originalItemNumber).first()
+        
         if tupleToUpdate is not None:
             tupleToUpdate.Category = category
             tupleToUpdate.ItemNumber = itemNumber
             tupleToUpdate.Name = name
+
             db.session.commit()
+            
             flash('Updated successfully')
             return redirect('/items/listAll')
         else:

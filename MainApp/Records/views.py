@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, flash
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -90,6 +90,64 @@ def deleteRecord(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
+            flash('Deleted successfully')
             return redirect('/records/listAll')
         else:
-            return '<h2>Failed to delete item. Unknown error occured</h2>'
+            flash('Error occured. Failed to delete record.')
+            return redirect('/records/listAll')
+
+
+def showRecordToModify(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+        date = request.form['date']
+
+        availableGoals = db.session.execute('SELECT Items.Name AS ItemName, Goals.GoalNumber, Goals.Goal '+
+                                            'FROM Items, Goals '+
+                                            'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                              'AND Goals.SetDate <= :dt '+
+                                              'AND (Goals.AchieveDate >= :dt OR Goals.AchieveDate IS NULL)',
+                                            {'dt': date})
+
+        return render_template('records/record_modify.html', items=Items.query.all(), goals=availableGoals, record=Records.query.filter_by(ItemNumber=itemNumber, Date=date).first())
+
+
+def modifyRecord(request):
+    if request.method == 'POST':
+        tupleToUpdate = None
+
+        itemNumber = request.form['itemNumber']
+        date = request.form['date']
+        duration = request.form['duration']
+        goalNumber = request.form['goalNumber']
+        achievePercentage = request.form['achievePercentage']
+        description = request.form['description']
+
+        originalItemNumber = request.form['originalItemNumber']
+        originalDate = request.form['originalDate']
+
+        if goalNumber == '':
+            goalNumber = None
+        
+        if achievePercentage == '':
+            achievePercentage = None
+
+        tupleToUpdate = Records.query.filter_by(ItemNumber=originalItemNumber, Date=originalDate).first()
+
+        print('\n\n\n'+originalItemNumber+', '+originalDate+'\n\n\n')
+
+        if tupleToUpdate is not None:
+            tupleToUpdate.ItemNumber = itemNumber
+            tupleToUpdate.Date = date
+            tupleToUpdate.Duration = duration
+            tupleToUpdate.GoalNumber = goalNumber
+            tupleToUpdate.AchievePercentage = achievePercentage
+            tupleToUpdate.Description = description
+
+            db.session.commit()
+
+            flash('Updated successfully')
+            return redirect('/records/listAll')
+        else:
+            flash('Error occured. Failed to update record.')
+            return redirect('/records/listAll')

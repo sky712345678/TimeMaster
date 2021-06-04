@@ -32,9 +32,9 @@ def item_delete():
 def item_modify():
     return items_views.showItemToModify(request)
 
-@app.route('/items/modify/getCategory', methods=['POST', 'GET'])
+@app.route('/items/modify/getInfo', methods=['POST', 'GET'])
 def item_modify_getCategory():
-    return items_views.getItemCategory(request)
+    return items_views.getItemInfo(request)
 
 @app.route('/items/modify/submit', methods=['POST', 'GET'])
 def item_modify_submit():
@@ -53,6 +53,18 @@ def goals_listAll():
 def goals_delete():
     return goals_views.deleteGoal(request)
 
+@app.route('/goals/modify', methods=['POST', 'GET'])
+def goals_modify():
+    return goals_views.showGoalToModify(request)
+
+@app.route('/goals/modify/getInfo', methods=['POST', 'GET'])
+def goals_modify_getInfo():
+    return goals_views.getGoalInfo(request)
+
+@app.route('/goals/modify/submit', methods=['POST', 'GET'])
+def goals_modify_submit():
+    return goals_views.modifyGoal(request)
+
 @app.route('/records/input', methods=['POST', 'GET'])
 @app.route('/records/input/submit', methods=['POST', 'GET'])
 def records_input():
@@ -65,6 +77,14 @@ def records_listAll():
 @app.route('/records/delete', methods=['POST', 'GET'])
 def records_delete():
     return records_views.deleteRecord(request)
+
+@app.route('/records/modify', methods=['POST', 'GET'])
+def records_modify():
+    return records_views.showRecordToModify(request)
+
+@app.route('/records/modify/submit', methods=['POST', 'GET'])
+def records_modify_submit():
+    return records_views.modifyRecord(request)
 
 @app.route('/presentation/test')
 def test_chart():

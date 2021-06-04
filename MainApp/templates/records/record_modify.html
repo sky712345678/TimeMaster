@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <title>Edit record</title>
+    
+    <body onload="recordAndSetInfo()">
+        <div id="recordContainer">
+            <h1 id="title">Please enter the time record</h1>
+
+            <!--form action="/records/input/submit" method="post" id="recordInfo"-->
+            <form id="recordInfoForm" action="/records/modify/submit" method="post">
+                Item:<select type="record" id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
+                            {% for i in items %}
+                                <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                            {% endfor %}
+                        </select>
+                <br>
+                Date:<input type="record" id="dateInput" name="date" placeholder="YYYY/MM/DD" value="{{record.Date}}">
+                <br>
+                Duration:<input type="record" name="duration" placeholder="Please enter the time you spent (min.)" value="{{record.Duration}}">
+                <br>
+                <!--temporary-->
+                Goal:<select type="record" id="goalNumberSelect" name="goalNumber" form="recordInfoForm">
+                        <option value="">None</option>
+                        {% for g in goals %}
+                            <option value="{{g.GoalNumber}}">{{g.ItemName}} - {{g.Goal}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                Achieve percentage: <input type="record" name="achievePercentage" placeholder="%" value="{{record.AchievePercentage}}">
+                <br>
+                Description: <input type="record" name="description" value="{{record.Description}}">
+                <br>
+                <div id="originalRecordInfoContainer" style="display: none;">
+                    <input type="record" id="originalItemNumberInput" name="originalItemNumber" value="{{record.ItemNumber}}">
+                    <input type="record" id="originalGoalNumberInput" name="originalGoalNumber" value="{{record.GoalNumber}}">
+                </div>
+            </form>
+            <button type="confirm" id="confirmButton">Confirm</button>
+            <button type="cancel" id="cancelButton">Cancel</button>
+        </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/records/record_modify_js.js"></script>
+    </body>
+</html>

@@ -14,8 +14,8 @@ function deleteImplementation(itemNumber) {
 
 function sendModifyRequest(itemNumber) {
     $('#modifyRequestContainer').append('<form action = "/items/modify" method="post" id="modifyRequestInfo">' +
-        '<input type="modifyRequestInfo" id="modifyRequestItemNumber" name="itemNumber"></form>')
+        '<input type="modifyRequestInfo" id="modifyRequestItemNumberInput" name="itemNumber"></form>')
 
-    document.getElementById('modifyRequestItemNumber').value = itemNumber
+    document.getElementById('modifyRequestItemNumberInput').value = itemNumber
     document.getElementById('modifyRequestInfo').submit()
 }

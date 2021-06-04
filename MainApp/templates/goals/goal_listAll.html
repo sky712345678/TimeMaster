@@ -3,6 +3,16 @@
     <title>List goals</title>
 
     <body>
+        {% block flashMessage %}
+            {% with messages = get_flashed_messages() %}
+            <div class="messageContainer">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </div>
+            {% endwith %}
+        {% endblock %}
+
         <div class="goalContainer">
             <h1 class="goalContainer">View all set goals</h1>
 
@@ -13,12 +23,14 @@
                     <p class="goal" id="item">Item: {{g.Name}}</p>
                     <p class="goal" id="achieved">Achieved: {{g.Achieved}}</p>
                     <p class="goal" id="setDate">Set date: {{g.SetDate}}</p>
-                    <p class="goal" id="achieveDate">Set date: {{g.AchieveDate}}</p>
+                    <p class="goal" id="achieveDate">Achieve date: {{g.AchieveDate}}</p>
+                    <button type="modifyRequest" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
                     <button type="deleteRequest" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 </li>
                 {% endfor %}
             </ul>
         </div>
+        <div id="modifyRequestContainer" style="display: none;"></div>
         <div id="deleteRequestContainer" style="display: none;"></div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

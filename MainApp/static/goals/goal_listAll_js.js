@@ -11,3 +11,11 @@ function deleteImplementation(goalNumber) {
     document.getElementById('deleteRequestGoalNumberInput').value = goalNumber
     document.getElementById('deleteRequestInfoForm').submit()
 }
+
+function sendModifyRequest(itemNumber) {
+    $('#modifyRequestContainer').append('<form action = "/goals/modify" method="post" id="modifyRequestInfo">' +
+        '<input type="modifyRequestInfo" id="modifyRequestGoalNumberInput" name="goalNumber"></form>')
+
+    document.getElementById('modifyRequestGoalNumberInput').value = itemNumber
+    document.getElementById('modifyRequestInfo').submit()
+}

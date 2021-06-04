@@ -14,10 +14,11 @@ function categoryCheck(that) {
 function recordAndSetInfo() {
     originalItemNumber = document.getElementById("itemNumberInput").value;
 
+    /*
     var form = $('#itemInfoForm')[0];
     var formData = new FormData(form);
     $.ajax({
-        url: '/items/modify/getCategory',
+        url: '/items/modify/getInfo',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -30,20 +31,27 @@ function recordAndSetInfo() {
             window.alert('Ajax error occured')
         }
     })
+    */
+    
+    $('#categorySelect').val(document.getElementById('originalCategoryInput').value).change()
 
+    $('#originalCategoryInput').remove()
+
+    /*
     $('#itemInfoForm').attr('action', '/items/modify/submit')
     $('#itemInfoForm').attr('method', 'post')
     $('#itemInfoForm').removeAttr('enctype')
+    */
 }
 
 $('#confirmButton').click(function (e) {
     e.preventDefault();
 
-    $('#originalItemNumberContainer').append('<input type="item" id="originalItemNumberInput" name="originalItemNumber"></form>')
+    $('#originalItemInfoContainer').append('<input type="item" id="originalItemNumberInput" name="originalItemNumber"></form>');
 
-    document.getElementById("originalItemNumberInput").value = originalItemNumber
+    document.getElementById('originalItemNumberInput').value = originalItemNumber;
 
-    document.getElementById("itemInfoForm").submit()
+    document.getElementById('itemInfoForm').submit();
 
     /*
     var form = $('#itemInfoForm')[0];
@@ -66,5 +74,5 @@ $('#confirmButton').click(function (e) {
 })
 
 $('#cancelButton').click(function (e) {
-    window.location.href = "/items/listAll";
+    window.location.href = '/items/listAll';
 })

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -76,6 +76,55 @@ def deleteGoal(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
+            flash('Deleted successfully')
             return redirect('/goals/listAll')
         else:
-            return '<h2>Failed to delete item. Unknown error occured</h2>'
+            flash('Error occured. Failed to delete goal.')
+            return redirect('/goals/listAll')
+
+
+def showGoalToModify(request):
+    if request.method == 'POST':
+        goalNumber = request.form['goalNumber']
+
+        return render_template('goals/goal_modify.html', items=Items.query.all(), goal=Goals.query.filter_by(GoalNumber=goalNumber).first())
+
+
+def getGoalInfo(request):
+    if request.method == 'POST':
+        goalNumber = request.form['goalNumber']
+
+        retrievedTuple = Goals.query.filter_by(GoalNumber=goalNumber).first()
+
+        return jsonify(
+            itemNumber=retrievedTuple.ItemNumber,
+            achieved=retrievedTuple.Achieved
+        )
+
+
+def modifyGoal(request):
+    if request.method == 'POST':
+        tupleToUpdate = None
+
+        goalNumber = request.form['goalNumber']
+        itemNumber = request.form['itemNumber']
+        goal = request.form['goal']
+        achieveDate = request.form['achieveDate']
+
+        if achieveDate == '':
+            achieveDate = None
+
+        tupleToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+        
+        if tupleToUpdate is not None:
+            tupleToUpdate.ItemNumber = itemNumber
+            tupleToUpdate.Goal = goal
+            tupleToUpdate.AchieveDate = achieveDate
+
+            db.session.commit()
+
+            flash('Updated successfully')
+            return redirect('/goals/listAll')
+        else:
+            flash('Error occured. Failed to update goal.')
+            return redirect('/goals/listAll')
