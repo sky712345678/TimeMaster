@@ -18,7 +18,7 @@
                 Duration:<input type="record" name="duration" placeholder="Please enter the time you spent (min.)">
                 <br>
                 <!--temporary-->
-                Goal:<select type="record" name="goalNumber" form="recordInfo">
+                Goal:<select type="record" name="goalNumber" form="recordInfoForm">
                         <option value="">None</option>
                         {% for g in goals %}
                             <option value="{{g.GoalNumber}}">{{g.ItemName}} - {{g.Goal}}</option>

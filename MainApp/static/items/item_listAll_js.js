@@ -1,7 +1,7 @@
 function deleteWarn(itemNumber) {
     $('#deleteRequestContainer').append('<form action = "/items/delete" method="post" id="deleteRequestInfoForm">' +
         '<input type="deleteRequestInfo" id="deleteRequestItemNumberInput" name="itemNumber"></form>')
-    var c = confirm('This will delete its corresponding goals and records and can\'t be recovered. Are you sure?')
+    var c = confirm('This will delete its corresponding goals and records. They can\'t be recovered, are you sure you want to delete it?')
     if (c == true) {
         deleteImplementation(itemNumber)
     }

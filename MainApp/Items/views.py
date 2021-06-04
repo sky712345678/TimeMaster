@@ -68,9 +68,11 @@ def deleteItem(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
+            flash('Deleted successfully')
             return redirect('/items/listAll')
         else:
-            return '<h2>Failed to delete item. Unknown error occured</h2>'
+            flash('Error occured. Failed to delete item.')
+            return redirect('/items/listAll')
 
 
 def showItemToModify(request):
@@ -108,5 +110,5 @@ def modifyItem(request):
             flash('Updated successfully')
             return redirect('/items/listAll')
         else:
-            flash('Error occured')
+            flash('Error occured. Failed to update item.')
             return redirect('/items/listAll')
