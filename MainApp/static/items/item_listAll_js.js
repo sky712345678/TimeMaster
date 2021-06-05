@@ -1,3 +1,11 @@
+function setInfo() {
+    var count = $('.setItems').children().length
+    if (count == 0) {
+        $('.setItems').append('<li class="noExistedItem">' +
+            '<h3 class="message" id="noExistedItemMessage">There isn&apos;t any item</h3></li>');
+    }
+}
+
 function deleteWarn(itemNumber) {
     $('#deleteRequestContainer').append('<form action = "/items/delete" method="post" id="deleteRequestInfoForm">' +
         '<input type="deleteRequestInfo" id="deleteRequestItemNumberInput" name="itemNumber"></form>');

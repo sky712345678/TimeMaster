@@ -32,9 +32,9 @@ def item_delete():
 def item_modify():
     return items_views.showItemToModify(request)
 
-@app.route('/items/modify/getInfo', methods=['POST', 'GET'])
-def item_modify_getCategory():
-    return items_views.getItemInfo(request)
+@app.route('/items/modify/check', methods=['POST', 'GET'])
+def item_modify_check():
+    return items_views.modifyCheck(request)
 
 @app.route('/items/modify/submit', methods=['POST', 'GET'])
 def item_modify_submit():
@@ -57,9 +57,9 @@ def goals_delete():
 def goals_modify():
     return goals_views.showGoalToModify(request)
 
-@app.route('/goals/modify/getInfo', methods=['POST', 'GET'])
-def goals_modify_getInfo():
-    return goals_views.getGoalInfo(request)
+@app.route('/goals/modify/check', methods=['POST', 'GET'])
+def goals_modify_check():
+    return goals_views.modifyCheck(request)
 
 @app.route('/goals/modify/submit', methods=['POST', 'GET'])
 def goals_modify_submit():
@@ -85,6 +85,14 @@ def records_delete():
 @app.route('/records/modify', methods=['POST', 'GET'])
 def records_modify():
     return records_views.showRecordToModify(request)
+
+@app.route('/records/modify/getAvailableGoals', methods=['POST', 'GET'])
+def records_modify_getAvailableGoals():
+    return records_views.modify_getAvailableGoals(request)
+
+@app.route('/records/modify/check', methods=['POST', 'GET'])
+def records_modify_check():
+    return records_views.modifyCheck(request)
 
 @app.route('/records/modify/submit', methods=['POST', 'GET'])
 def records_modify_submit():

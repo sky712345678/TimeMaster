@@ -46,7 +46,7 @@ def inputItem(request):
         if tupleToInsert is not None:
             db.session.add(tupleToInsert)
             db.session.commit()
-            flash('The item was added successfully')
+            flash('The item was added successfully.')
             return redirect('/items/input')
         else:
             flash('The item has already existed!')
@@ -60,7 +60,7 @@ def listItems():
     if numberOfItems > 0:
         return render_template('items/item_listAll.html', items=Items.query.all())
     else:
-        return '<h2>There isn\'t any item</h2>'
+        return render_template('items/item_listAll.html')
 
 
 def deleteItem(request):
@@ -72,7 +72,7 @@ def deleteItem(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
-            flash('Deleted successfully')
+            flash('Deleted successfully.')
             return redirect('/items/listAll')
         else:
             flash('Error occured. Failed to delete item.')
@@ -86,14 +86,29 @@ def showItemToModify(request):
         return render_template('items/item_modify.html', item=Items.query.filter_by(ItemNumber=itemNumber).first())
 
 
-def getItemInfo(request):
+def modifyCheck(request):
     if request.method == 'POST':
-        itemNumber = request.form['itemNumber']
+        category = request.form['category']
         name = request.form['name']
 
-        retrievedTuple = Items.query.filter_by(ItemNumber=itemNumber, Name=name).first()
+        name = name.lower()
 
-        return retrievedTuple.Category
+        if category == 'Learning':
+            itemNumber = request.form['itemNumber']
+
+            result = Items.query.filter_by(Category=category, ItemNumber=itemNumber, Name=name).first()
+
+            if result is None:
+                return 'Y'
+            else:
+                return 'N'
+        else:
+            result = Items.query.filter_by(Category=category, Name=name).first()
+
+            if result is None:
+                return 'Y'
+            else:
+                return 'N'
 
 
 def modifyItem(request):
@@ -104,6 +119,8 @@ def modifyItem(request):
         itemNumber = request.form['itemNumber']
         name = request.form['name']
         originalItemNumber = request.form['originalItemNumber']
+
+        name = name.lower()
         
         tupleToUpdate = Items.query.filter_by(ItemNumber=originalItemNumber).first()
         
@@ -114,7 +131,7 @@ def modifyItem(request):
 
             db.session.commit()
             
-            flash('Updated successfully')
+            flash('Updated successfully.')
             return redirect('/items/listAll')
         else:
             flash('Error occured. Failed to update item.')

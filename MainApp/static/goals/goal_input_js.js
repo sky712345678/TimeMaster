@@ -1,3 +1,16 @@
+function setInfo() {
+    var count = $('#itemNumberSelect').children().length;
+
+    if (count == 0) {
+        $('#title').text('Please add an item first!')
+        $('#itemNumberSelect').attr('disabled', true);
+        $('#goalInput').attr('disabled', true);
+        $('#submitButton').attr('disabled', true);
+
+        window.alert('Please add an item first!');
+    }
+}
+
 /*
 $('#submitButton').click(function (e) {
     e.preventDefault();

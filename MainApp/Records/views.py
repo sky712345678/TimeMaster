@@ -23,13 +23,14 @@ def inputRecord(request):
         achievePercentage = request.form['achievePercentage']
         description = request.form['description']
 
-        result = Records.query.filter_by(ItemNumber=itemNumber, Date=date).first()
-
         # make sure nullable attributes are NULL if user didn't type anything
         if goalNumber == '':
             goalNumber = None
         if achievePercentage == '':
             achievePercentage = None
+
+        # tuples with the same ItemNumber, Date, Gaol as any other tuple are not allowed to be duplicated
+        result = Records.query.filter_by(ItemNumber=itemNumber, Date=date, GoalNumber=goalNumber).first()
 
         if result is None:
             tupleToInsert = Records(itemNumber, date, duration, goalNumber, achievePercentage, description)
@@ -48,7 +49,7 @@ def inputRecord(request):
                     # normally, this won't be executed
                     return 'The goal has already achieved'
 
-            flash('The record was added successfully')
+            flash('The record was added successfully.')
             return redirect('/records/input')
         else:
             existedRecord = db.session.execute('SELECT Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
@@ -93,7 +94,7 @@ def listRecords():
                                          'FROM Records').fetchall()[0].Number
     
     if numberOfRecords > 0:
-        allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+        allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         # 'FROM Items, Records, Goals '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
@@ -102,20 +103,20 @@ def listRecords():
                                           # 'AND Records.GoalNumber = Goals.GoalNumber')
         return render_template('records/record_listAll.html', records=allRecords)
     else:
-        return '<h2>There isn\'t any record</h2>'
+        return render_template('records/record_listAll.html')
 
 
 def deleteRecord(request):
     if request.method == 'POST':
         itemNumber = request.form['itemNumber']
-        date = request.form['date']
+        setDateTime = request.form['setDateTime']
 
-        tupleToDelete = Records.query.filter_by(ItemNumber=itemNumber, Date=date).first()
+        tupleToDelete = Records.query.filter_by(ItemNumber=itemNumber, SetDateTime=setDateTime).first()
 
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
-            flash('Deleted successfully')
+            flash('Deleted successfully.')
             return redirect('/records/listAll')
         else:
             flash('Error occured. Failed to delete record.')
@@ -125,16 +126,66 @@ def deleteRecord(request):
 def showRecordToModify(request):
     if request.method == 'POST':
         itemNumber = request.form['itemNumber']
-        date = request.form['date']
+        setDateTime = request.form['setDateTime']
 
+        '''
         availableGoals = db.session.execute('SELECT Items.Name AS ItemName, Goals.GoalNumber, Goals.Goal '+
                                             'FROM Items, Goals '+
                                             'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                              'AND Goals.ItemNumber = :it '+
                                               'AND Goals.SetDate <= :dt '+
                                               'AND (Goals.AchieveDate >= :dt OR Goals.AchieveDate IS NULL)',
-                                            {'dt': date})
+                                            {'it': itemNumber, 'dt': date})
+        '''
 
-        return render_template('records/record_modify.html', items=Items.query.all(), goals=availableGoals, record=Records.query.filter_by(ItemNumber=itemNumber, Date=date).first())
+        return render_template('records/record_modify.html', items=Items.query.all(), record=Records.query.filter_by(ItemNumber=itemNumber, SetDateTime=setDateTime).first())
+
+
+def modify_getAvailableGoals(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+        date = request.form['date']
+
+        availableGoalsRawData = db.session.execute('SELECT Items.Name AS ItemName, Goals.GoalNumber, Goals.Goal '+
+                                                   'FROM Items, Goals '+
+                                                   'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                                     'AND Goals.ItemNumber = :it '+
+                                                     'AND Goals.SetDate <= :dt '+
+                                                     'AND (Goals.AchieveDate >= :dt OR Goals.AchieveDate IS NULL)',
+                                                   {'it': itemNumber, 'dt': date}).fetchall()
+
+        availableGoalsList = []
+
+        for a in availableGoalsRawData:
+            dictionary = {
+                'ItemName': a.ItemName,
+                'GoalNumber': a.GoalNumber,
+                'Goal': a.Goal
+            }
+
+            availableGoalsList.append(dictionary)
+        
+        return jsonify(availableGoalsList)
+
+
+def modifyCheck(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+        date = request.form['date']
+        goalNumber = request.form['goalNumber']
+
+        originalItemNumber = request.form['originalItemNumber']
+        originalDate = request.form['originalDate']
+        originalGoalNumber = request.form['originalGoalNumber']
+
+        if originalItemNumber == itemNumber and originalDate == date and originalGoalNumber == goalNumber:
+            return 'Y'
+        else :
+            result = Records.query.filter_by(ItemNumber=itemNumber, Date=date, GoalNumber=goalNumber).first()
+            if result is None:
+                return 'Y'
+            else:
+                return 'N'
 
 
 def modifyRecord(request):
@@ -147,9 +198,9 @@ def modifyRecord(request):
         goalNumber = request.form['goalNumber']
         achievePercentage = request.form['achievePercentage']
         description = request.form['description']
+        setDateTime = request.form['setDateTime']
 
         originalItemNumber = request.form['originalItemNumber']
-        originalDate = request.form['originalDate']
 
         if goalNumber == '':
             goalNumber = None
@@ -157,7 +208,7 @@ def modifyRecord(request):
         if achievePercentage == '':
             achievePercentage = None
 
-        tupleToUpdate = Records.query.filter_by(ItemNumber=originalItemNumber, Date=originalDate).first()
+        tupleToUpdate = Records.query.filter_by(ItemNumber=originalItemNumber, SetDateTime=setDateTime).first()
 
         if tupleToUpdate is not None:
             tupleToUpdate.ItemNumber = itemNumber
@@ -169,7 +220,7 @@ def modifyRecord(request):
 
             db.session.commit()
 
-            flash('Updated successfully')
+            flash('Updated successfully.')
             return redirect('/records/listAll')
         else:
             flash('Error occured. Failed to update record.')

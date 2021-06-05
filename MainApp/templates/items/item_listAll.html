@@ -2,8 +2,8 @@
 <html>
     <title>List items</title>
 
-    <body>
-        <a href="/home" title="go to Homepage">&lt Go back home</a>
+    <body onload="setInfo()">
+        <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">

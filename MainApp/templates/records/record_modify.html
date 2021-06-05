@@ -4,7 +4,7 @@
     
     <body onload="recordAndSetInfo()">
         <div id="recordContainer">
-            <h1 id="title">Please enter the time record</h1>
+            <h1 id="title">Edit record</h1>
 
             <!--form action="/records/input/submit" method="post" id="recordInfo"-->
             <form id="recordInfoForm" action="./modify/submit" method="post">
@@ -27,6 +27,7 @@
                 <div id="originalRecordInfoContainer" style="display: none;">
                     <input type="text" id="originalItemNumberInput" name="originalItemNumber" value="{{record.ItemNumber}}">
                     <input type="text" id="originalGoalNumberInput" name="originalGoalNumber" value="{{record.GoalNumber}}">
+                    <input type="text" id="setDateTimeInput" name="setDateTime" value="{{record.SetDateTime}}">
                 </div>
             </form>
             <button type="confirm" id="confirmButton">Save</button>

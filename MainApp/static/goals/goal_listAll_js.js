@@ -1,7 +1,15 @@
+function setInfo() {
+    var count = $('.setGoals').children().length
+    if (count == 0) {
+        $('.setGoals').append('<li class="noExistedGoal">' +
+            '<h3 class="message" id="noExistedGoalMessage">There isn&apos;t any goal</h3></li>');
+    }
+}
+
 function deleteWarn(goalNumber) {
     $('#deleteRequestContainer').append('<form action = "/goals/delete" method="post" id="deleteRequestInfoForm">' +
         '<input type="deleteRequestInfo" id="deleteRequestGoalNumberInput" name="goalNumber"></form>');
-    var c = confirm('This will delete the selected goal and can\'t be recovered. Are you sure?');
+    var c = confirm('This will delete the selected goal and can\'t be recovered, are you sure you want to delete it?');
     if (c == true) {
         deleteImplementation(goalNumber);
     }

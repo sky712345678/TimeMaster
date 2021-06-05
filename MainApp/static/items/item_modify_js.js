@@ -47,30 +47,32 @@ function recordAndSetInfo() {
 $('#confirmButton').click(function (e) {
     e.preventDefault();
 
-    $('#originalItemInfoContainer').append('<input type="item" id="originalItemNumberInput" name="originalItemNumber"></form>');
-
-    document.getElementById('originalItemNumberInput').value = originalItemNumber;
-
-    document.getElementById('itemInfoForm').submit();
-
-    /*
     var form = $('#itemInfoForm')[0];
     var formData = new FormData(form);
+
     $.ajax({
-        url: '/items/modify/submit',
+        url: '/items/modify/check',
         type: 'POST',
         data: formData,
         contentType: false,
         cache: false,
         processData: false,
         success: function (data) {
-            window.alert(data)
+            if (data == 'Y') {
+                $('#originalItemInfoContainer').append('<input type="item" id="originalItemNumberInput" name="originalItemNumber"></form>');
+
+                document.getElementById('originalItemNumberInput').value = originalItemNumber;
+
+                document.getElementById('itemInfoForm').submit();
+            }
+            else {
+                window.alert('The item has already existed!')
+            }
         },
         error: function () {
             window.alert('Ajax error occured')
         }
     })
-    */
 })
 
 $('#cancelButton').click(function (e) {

@@ -1,6 +1,10 @@
+var originalItemNumber;
+var originalGoal;
 var goalNumberBackup;
 
 function recordAndSetInfo() {
+    originalItemNumber = document.getElementById('originalItemNumberInput').value;
+    originalGoal = document.getElementById('goalInput').value;
     goalNumberBackup = document.getElementById("goalNumberInput").value;
 
     /*
@@ -43,11 +47,38 @@ function recordAndSetInfo() {
 $('#confirmButton').click(function (e) {
     e.preventDefault();
 
-    $('#goalNumberInput').removeAttr('disabled');
+    $('#originalGoalInfoContainer').append('<input type="text" id="originalItemNumberInput" name="originalItemNumber">');
+    $('#originalGoalInfoContainer').append('<input type="text" id="originalGoalInput" name="originalGoal">');
 
-    document.getElementById("goalNumberInput").value = goalNumberBackup;
+    document.getElementById('originalItemNumberInput').value = originalItemNumber;
+    document.getElementById('originalGoalInput').value = originalGoal;
 
-    document.getElementById("goalInfoForm").submit();
+    var form = $('#goalInfoForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: '/goals/modify/check',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            if (data == 'Y') {
+                $('#goalNumberInput').removeAttr('disabled');
+
+                document.getElementById('goalNumberInput').value = goalNumberBackup;
+
+                document.getElementById('goalInfoForm').submit();
+            }
+            else {
+                window.alert('The goal has already existed!')
+            }
+        },
+        error: function () {
+            window.alert('Ajax error occured')
+        }
+    })
 })
 
 $('#cancelButton').click(function (e) {

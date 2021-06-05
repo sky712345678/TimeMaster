@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <title>Goal Input</title>
+    <title>Goal edit</title>
 
     <body onload="recordAndSetInfo()">
         <div id="goalContainer">
@@ -13,7 +13,7 @@
                     {% endfor %}
                 </select>
                 <br>
-                Goal:<input type="text" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}">
+                Goal:<input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}">
                 <br>
                 Achieved:<select id="achievedSelect" name="achieved" form="goalInfoForm">
                     <option value="N">No</option>

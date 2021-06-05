@@ -40,7 +40,7 @@ def inputGoal(request):
             db.session.execute('PRAGMA foreign_keys=ON')
             db.session.add(tupleToInsert)
             db.session.commit()
-            flash('The goal was added successfully')
+            flash('The goal was added successfully.')
             return redirect('/goals/input')
         else:
             # else, show existied, unfinished goal
@@ -65,7 +65,7 @@ def listGoals():
                                       'WHERE Goals.ItemNumber = Items.ItemNumber')
         return render_template('goals/goal_listAll.html', goals=allGoals)
     else:
-        return '<h2>There isn\'t any set goal</h2>'
+        return render_template('goals/goal_listAll.html')
 
 
 def deleteGoal(request):
@@ -77,7 +77,7 @@ def deleteGoal(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
-            flash('Deleted successfully')
+            flash('Deleted successfully.')
             return redirect('/goals/listAll')
         else:
             flash('Error occured. Failed to delete goal.')
@@ -91,16 +91,24 @@ def showGoalToModify(request):
         return render_template('goals/goal_modify.html', items=Items.query.all(), goal=Goals.query.filter_by(GoalNumber=goalNumber).first())
 
 
-def getGoalInfo(request):
+def modifyCheck(request):
     if request.method == 'POST':
-        goalNumber = request.form['goalNumber']
+        itemNumber = request.form['itemNumber']
+        goal = request.form['goal']
 
-        retrievedTuple = Goals.query.filter_by(GoalNumber=goalNumber).first()
+        originalItemNumber = request.form['originalItemNumber']
+        originalGoal = request.form['originalGoal']
 
-        return jsonify(
-            itemNumber=retrievedTuple.ItemNumber,
-            achieved=retrievedTuple.Achieved
-        )
+        goal = goal.lower()
+
+        if originalItemNumber == itemNumber and originalGoal == goal:
+            return 'Y'
+        else:
+            result = Goals.query.filter_by(ItemNumber=itemNumber, Goal=goal, Achieved='N').first()
+            if result is None:
+                return 'Y'
+            else:
+                return 'N'
 
 
 def modifyGoal(request):
@@ -112,6 +120,8 @@ def modifyGoal(request):
         goal = request.form['goal']
         achieved = request.form['achieved']
         achieveDate = request.form['achieveDate']
+
+        goal = goal.lower()
 
         if achieveDate == '':
             achieveDate = None
@@ -126,7 +136,7 @@ def modifyGoal(request):
 
             db.session.commit()
 
-            flash('Updated successfully')
+            flash('Updated successfully.')
             return redirect('/goals/listAll')
         else:
             flash('Error occured. Failed to update goal.')

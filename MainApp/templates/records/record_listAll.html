@@ -2,8 +2,8 @@
 <html>
     <title>List records</title>
 
-    <body>
-        <a href="/home" title="go to Homepage">&lt Go back home</a>
+    <body onload="setInfo()">
+        <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -30,8 +30,8 @@
                     {% endif %}
                     <!--p class="allRecords" id="goal">Goal: {{r.GoalNumber}}</p-->
                     <p class="record" id="description">Description: {{r.Description}}</p>
-                    <button type="modifyRequest" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}')">Edit</button>
-                    <button type="deleteRequest" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}')">Delete</button>
+                    <button type="modifyRequest" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
+                    <button type="deleteRequest" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Delete</button>
                 </li>
                 {% endfor %}
             </ul>
