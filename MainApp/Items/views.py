@@ -15,9 +15,11 @@ def inputItem(request):
         category = request.form['category']
         itemNumber = request.form['itemNumber']
         name = request.form['name']
+
+        name = name.lower()
         
         if category == 'Learning':
-            result = Items.query.filter_by(ItemNumber=itemNumber, Name=name).first()
+            result = Items.query.filter_by(ItemNumber=itemNumber).first()
             if result is None:
                 tupleToInsert = Items(category, itemNumber, name)
         else:
@@ -44,9 +46,11 @@ def inputItem(request):
         if tupleToInsert is not None:
             db.session.add(tupleToInsert)
             db.session.commit()
-            return 'Successfully added.'
+            flash('The item was added successfully')
+            return redirect('/items/input')
         else:
-            return 'Item already existed!'
+            flash('The item has already existed!')
+            return redirect('/items/input')
 
 
 def listItems():

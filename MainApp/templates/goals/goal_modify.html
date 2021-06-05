@@ -6,37 +6,36 @@
         <div id="goalContainer">
             <h1 id="title">Edit goal</h1>
 
-            <!--form action="/goals/input/submit" method="post" id="goalInfo"-->
-            <form id="goalInfoForm" action="/goals/modify/submit" method="post">
-                Item:<select type="goal" id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
+            <form id="goalInfoForm" action="./modify/submit" method="post">
+                Item:<select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
                         <option value="{{i.ItemNumber}}">{{i.Name}}</option>
                     {% endfor %}
                 </select>
                 <br>
-                Goal:<input type="goal" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}">
+                Goal:<input type="text" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}">
                 <br>
-                Achieved:<select type="goal" id="achievedSelect" name="achieved" form="goalInfoForm">
+                Achieved:<select id="achievedSelect" name="achieved" form="goalInfoForm">
                     <option value="N">No</option>
                     <option value="Y">Yes</option>
                 </select>
                 <br>
                 {% if goal.AchieveDate == None %}
-                    Achieve date:<input type="goal" name="achieveDate" placeholder="YYYY/MM/DD">
+                    Achieve date:<input type="text" name="achieveDate" placeholder="YYYY/MM/DD">
                 {% else %}
-                    Achieve date:<input type="goal" name="achieveDate" placeholder="YYYY/MM/DD" value="{{goal.AchieveDate}}">
+                    Achieve date:<input type="text" name="achieveDate" placeholder="YYYY/MM/DD" value="{{goal.AchieveDate}}">
                 {% endif %}
                 <br>
-                Set date:<input type="goal" id="setDateInput" name="setDate" value="{{goal.SetDate}}" disabled>
+                Set date:<input type="text" id="setDateInput" name="setDate" value="{{goal.SetDate}}" disabled>
                 <br>
-                Goal number:<input type="goal" id="goalNumberInput" name="goalNumber" value="{{goal.GoalNumber}}" disabled>
+                Goal number:<input type="text" id="goalNumberInput" name="goalNumber" value="{{goal.GoalNumber}}" disabled>
                 <br>
                 <div id="originalGoalInfoContainer" style="display: none;">
-                    <input type="goal" id="originalItemNumberInput" name="originalItemNumber" value="{{goal.ItemNumber}}">
-                    <input type="goal" id="originalAchievedInput" name="originalAchieved" value="{{goal.Achieved}}">
+                    <input type="text" id="originalItemNumberInput" name="originalItemNumber" value="{{goal.ItemNumber}}">
+                    <input type="text" id="originalAchievedInput" name="originalAchieved" value="{{goal.Achieved}}">
                 </div>
             </form>
-            <button type="confirm" id="confirmButton">Confirm</button>
+            <button type="confirm" id="confirmButton">Save</button>
             <button type="cancel" id="cancelButton">Cancel</button>
         </div>
         

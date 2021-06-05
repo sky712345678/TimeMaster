@@ -1,7 +1,7 @@
-var goalNumberBackup
+var goalNumberBackup;
 
 function recordAndSetInfo() {
-    goalNumberBackup = document.getElementById("goalNumberInput").value
+    goalNumberBackup = document.getElementById("goalNumberInput").value;
 
     /*
     $('#goalNumberInput').removeAttr('disabled')
@@ -29,8 +29,6 @@ function recordAndSetInfo() {
     $('#itemNumberSelect').val(document.getElementById('originalItemNumberInput').value).change();
     $('#achievedSelect').val(document.getElementById('originalAchievedInput').value).change();
 
-    console.log(document.getElementById('originalItemNumberInput').value)
-
     /*
     $('#goalInfoForm').attr('action', '/goals/modify/submit')
     $('#goalInfoForm').attr('method', 'post')
@@ -38,8 +36,8 @@ function recordAndSetInfo() {
     $('#goalNumberInput').attr('disabled', true)
     */
     
-    $('#originalItemNumberInput').remove()
-    $('#originalAchievedInput').remove()
+    $('#originalItemNumberInput').remove();
+    $('#originalAchievedInput').remove();
 }
 
 $('#confirmButton').click(function (e) {

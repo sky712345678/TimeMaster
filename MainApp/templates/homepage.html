@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html>
     <title>Homepage</title>
+
+    <link rel="stylesheet" href="/static/homepage_css.css">
+
     <body>
-        <h2 id="title">Hi! User</h2>
-        <a href="./learning/Course/input" title="courseInput">Input a course</a>
-        <br>
-        <a href="./learning/Study/input" title="studyInput">Input a study record</a>
-        <br>
-        <a href="./learning/Test/input" title="testInput">Input a test</a>
-        <br>
-        <a href="./learning/Assignment/input" title="assignmentInput">Input an assignment</a>
+        <div id="titleContainer">
+            <h1 id="title">Hi! User</h1>
+        </div>
+
+        <div id="recordsContainer">
+            <h2 id="recordsSubtitle">Records</h2>
+            <a href="./records/input" title="record input">Input a record</a>
+            <br>
+            <a href="./records/listAll" title="record listAll">List all</a>
+        </div>
+
+        <div id="goalsContainer">
+            <h2 id="goalsSubtitle">Goals</h2>
+            <a href="./goals/input" title="goal input">Input a goal</a>
+            <br>
+            <a href="./goals/listAll" title="goal listAll">List all</a>
+        </div>
+
+        <div id="itemsContainer">
+            <h2 id="itemsSubtitle">Items</h2>
+            <a href="./items/input" title="item input">Input an item</a>
+            <br>
+            <a href="./items/listAll" title="item listAll">List all</a>
+        </div>
     </body>
 </html>

@@ -8,12 +8,18 @@
 
             <ul class="unfinishedGoal">
                 <li class="unfinishedGoal">
-                    <h3 class="unfinishedGoal" id="item">{{goal.Name}}</h3>
-                    <p class="unfinishedGoal" id="goal">Goal: {{goal.Goal}}</p>
-                    <p class="unfinishedGoal" id="achieved">Achieved: {{goal.Achieved}}</p>
-                    <p class="unfinishedGoal" id="setDate">Set date: {{goal.SetDate}}</p>
+                    <h3 class="goal" id="item">{{goal.Name}}</h3>
+                    <p class="goal" id="goal">Goal: {{goal.Goal}}</p>
+                    <p class="goal" id="achieved">Achieved: {{goal.Achieved}}</p>
+                    <p class="goal" id="setDate">Set date: {{goal.SetDate}}</p>
+                    <button id="backButton" onclick="back()">Back</button>
+                    <button type="modifyRequest" onclick="sendModifyRequest('{{goal.GoalNumber}}')">Edit</button>
                 </li>
             </ul>
         </div>
+        <div id="modifyRequestContainer" style="display: none;"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/goals/goal_existed_js.js"></script>
     </body>
 </html>

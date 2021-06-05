@@ -3,6 +3,7 @@
     <title>List records</title>
 
     <body>
+        <a href="/home" title="go to Homepage">&lt Go back home</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -19,7 +20,7 @@
             <ul class="allRecords">
                 
                 {% for r in records %}
-                <li class="records">
+                <li class="allRecords">
                     <h3 class="record" id="item">{{r.Name}}</h3>
                     <p class="record" id="date">Date: {{r.Date}}</p>
                     <p class="record" id="duration">Duration: {{r.Duration}}</p>

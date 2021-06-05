@@ -6,7 +6,7 @@
         <div class="itemContainer">
             <h1 class="itemContainer">Edit item</h1>
 
-            <form id="itemInfoForm" action="/items/modify/submit" method="post">
+            <form id="itemInfoForm" action="./modify/submit" method="post">
                 Category:<select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
                             <option value="Learning">Learning</option>
                             <option value="Sports">Sports</option>
@@ -14,16 +14,16 @@
                         </select>
                 <br>
                 <div id="itemNumberContainer" style="display: block;">
-                    Course number:<input type="item" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" value="{{item.ItemNumber}}">
+                    Course number:<input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" value="{{item.ItemNumber}}">
                 </div>
-                Name:<input type="item" id="nameInput" name="name" placeholder="Please enter course name" value="{{item.Name}}">
+                Name:<input type="text" id="nameInput" name="name" placeholder="Please enter course name" value="{{item.Name}}">
                 <br>
                 <div id="originalItemInfoContainer" style="display: none;">
-                    <input type="item" id="originalCategoryInput" name="originalCategory" value="{{item.Category}}">
+                    <input type="text" id="originalCategoryInput" name="originalCategory" value="{{item.Category}}">
                 </div>
                 <!--button type="submit" id="submitButton">Submit</button-->
             </form>
-            <button type="confirm" id="confirmButton">Confirm</button>
+            <button type="confirm" id="confirmButton">Save</button>
             <button type="cancel" id="cancelButton">Cancel</button>
         </div>
 

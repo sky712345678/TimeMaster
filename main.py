@@ -11,7 +11,7 @@ from MainApp import chart
 app = create()
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-@app.route('/')
+@app.route('/home')
 def hello_world():
     return render_template('homepage.html')
 
@@ -69,6 +69,10 @@ def goals_modify_submit():
 @app.route('/records/input/submit', methods=['POST', 'GET'])
 def records_input():
     return records_views.inputRecord(request)
+
+@app.route('/records/input/getAvailableGoals', methods=['POST', 'GET'])
+def records_input_getAvailableGoals():
+    return records_views.input_getAvailableGoals(request)
 
 @app.route('/records/listAll')
 def records_listAll():

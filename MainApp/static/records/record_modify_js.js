@@ -1,38 +1,13 @@
-var originalItemNumber
-var originalDate
-var originalGoalNumber
+var originalItemNumber;
+var originalDate;
+var originalGoalNumber;
 
 function recordAndSetInfo() {
-    originalItemNumber = document.getElementById('originalItemNumberInput').value
-    originalDate = document.getElementById('dateInput').value
-    originalGoalNumber = document.getElementById('originalGoalNumberInput').value
+    originalItemNumber = document.getElementById('originalItemNumberInput').value;
+    originalDate = document.getElementById('dateInput').value;
+    originalGoalNumber = document.getElementById('originalGoalNumberInput').value;
 
-    /*
-    var form = $('#recordInfoForm')[0];
-    var formData = new FormData(form);
-
-    $.ajax({
-        url: '/records/modify/getInfo',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (data) {
-            $('#itemNumberSelect').val(data.itemNumber).change();
-            $('#achievedSelect').val(data.achieved).change();
-        },
-        error: function () {
-            window.alert('Ajax error occured')
-        }
-    })
-    */
-    
     $('#itemNumberSelect').val(originalItemNumber).change();
-
-    if (originalGoalNumber != 'None') {
-        $('#goalNumberSelect').val(originalGoalNumber).change();
-    }
 
     $('#originalItemNumberInput').remove();
     $('#originalGoalNumberInput').remove();
@@ -47,7 +22,7 @@ function recordAndSetInfo() {
 $('#confirmButton').click(function (e) {
     e.preventDefault();
 
-    $('#recordInfoForm').append('<div id="originalRecordInfoContainer" style="display: none;">')
+    $('#recordInfoForm').append('<div id="originalRecordInfoContainer" style="display: none;">');
 
     $('#originalRecordInfoContainer').append('<input type="record" id="originalItemNumberInput" name="originalItemNumber"></form>');
     $('#originalRecordInfoContainer').append('<input type="record" id="originalDate" name="originalDate"></form>');
@@ -60,4 +35,31 @@ $('#confirmButton').click(function (e) {
 
 $('#cancelButton').click(function (e) {
     window.location.href = "/records/listAll";
+})
+
+$('#itemNumberSelect').change(function () {
+    var form = $('#recordInfoForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: '/records/input/getAvailableGoals',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            $('#goalNumberSelect').empty();
+            $('#goalNumberSelect').append('<option value="">None</option>');
+            for (var i = 0; i < data.length; i++){
+                $('#goalNumberSelect').append($('<option></option>').attr('value', data[i].GoalNumber).text(data[i].Goal));
+                if (originalGoalNumber == data[i].GoalNumber) {
+                    $('#goalNumberSelect').val(data[i].GoalNumber).change();
+                }
+            }
+        },
+        error: function () {
+            window.alert('Ajax error occured');
+        }
+    })
 })

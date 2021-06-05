@@ -33,9 +33,9 @@ function recordAndSetInfo() {
     })
     */
     
-    $('#categorySelect').val(document.getElementById('originalCategoryInput').value).change()
+    $('#categorySelect').val(document.getElementById('originalCategoryInput').value).change();
 
-    $('#originalCategoryInput').remove()
+    $('#originalCategoryInput').remove();
 
     /*
     $('#itemInfoForm').attr('action', '/items/modify/submit')

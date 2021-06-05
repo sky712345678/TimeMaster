@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
@@ -48,11 +48,10 @@ def inputRecord(request):
                     # normally, this won't be executed
                     return 'The goal has already achieved'
 
-            return 'Successfully added.'
+            flash('The record was added successfully')
+            return redirect('/records/input')
         else:
-            return 'Record already existed!'
-            '''
-            existedRecord = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+            existedRecord = db.session.execute('SELECT Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                                'FROM Items, Records, Goals '+
                                                'WHERE Records.ItemNumber = :it '+
                                                  'AND Records.Date = :dt '+
@@ -60,7 +59,33 @@ def inputRecord(request):
                                                  'AND Records.GoalNumber = Goals.GoalNumber',
                                                {'it': itemNumber, 'dt': date}).first()
             return render_template('records/record_existed.html', record=existedRecord)
-            '''
+            
+
+
+def input_getAvailableGoals(request):
+    if request.method == 'POST':
+        itemNumber = request.form['itemNumber']
+
+        availableGoalsRawData = db.session.execute('SELECT Items.Name AS ItemName, Goals.GoalNumber, Goals.Goal '+
+                                            'FROM Items, Goals '+
+                                            'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                              'AND Goals.Achieved = "N" '+
+                                              'AND Goals.ItemNumber = :it',
+                                            {'it': itemNumber}).fetchall()
+
+        availableGoalsList = []
+
+        for a in availableGoalsRawData:
+            dictionary = {
+                'ItemName': a.ItemName,
+                'GoalNumber': a.GoalNumber,
+                'Goal': a.Goal
+            }
+
+            availableGoalsList.append(dictionary)
+        
+        return jsonify(availableGoalsList)
+
 
 
 def listRecords():
@@ -133,8 +158,6 @@ def modifyRecord(request):
             achievePercentage = None
 
         tupleToUpdate = Records.query.filter_by(ItemNumber=originalItemNumber, Date=originalDate).first()
-
-        print('\n\n\n'+originalItemNumber+', '+originalDate+'\n\n\n')
 
         if tupleToUpdate is not None:
             tupleToUpdate.ItemNumber = itemNumber

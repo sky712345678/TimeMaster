@@ -3,6 +3,7 @@
     <title>List items</title>
 
     <body>
+        <a href="/home" title="go to Homepage">&lt Go back home</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -16,9 +17,9 @@
         <div class="itemContainer">
             <h1 class="itemContainer">View all items</h1>
 
-            <ul class="itemList">
+            <ul class="setItems">
                 {% for i in items%}
-                <li class="item">
+                <li class="setItems">
                     <h3 class="item" id="name">{{i.Name}}</h3>
                     <p class="item" id="category">Category: {{i.Category}}</p>
                     <p class="item" id="itemNumber">{{i.ItemNumber}}</p>

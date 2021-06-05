@@ -8,14 +8,20 @@
 
             <ul class="existedRecord">
                 <li class="existedRecord">
-                    <h3 class="existedRecord" id="item">{{record.Name}}</h3>
-                    <p class="existedRecord" id="date">Date: {{record.Date}}</p>
-                    <p class="existedRecord" id="duration">Duration: {{record.Duration}}</p>
-                    <p class="existedRecord" id="goal">Goal: {{record.Goal}}</p>
-                    <p class="existedRecord" id="achievePercentage">Achieve percentage: {{record.AchievePercentage}}</p>
-                    <p class="existedRecord" id="description">Description: {{record.Description}}</p>
+                    <h3 class="record" id="item">{{record.Name}}</h3>
+                    <p class="record" id="date">Date: {{record.Date}}</p>
+                    <p class="record" id="duration">Duration: {{record.Duration}}</p>
+                    <p class="record" id="goal">Goal: {{record.Goal}}</p>
+                    <p class="record" id="achievePercentage">Achieve percentage: {{record.AchievePercentage}}</p>
+                    <p class="record" id="description">Description: {{record.Description}}</p>
+                    <button id="backButton" onclick="back()">Back</button>
+                    <button type="modifyRequest" onclick="sendModifyRequest('{{record.ItemNumber}}', '{{record.Date}}')">Edit</button>
                 </li>
             </ul>
         </div>
+        <div id="modifyRequestContainer" style="display: none;"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/static/records/record_existed_js.js"></script>
     </body>
 </html>

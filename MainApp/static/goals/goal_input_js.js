@@ -1,3 +1,4 @@
+/*
 $('#submitButton').click(function (e) {
     e.preventDefault();
 
@@ -19,3 +20,4 @@ $('#submitButton').click(function (e) {
         }
     })
 })
+*/

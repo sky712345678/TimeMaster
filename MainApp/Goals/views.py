@@ -15,6 +15,8 @@ def inputGoal(request):
         itemNumber = request.form['itemNumber']
         goal = request.form['goal']
 
+        goal = goal.lower()
+
         result = Goals.query.filter_by(ItemNumber=itemNumber, Goal=goal, Achieved='N').first()
 
         # if no tuple is retrieved, create a new tuple
@@ -38,20 +40,19 @@ def inputGoal(request):
             db.session.execute('PRAGMA foreign_keys=ON')
             db.session.add(tupleToInsert)
             db.session.commit()
-            return 'Successfully added.'
+            flash('The goal was added successfully')
+            return redirect('/goals/input')
         else:
             # else, show existied, unfinished goal
-            return 'Goal already existed!'
-            '''
-            existedGoal = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate '+
+            existedGoal = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.GoalNumber '+
                                               'FROM Items, Goals '+
                                               'WHERE Goals.ItemNumber = :in '+
-                                                'AND Goals.Goal = goal '+
+                                                'AND Goals.Goal = :go '+
                                                 'AND Goals.Achieved = "N" '+
                                                 'AND Goals.ItemNumber = Items.ItemNumber',
-                                              {'in': itemNumber}).first()
+                                              {'in': itemNumber, 'go': goal}).first()
             return render_template('goals/goal_existed.html', goal=existedGoal)
-            '''
+            
 
 
 def listGoals():
@@ -109,6 +110,7 @@ def modifyGoal(request):
         goalNumber = request.form['goalNumber']
         itemNumber = request.form['itemNumber']
         goal = request.form['goal']
+        achieved = request.form['achieved']
         achieveDate = request.form['achieveDate']
 
         if achieveDate == '':
@@ -119,6 +121,7 @@ def modifyGoal(request):
         if tupleToUpdate is not None:
             tupleToUpdate.ItemNumber = itemNumber
             tupleToUpdate.Goal = goal
+            tupleToUpdate.Achieved = achieved
             tupleToUpdate.AchieveDate = achieveDate
 
             db.session.commit()

@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html>
     <title>Record Input</title>
-    <body>
-        <div>
+    <body onload="setInfo()">
+        <a href="/home" title="go to Homepage">&lt Go back home</a>
+        {% block flashMessage %}
+            {% with messages = get_flashed_messages() %}
+            <div class="messageContainer">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                <li>
+                    <a href="./listAll" title="record listAll">List all records</a>
+                </li>
+                {% endfor %}
+            </div>
+            {% endwith %}
+        {% endblock %}
+        
+        <div id="recordContainer">
             <h1 id="title">Please enter the time record</h1>
 
-            <!--form action="/records/input/submit" method="post" id="recordInfo"-->
-            <form id="recordInfoForm" enctype="multipart/form-data">
-                Item:<select type="record" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
+            <form action="./input/submit" method="post" id="recordInfoForm">
+            <!--form id="recordInfoForm" enctype="multipart/form-data"-->
+                Item:<select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
                             {% for i in items %}
                                 <option value="{{i.ItemNumber}}">{{i.Name}}</option>
                             {% endfor %}
                         </select>
                 <br>
-                Date:<input type="record" name="date" placeholder="YYYY/MM/DD">
+                Date:<input type="text" name="date" placeholder="YYYY/MM/DD">
                 <br>
-                Duration:<input type="record" name="duration" placeholder="Please enter the time you spent (min.)">
+                Duration:<input type="text" name="duration" placeholder="The time you spent (min.)">
                 <br>
                 <!--temporary-->
-                Goal:<select type="record" name="goalNumber" form="recordInfoForm">
-                        <option value="">None</option>
-                        {% for g in goals %}
-                            <option value="{{g.GoalNumber}}">{{g.ItemName}} - {{g.Goal}}</option>
-                        {% endfor %}
-                    </select>
+                Goal:<select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
-                Achieve percentage: <input type="record" name="achievePercentage" placeholder="%">
+                Achieve percentage: <input type="text" name="achievePercentage" placeholder="%">
                 <br>
-                Description: <input type="record" name="description">
+                Description: <input type="text" name="description">
                 <br>
                 <button type="submit" id="submitButton">Submit</button>
             </form>

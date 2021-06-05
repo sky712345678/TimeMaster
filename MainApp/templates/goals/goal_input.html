@@ -2,19 +2,33 @@
 <html>
     <title>Goal Input</title>
     <body>
+        <a href="/home" title="go to Homepage">&lt Go back home</a>
+        {% block flashMessage %}
+            {% with messages = get_flashed_messages() %}
+            <div class="messageContainer">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                <li>
+                    <a href="./listAll" title="goal listAll">List all goals</a>
+                </li>
+                {% endfor %}
+            </div>
+            {% endwith %}
+        {% endblock %}
+        
         <div>
             <h1 id="title">Please enter a goal</h1>
 
-            <!--form action="/goals/input/submit" method="post" id="goalInfo"-->
-            <form id="goalInfoForm" enctype="multipart/form-data">
-                Item:<select type="goal" name="itemNumber" form="goalInfoForm">
+            <form action="./input/submit" method="post" id="goalInfoForm">
+            <!--form id="goalInfoForm" enctype="multipart/form-data"-->
+                Item:<select name="itemNumber" form="goalInfoForm">
                     <option value="{{items[0].ItemNumber}}">{{items[0].Name}}</option>
                     {% for i in items[1:] %}
                         <option value="{{i.ItemNumber}}">{{i.Name}}</option>
                     {% endfor %}
                 </select>
                 <br>
-                Goal:<input type="goal" name="goal" placeholder="Please describe a goal">
+                Goal:<input type="text" name="goal" placeholder="Please describe a goal">
                 <br>
                 <button type="submit" id="submitButton">Submit</button>
             </form>

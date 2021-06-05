@@ -3,6 +3,7 @@
     <title>List goals</title>
 
     <body>
+        <a href="/home" title="go to Homepage">&lt Go back home</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -18,7 +19,7 @@
 
             <ul class="setGoals">
                 {% for g in goals %}
-                <li class="goals">
+                <li class="setGoals">
                     <h3 class="goal" id="goal">Goal: {{g.Goal}}</h3>
                     <p class="goal" id="item">Item: {{g.Name}}</p>
                     <p class="goal" id="achieved">Achieved: {{g.Achieved}}</p>
