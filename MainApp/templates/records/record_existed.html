@@ -4,14 +4,16 @@
 
     <body>
         <div class="recordContainer">
-            <h1 class="recordContainer">There's already a record for this day</h1>
+            <h1 class="recordContainer">There's already a record for that day</h1>
 
             <ul class="existedRecord">
                 <li class="existedRecord">
                     <h3 class="record" id="item">{{record.Name}}</h3>
                     <p class="record" id="date">Date: {{record.Date}}</p>
                     <p class="record" id="duration">Duration: {{record.Duration}}</p>
-                    <p class="record" id="goal">Goal: {{record.Goal}}</p>
+                    {% if record.Goal %}
+                        <p class="record" id="goal">Goal: {{record.Goal}}</p>
+                    {% endif %}
                     <p class="record" id="achievePercentage">Achieve percentage: {{record.AchievePercentage}}</p>
                     <p class="record" id="description">Description: {{record.Description}}</p>
                     <button id="backButton" onclick="back()">Back</button>

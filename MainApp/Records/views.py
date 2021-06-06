@@ -57,14 +57,18 @@ def inputRecord(request):
             return redirect('/records/input')
         else:
             # else, show existied record fot that date
-            existedRecord = db.session.execute('SELECT Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
-                                               'FROM Items, Records, Goals '+
-                                               'WHERE Records.ItemNumber = :it '+
-                                                 'AND Records.Date = :dt '+
-                                                 'AND Records.ItemNumber = Items.ItemNumber '+
-                                                 'AND Records.GoalNumber = Goals.GoalNumber',
-                                               {'it': itemNumber, 'dt': date}).first()
-            return render_template('records/record_existed.html', record=existedRecord)
+            if goalNumber is None:
+                return render_template('records/record_existed.html', record=result)
+            else:
+                existedRecord = db.session.execute('SELECT Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                                'FROM Items, Records, Goals '+
+                                                'WHERE Records.ItemNumber = :it '+
+                                                  'AND Records.Date = :dt '+
+                                                  'AND Records.GoalNumber = :gn '+
+                                                  'AND Records.ItemNumber = Items.ItemNumber '+
+                                                  'AND Records.GoalNumber = Goals.GoalNumber',
+                                                {'it': itemNumber, 'dt': date, 'gn':goalNumber}).first()
+                return render_template('records/record_existed.html', record=existedRecord)
 
 
 def generateAndReturnInJson(availableGoalsRawData):
@@ -185,6 +189,7 @@ def modifyCheck(request):
 
 def modifyRecord(request):
     if request.method == 'POST':
+        # simply update the tuple
         tupleToUpdate = None
 
         itemNumber = request.form['itemNumber']

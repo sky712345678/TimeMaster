@@ -21,7 +21,7 @@
                 
                 {% for r in records %}
                 <li class="allRecords">
-                    <h3 class="record" id="item">{{r.Name}}</h3>
+                    <h3 class="record" id="item">{{r.Name}} ({{r.ItemNumber}})</h3>
                     <p class="record" id="date">Date: {{r.Date}}</p>
                     <p class="record" id="duration">Duration: {{r.Duration}} min.</p>
                     {% if r.Goal != None %}
