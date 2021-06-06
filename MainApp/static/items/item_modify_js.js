@@ -11,6 +11,7 @@ function categoryCheck(that) {
     }
     else {
         $('#itemNumberInput').removeAttr('disabled');
+        document.getElementById('itemNumberInput').value = '';
         document.getElementById('itemNumberContainer').style.display = 'block';
         document.getElementById('nameInput').placeholder = 'Please enter course name';
     }
