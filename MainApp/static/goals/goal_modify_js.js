@@ -72,7 +72,9 @@ $('#confirmButton').click(function (e) {
                 document.getElementById('goalInfoForm').submit();
             }
             else {
-                window.alert('The goal has already existed!')
+                window.alert('The goal has already existed!');
+                $('#originalItemNumberInput').remove();
+                $('#originalGoalInput').remove();
             }
         },
         error: function () {

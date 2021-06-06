@@ -7,11 +7,13 @@ from MainApp.models import Items
 
 def inputGoal(request):
     if request.method == 'GET':
+        # show input page
         return render_template('goals/goal_input.html', items=Items.query.all())
     elif request.method == 'POST':
+        # receive and handle input request
+        # there's only ONE "unfinished" goal with a particular combination (ItemNumber, Goal) in the database
         tupleToInsert = None
         
-        goalNumber = None
         itemNumber = request.form['itemNumber']
         goal = request.form['goal']
 
@@ -19,8 +21,9 @@ def inputGoal(request):
 
         result = Goals.query.filter_by(ItemNumber=itemNumber, Goal=goal, Achieved='N').first()
 
-        # if no tuple is retrieved, create a new tuple
         if result is None:
+            # if no tuple was retrieved, create a new tuple
+            # generate a new goal number
             numberOfGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                'FROM Goals').fetchall()[0].Number
             
@@ -28,18 +31,19 @@ def inputGoal(request):
                 latest = db.session.execute('SELECT GoalNumber '+
                                             'FROM Goals '+
                                             'ORDER BY GoalNumber DESC').fetchall()[0].GoalNumber
-                # latest = existedGoalNumber
-                goalNumber = 'G'+str(int(latest[1:])+1).zfill(5)
+
+                goalNumber = '/G'+str(int(latest[2:])+1).zfill(4)
             else:
-                goalNumber = 'G'+str(1).zfill(5)
+                goalNumber = '/G'+str(1).zfill(4)
             
             tupleToInsert = Goals(goalNumber, itemNumber, goal)
         
         if tupleToInsert is not None:
-            # if a new tuple is created, insert it
-            db.session.execute('PRAGMA foreign_keys=ON')
+            # if a new tuple was created, insert it
+            db.session.execute('PRAGMA foreign_keys=ON') # enforce referential integrity constraints
             db.session.add(tupleToInsert)
             db.session.commit()
+
             flash('The goal was added successfully.')
             return redirect('/goals/input')
         else:
@@ -60,7 +64,7 @@ def listGoals():
                                        'FROM Goals').fetchall()[0].Number
     
     if numberOfGoals > 0:
-        allGoals = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+        allGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
                                       'FROM Goals, Items '+
                                       'WHERE Goals.ItemNumber = Items.ItemNumber')
         return render_template('goals/goal_listAll.html', goals=allGoals)
@@ -77,6 +81,7 @@ def deleteGoal(request):
         if tupleToDelete is not None:
             db.session.delete(tupleToDelete)
             db.session.commit()
+
             flash('Deleted successfully.')
             return redirect('/goals/listAll')
         else:
@@ -93,6 +98,7 @@ def showGoalToModify(request):
 
 def modifyCheck(request):
     if request.method == 'POST':
+        # there's only ONE unfinished goal with a particular combination (ItemNumber, Goal) in the database
         itemNumber = request.form['itemNumber']
         goal = request.form['goal']
 
@@ -102,17 +108,23 @@ def modifyCheck(request):
         goal = goal.lower()
 
         if originalItemNumber == itemNumber and originalGoal == goal:
+            # if the user DIDN'T modify the ItemNumber and Goal, the tuple is safe to be stored in the database
             return 'Y'
         else:
+            # if the user DID modify the ItemNumber and Goal, 
+            # see if there's an unfinished goal with a particular combination (ItemNumber, Goal) in the database
             result = Goals.query.filter_by(ItemNumber=itemNumber, Goal=goal, Achieved='N').first()
             if result is None:
+                # if there isn't any unfinished goal, the tuple is safe to be stored in the database
                 return 'Y'
             else:
+                # otherwise, it is unsafe
                 return 'N'
 
 
 def modifyGoal(request):
     if request.method == 'POST':
+        # simply update the tuple
         tupleToUpdate = None
 
         goalNumber = request.form['goalNumber']
@@ -123,7 +135,9 @@ def modifyGoal(request):
 
         goal = goal.lower()
 
-        if achieveDate == '':
+        # make sure nullable attributes are NULL in the databse if user didn't type anything
+        # or the goal hasn't achieved yet
+        if achieveDate == '' or achieved == 'N':
             achieveDate = None
 
         tupleToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()

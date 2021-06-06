@@ -1,19 +1,22 @@
+var originalCategory;
 var originalItemNumber;
+var originalName;
+var itemNumberBackup;
 
 function categoryCheck(that) {
     if (that.value != 'Learning') {
+        $('#itemNumberInput').attr('disabled', true);
         document.getElementById('itemNumberContainer').style.display = 'none';
         document.getElementById('nameInput').placeholder = 'Please enter item name';
     }
     else {
+        $('#itemNumberInput').removeAttr('disabled');
         document.getElementById('itemNumberContainer').style.display = 'block';
         document.getElementById('nameInput').placeholder = 'Please enter course name';
     }
 }
 
 function recordAndSetInfo() {
-    originalItemNumber = document.getElementById("itemNumberInput").value;
-
     /*
     var form = $('#itemInfoForm')[0];
     var formData = new FormData(form);
@@ -35,6 +38,14 @@ function recordAndSetInfo() {
     
     $('#categorySelect').val(document.getElementById('originalCategoryInput').value).change();
 
+    originalCategory = document.getElementById('categorySelect').value;
+    originalItemNumber = document.getElementById("itemNumberInput").value;
+    originalName = document.getElementById('nameInput').value;
+
+    if (document.getElementById('categorySelect').value != 'Learning') {
+        itemNumberBackup = document.getElementById("itemNumberInput").value;
+    }
+
     $('#originalCategoryInput').remove();
 
     /*
@@ -46,6 +57,20 @@ function recordAndSetInfo() {
 
 $('#confirmButton').click(function (e) {
     e.preventDefault();
+
+    $('#itemNumberInput').removeAttr('disabled');
+
+    if (document.getElementById('categorySelect').value != 'Learning') {
+        document.getElementById("itemNumberInput").value = itemNumberBackup;
+    }
+
+    $('#originalItemInfoContainer').append('<input type="text" id="originalCategoryInput" name="originalCategory">');
+    $('#originalItemInfoContainer').append('<input type="text" id="originalItemNumberInput" name="originalItemNumber">');
+    $('#originalItemInfoContainer').append('<input type="text" id="originalNameInput" name="originalName">');
+
+    document.getElementById('originalCategoryInput').value = originalCategory;
+    document.getElementById('originalItemNumberInput').value = originalItemNumber;
+    document.getElementById('originalNameInput').value = originalName;
 
     var form = $('#itemInfoForm')[0];
     var formData = new FormData(form);
@@ -59,18 +84,17 @@ $('#confirmButton').click(function (e) {
         processData: false,
         success: function (data) {
             if (data == 'Y') {
-                $('#originalItemInfoContainer').append('<input type="item" id="originalItemNumberInput" name="originalItemNumber"></form>');
-
-                document.getElementById('originalItemNumberInput').value = originalItemNumber;
-
                 document.getElementById('itemInfoForm').submit();
             }
             else {
-                window.alert('The item has already existed!')
+                window.alert(data);
+                $('#originalCategoryInput').remove();
+                $('#originalItemNumberInput').remove();
+                $('#originalNameInput').remove();
             }
         },
         error: function () {
-            window.alert('Ajax error occured')
+            window.alert('Ajax error occured');
         }
     })
 })

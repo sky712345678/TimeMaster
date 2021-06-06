@@ -20,7 +20,11 @@
             <!--form id="recordInfoForm" enctype="multipart/form-data"-->
                 Item:<select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
                             {% for i in items %}
+                            {% if i.Category == 'Learning' %}
+                                <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
+                            {% else %}
                                 <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                 <br>

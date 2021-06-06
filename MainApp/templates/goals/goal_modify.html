@@ -9,7 +9,11 @@
             <form id="goalInfoForm" action="./modify/submit" method="post">
                 Item:<select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
+                    {% if i.Category == 'Learning' %}
+                        <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
+                    {% else %}
                         <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                    {% endif %}
                     {% endfor %}
                 </select>
                 <br>

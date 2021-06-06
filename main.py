@@ -15,6 +15,10 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def hello_world():
     return render_template('homepage.html')
 
+@app.route('/items/input/check', methods=['POST', 'GET'])
+def items_input_check():
+    return items_views.inputCheck(request)
+
 @app.route('/items/input', methods=['POST', 'GET'])
 @app.route('/items/input/submit', methods=['POST', 'GET'])
 def items_input():

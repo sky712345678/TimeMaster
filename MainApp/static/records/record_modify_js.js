@@ -7,13 +7,15 @@ function recordAndSetInfo() {
     originalItemNumber = document.getElementById('originalItemNumberInput').value;
     originalGoalNumber = document.getElementById('originalGoalNumberInput').value;
     originalDate = document.getElementById('dateInput').value;
+
+    $('#setDateTimeInput').removeAttr('disabled')
     setDateTime = document.getElementById('setDateTimeInput').value;
+    $('#setDateTimeInput').attr('disabled', true)
 
     $('#itemNumberSelect').val(originalItemNumber).change();
 
     $('#originalItemNumberInput').remove();
     $('#originalGoalNumberInput').remove();
-    $('#setDateTimeInput').remove();
 
     /*
     $('#recordInfoForm').attr('action', '/records/modify/submit')
@@ -45,14 +47,14 @@ $('#confirmButton').click(function (e) {
         processData: false,
         success: function (data) {
             if (data == 'Y') {
-                $('#originalRecordInfoContainer').append('<input type="text" id="setDateTimeInput" name="setDateTime">');
-
-                document.getElementById('setDateTimeInput').value = setDateTime;
-
+                $('#setDateTimeInput').removeAttr('disabled');
                 document.getElementById("recordInfoForm").submit();
             }
             else {
-                window.alert('The record for that day has already existed!')
+                window.alert(data);
+                $('#originalItemNumberInput').remove();
+                $('#originalGoalNumberInput').remove();
+                $('#originalDateInput').remove();
             }
         },
         error: function () {
@@ -65,7 +67,7 @@ $('#cancelButton').click(function (e) {
     window.location.href = "/records/listAll";
 })
 
-$('#itemNumberSelect').change(function () {
+function ajax_getAvailableGoals() {
     var form = $('#recordInfoForm')[0];
     var formData = new FormData(form);
 
@@ -90,4 +92,12 @@ $('#itemNumberSelect').change(function () {
             window.alert('Ajax error occured');
         }
     })
+}
+
+$('#itemNumberSelect').change(function () {
+    ajax_getAvailableGoals();
+})
+
+$('#dateInput').change(function () {
+    ajax_getAvailableGoals();
 })

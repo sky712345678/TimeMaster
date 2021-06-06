@@ -5,11 +5,47 @@ from MainApp.database import db          #created database
 from MainApp.models import Items
 
 
+def inputCheck(request):
+    if request.method == 'POST':
+        category = request.form['category']
+        itemNumber = request.form['itemNumber']
+        name = request.form['name']
+
+        name = name.lower()
+
+        if name == '':
+            return 'Please enter a name for the item'
+
+        if category == 'Learning':
+            if itemNumber != '':
+                if '/' in itemNumber:
+                    return 'Please enter a valid course number'
+            else:
+                return 'Please enter a course number'
+
+            result = Items.query.filter_by(ItemNumber=itemNumber).first()
+
+            if result is None:
+                return 'Y'
+            else:
+                return 'The item has already existed!'
+        else:
+            result = Items.query.filter_by(Name=name).first()
+
+            if result is None or result.Category != category:
+                return 'Y'
+            else:
+                return 'The item has already existed!'
+            
+
 def inputItem(request):
     if request.method == 'GET':
+        # show input page
         return render_template('items/item_input.html')
-
     elif request.method == 'POST':
+        # receive and handle input request
+        # if the catgory IS "Learning", there's only ONE item with a particular combination ItemNumber in the database
+        # if the catgory ISN'T "Learning", there's only ONE item with a particular combination (Category, Name) in the database
         tupleToInsert = None
 
         category = request.form['category']
@@ -23,10 +59,9 @@ def inputItem(request):
             if result is None:
                 tupleToInsert = Items(category, itemNumber, name)
         else:
-            # existedSerialNumber = Items.query.filter_by(Category=category).with_entities(Items.SerialNumber).order_by(desc(Items.SerialNumber))
             result = Items.query.filter_by(Name=name).first()
 
-            if result is None:
+            if result is None or result.Category != category:
                 numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
                                                                 'FROM Items '+
                                                                 'WHERE Category <> "Learning"').fetchall()[0].number
@@ -37,9 +72,9 @@ def inputItem(request):
                                                             'WHERE Category <> "Learning" '+
                                                             'ORDER BY ItemNumber DESC').fetchall()
                     latest = existedItemNumber[0].ItemNumber
-                    itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
+                    itemNumber = '/I'+str(int(latest[2:])+1).zfill(4)
                 else:
-                    itemNumber = 'I'+str(1).zfill(5)
+                    itemNumber = '/I'+str(1).zfill(4)
 
                 tupleToInsert = Items(category, itemNumber, name)
         
@@ -89,26 +124,38 @@ def showItemToModify(request):
 def modifyCheck(request):
     if request.method == 'POST':
         category = request.form['category']
+        itemNumber = request.form['itemNumber']
         name = request.form['name']
+
+        originalCategory = request.form['originalCategory']
+        originalItemNumber = request.form['originalItemNumber']
+        originalName = request.form['originalName']
 
         name = name.lower()
 
         if category == 'Learning':
-            itemNumber = request.form['itemNumber']
-
-            result = Items.query.filter_by(Category=category, ItemNumber=itemNumber, Name=name).first()
-
-            if result is None:
+            if originalCategory == category and originalItemNumber == itemNumber:
                 return 'Y'
             else:
-                return 'N'
-        else:
-            result = Items.query.filter_by(Category=category, Name=name).first()
+                if '/' in itemNumber:
+                    return 'Please enter a valid course number'
+                else:
+                    result = Items.query.filter_by(ItemNumber=itemNumber).first()
 
-            if result is None:
+                    if result is None:
+                        return 'Y'
+                    else:
+                        return 'The item has already existed!'
+        elif category == 'Sports' or category == 'Leisure':
+            if originalCategory == category and originalName == name:
                 return 'Y'
             else:
-                return 'N'
+                result = Items.query.filter_by(Name=name).first()
+
+                if result is None or result.Category != category:
+                    return 'Y'
+                else:
+                    return 'The item has already existed!'
 
 
 def modifyItem(request):
@@ -118,6 +165,8 @@ def modifyItem(request):
         category = request.form['category']
         itemNumber = request.form['itemNumber']
         name = request.form['name']
+
+        originalCategory = request.form['originalCategory']
         originalItemNumber = request.form['originalItemNumber']
 
         name = name.lower()
@@ -125,8 +174,31 @@ def modifyItem(request):
         tupleToUpdate = Items.query.filter_by(ItemNumber=originalItemNumber).first()
         
         if tupleToUpdate is not None:
-            tupleToUpdate.Category = category
-            tupleToUpdate.ItemNumber = itemNumber
+            if originalCategory == category:
+                tupleToUpdate.ItemNumber = itemNumber
+            else:
+                if (originalCategory == 'Sports' or originalCategory == 'Leisure'):
+                    if category == 'Learning':
+                        tupleToUpdate.ItemNumber = itemNumber
+                elif originalCategory == 'Learning':
+                    if (category == 'Sports' or category == 'Leisure'):
+                        numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
+                                                                       'FROM Items '+
+                                                                       'WHERE Category <> "Learning"').fetchall()[0].number
+                        
+                        if numberOfNonLearningTuples > 0:
+                            existedItemNumber = db.session.execute('SELECT ItemNumber '+
+                                                                    'FROM Items '+
+                                                                    'WHERE Category <> "Learning" '+
+                                                                    'ORDER BY ItemNumber DESC').fetchall()
+                            latest = existedItemNumber[0].ItemNumber
+                            itemNumber = '/I'+str(int(latest[2:])+1).zfill(4)
+                        else:
+                            itemNumber = '/I'+str(1).zfill(4)
+                        
+                        tupleToUpdate.ItemNumber = itemNumber
+                
+                tupleToUpdate.Category = category
             tupleToUpdate.Name = name
 
             db.session.commit()

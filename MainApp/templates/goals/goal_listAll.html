@@ -21,7 +21,11 @@
                 {% for g in goals %}
                 <li class="setGoals">
                     <h3 class="goal" id="goal">Goal: {{g.Goal}}</h3>
-                    <p class="goal" id="item">Item: {{g.Name}}</p>
+                    {% if g.Category == 'Learning' %}
+                        <p class="goal" id="item">Item: {{g.Name}} ({{g.ItemNumber}})</p>
+                    {% else %}
+                        <p class="goal" id="item">Item: {{g.Name}}</p>
+                    {% endif %}
                     <p class="goal" id="achieved">Achieved: {{g.Achieved}}</p>
                     <p class="goal" id="setDate">Set date: {{g.SetDate}}</p>
                     <p class="goal" id="achieveDate">Achieve date: {{g.AchieveDate}}</p>
