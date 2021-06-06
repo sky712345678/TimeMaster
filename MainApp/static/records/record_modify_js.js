@@ -24,7 +24,7 @@ function recordAndSetInfo() {
     */
 }
 
-$('#confirmButton').click(function (e) {
+$('#recordInfoForm').on('submit', function (e) {
     e.preventDefault();
 
     $('#originalRecordInfoContainer').append('<input type="record" id="originalItemNumberInput" name="originalItemNumber">');

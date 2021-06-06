@@ -40,7 +40,7 @@ class Records(db.Model):
         self.GoalNumber = goalNumber
         self.AchievePercentage = achievePercentage
         self.Description = description
-        self.SetDateTime = datetime.today().strftime("%Y/%m/%d,%H:%M:%S")
+        self.SetDateTime = datetime.today().strftime("%Y-%m-%d,%H:%M:%S")
 
 class Goals(db.Model):
     # there's only ONE unfinished goal with a particular combination (ItemNumber, Goal) in the database
@@ -63,5 +63,5 @@ class Goals(db.Model):
         self.ItemNumber = itemNumber
         self.Goal = goal
         self.Achieved = 'N'
-        self.SetDate = datetime.today().strftime("%Y/%m/%d")
+        self.SetDate = datetime.today().strftime("%Y-%m-%d")
         self.AchieveDate = None

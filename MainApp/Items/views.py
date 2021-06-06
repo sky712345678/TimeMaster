@@ -13,15 +13,10 @@ def inputCheck(request):
 
         name = name.lower()
 
-        if name == '':
-            return 'Please enter a name for the item'
-
         if category == 'Learning':
             if itemNumber != '':
-                if '/' in itemNumber or len(itemNumber) < 6:
+                if '-' not in itemNumber or len(itemNumber) < 6:
                     return 'Please enter a valid course number with 6 digits'
-            else:
-                return 'Please enter a course number'
 
             result = Items.query.filter_by(ItemNumber=itemNumber).first()
 
@@ -75,9 +70,9 @@ def inputItem(request):
                                                             'WHERE Category <> "Learning" '+
                                                             'ORDER BY ItemNumber DESC').fetchall()
                     latest = existedItemNumber[0].ItemNumber
-                    itemNumber = '/I'+str(int(latest[2:])+1).zfill(4)
+                    itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
                 else:
-                    itemNumber = '/I'+str(1).zfill(4)
+                    itemNumber = 'I'+str(1).zfill(5)
 
                 tupleToInsert = Items(category, itemNumber, name)
         
@@ -145,7 +140,7 @@ def modifyCheck(request):
                 return 'Y'
             else:
                 # else, check the ItemNumber and see if there's a tuple with the same ItemNumber
-                if '/' in itemNumber or len(itemNumber) < 6:
+                if '-' not in itemNumber or len(itemNumber) < 6:
                     return 'Please enter a valid course number with 6 digits'
                 else:
                     result = Items.query.filter_by(ItemNumber=itemNumber).first()
@@ -206,9 +201,9 @@ def modifyItem(request):
                                                                 'WHERE Category <> "Learning" '+
                                                                 'ORDER BY ItemNumber DESC').fetchall()
                         latest = existedItemNumber[0].ItemNumber
-                        itemNumber = '/I'+str(int(latest[2:])+1).zfill(4)
+                        itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
                     else:
-                        itemNumber = '/I'+str(1).zfill(4)
+                        itemNumber = 'I'+str(1).zfill(5)
                     
                     tupleToUpdate.ItemNumber = itemNumber
                 

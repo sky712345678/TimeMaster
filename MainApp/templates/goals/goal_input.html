@@ -18,7 +18,7 @@
 
             <form action="./input/submit" method="post" id="goalInfoForm">
             <!--form id="goalInfoForm" enctype="multipart/form-data"-->
-                Item:<select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
+                Item <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
                         {% if i.Category == 'Learning' %}
                             <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
@@ -28,7 +28,7 @@
                     {% endfor %}
                 </select>
                 <br>
-                Goal:<input type="text" id="goalInput" name="goal" placeholder="Please describe a goal">
+                Goal <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" required>
                 <br>
                 <button type="submit" id="submitButton">Submit</button>
             </form>

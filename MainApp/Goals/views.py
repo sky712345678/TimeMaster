@@ -32,9 +32,9 @@ def inputGoal(request):
                                             'FROM Goals '+
                                             'ORDER BY GoalNumber DESC').fetchall()[0].GoalNumber
 
-                goalNumber = '/G'+str(int(latest[2:])+1).zfill(4)
+                goalNumber = 'G'+str(int(latest[1:])+1).zfill(5)
             else:
-                goalNumber = '/G'+str(1).zfill(4)
+                goalNumber = 'G'+str(1).zfill(5)
             
             tupleToInsert = Goals(goalNumber, itemNumber, goal)
         

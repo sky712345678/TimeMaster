@@ -55,7 +55,7 @@ function recordAndSetInfo() {
     */
 }
 
-$('#confirmButton').click(function (e) {
+$('#itemInfoForm').on('submit', function (e) {
     e.preventDefault();
 
     $('#itemNumberInput').removeAttr('disabled');

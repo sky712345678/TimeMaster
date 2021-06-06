@@ -12,7 +12,7 @@ function categoryCheck(that) {
 }
 
 
-$('#submitButton').click(function (e) {
+$('#itemInfoForm').on('submit', function (e) {
     e.preventDefault();
 
     $('#itemNumberInput').removeAttr('disabled');

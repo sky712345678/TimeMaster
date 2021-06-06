@@ -44,7 +44,7 @@ function recordAndSetInfo() {
     $('#originalAchievedInput').remove();
 }
 
-$('#confirmButton').click(function (e) {
+$('#goalInfoForm').on('submit', function (e) {
     e.preventDefault();
 
     $('#originalGoalInfoContainer').append('<input type="text" id="originalItemNumberInput" name="originalItemNumber">');

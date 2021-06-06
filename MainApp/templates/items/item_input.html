@@ -18,16 +18,16 @@
 
             <form action="./input/submit" method="post" id="itemInfoForm"-->
             <!--form id="itemInfoForm" enctype="multipart/form-data"-->
-                Category:<select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
+                Category <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
                             <option value="Learning">Learning</option>
                             <option value="Sports">Sports</option>
                             <option value="Leisure">Leisure</option>
                         </select>
                 <br>
                 <div id="itemNumberContainer" style="display: block;">
-                    Course number:<input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number">
+                    Course number <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" required/>
                 </div>
-                Name:<input type="text" id="nameInput" name="name" placeholder="Please enter course name">
+                Name <input type="text" id="nameInput" name="name" placeholder="Please enter course name" required/>
                 <br>
                 <button type="submit" id="submitButton">Submit</button>
             </form>
