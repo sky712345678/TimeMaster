@@ -8,16 +8,17 @@
     display: inline-block;
 }
 
-#percentageContainer {
+#messageContainer {
     width: auto;
     text-align: left;
-    margin: 1% 1% 1% 5%;
+    margin: 0% 1% 0% 5%;
 }
 
 #barContainer {
     width: 65%;
     background-color: rgb(197, 197, 197);
     margin: 1% 5% 1% 1%;
+    align-items: center;
 }
 
 #bar {
@@ -27,6 +28,10 @@
     text-align: center; /* To center it horizontally (if you want) */
     line-height: 30px; /* To center it vertically */
     color: white;
+}
+
+#numberOfAchievedGoals {
+    margin: 0;
 }
 
 #progressDetailContainer {

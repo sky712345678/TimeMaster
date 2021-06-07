@@ -1,8 +1,20 @@
 function setInfo() {
-    var count = $('.setItems').children().length
-    if (count == 0) {
-        $('.setItems').append('<li class="noExistedItem">' +
-            '<h3 class="message" id="noExistedItemMessage">There isn&apos;t any item</h3></li>');
+    var numberOfLearningItems = $('#learningItemsList').children().length;
+    var numberOfSportsItems = $('#sportsItemsList').children().length;
+    var numberOfLeisureItems = $('#leisureItemsList').children().length;
+
+    if (numberOfLearningItems == 0) {
+        $('.learningItems').remove();
+    }
+    if (numberOfSportsItems == 0) {
+        $('.sportsItems').remove();
+    }
+    if (numberOfLeisureItems == 0) {
+        $('.leisureItems').remove();
+    }
+
+    if (numberOfLearningItems == 0 && numberOfSportsItems == 0 && numberOfLeisureItems == 0) {
+        $('#itemContainer').append('<h3 class="message">There isn&apos;t any item</h3></li>');
     }
 }
 

@@ -14,25 +14,23 @@
         {% endblock %}
         
         <div id="recordContainer">
-            <h1 id="title">Please enter the time record</h1>
+            <h1 class="containerTitle">Please enter the time record</h1>
 
             <form action="./input/submit" method="post" id="recordInfoForm">
-            <!--form id="recordInfoForm" enctype="multipart/form-data"-->
                 Item <select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
-                            {% for i in items %}
-                            {% if i.Category == 'Learning' %}
-                                <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
-                            {% else %}
-                                <option value="{{i.ItemNumber}}">{{i.Name}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
+                        {% for i in items %}
+                        {% if i.Category == 'Learning' %}
+                            <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
+                        {% else %}
+                            <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
                 <br>
                 Date <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" required>
                 <br>
                 Duration <input type="text" id="durationInput" name="duration" placeholder="The time you spent (min.)" required>
                 <br>
-                <!--temporary-->
                 Goal <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
                 Achieve percentage <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%">

@@ -92,7 +92,8 @@ def listItems():
                                        'FROM Items').fetchall()[0].Number
     
     if numberOfItems > 0:
-        return render_template('items/item_listAll.html', items=Items.query.all())
+        return render_template('items/item_listAll.html', learningItems=Items.query.filter_by(Category='Learning'), \
+                                sportsItems=Items.query.filter_by(Category='Sports'), leisureItems=Items.query.filter_by(Category='Leisure'))
     else:
         return render_template('items/item_listAll.html')
 

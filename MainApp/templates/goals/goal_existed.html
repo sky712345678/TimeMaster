@@ -4,14 +4,26 @@
 
     <body>
         <div class="goalContainer">
-            <h1 class="goalContainer">There's an unfinished goal</h1>
+            <h1 class="containerTitle">There's an unfinished goal</h1>
 
             <ul class="unfinishedGoal">
                 <li class="unfinishedGoal">
-                    <h3 class="goal" id="item">{{goal.Name}}</h3>
-                    <p class="goal" id="goal">Goal: {{goal.Goal}}</p>
-                    <p class="goal" id="achieved">Achieved: {{goal.Achieved}}</p>
-                    <p class="goal" id="setDate">Set date: {{goal.SetDate}}</p>
+                    <h3 class="goal" id="goal">Goal: {{goal.Goal}}</h3>
+
+                    {% if goal.Category == 'Learning' %}
+                        <p class="goal" id="item">{{goal.Name}} ({{goal.ItemNumber}})</p>
+                    {% else %}
+                        <p class="goal" id="item">{{goal.Name}}</p>
+                    {% endif %}
+
+                    {% if goal.Achieved == 'Y' %}
+                        <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{goal.AchieveDate}}.</p>
+                    {% else %}
+                        <p class="goal" id="achieveInfo">Achieved: No</p>
+                    {% endif %}
+                    
+                    <p class="goal" id="setDate">{{goal.SetDate}}</p>
+
                     <button id="backButton" onclick="back()">Back</button>
                     <button type="modifyRequest" onclick="sendModifyRequest('{{goal.GoalNumber}}')">Edit</button>
                 </li>

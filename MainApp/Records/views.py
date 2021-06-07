@@ -60,7 +60,7 @@ def inputRecord(request):
             if goalNumber is None:
                 return render_template('records/record_existed.html', record=result)
             else:
-                existedRecord = db.session.execute('SELECT Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                existedRecord = db.session.execute('SELECT Items.Category, Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                                 'FROM Items, Records, Goals '+
                                                 'WHERE Records.ItemNumber = :it '+
                                                   'AND Records.Date = :dt '+
@@ -108,7 +108,7 @@ def listRecords():
                                          'FROM Records').fetchall()[0].Number
     
     if numberOfRecords > 0:
-        allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+        allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'ORDER BY Records.Date DESC')

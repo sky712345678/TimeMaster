@@ -64,16 +64,29 @@ def listGoals():
                                        'FROM Goals').fetchall()[0].Number
     
     if numberOfGoals > 0:
-        allGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
-                                      'FROM Goals, Items '+
-                                      'WHERE Goals.ItemNumber = Items.ItemNumber '+
-                                      'ORDER BY Goals.Achieved ASC')
+        learningGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+                                           'FROM Goals, Items '+
+                                           'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                             'AND Items.Category = "Learning"' +
+                                           'ORDER BY Goals.Achieved ASC')
+        sportsGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+                                         'FROM Goals, Items '+
+                                         'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                           'AND Items.Category = "Sports"' +
+                                         'ORDER BY Goals.Achieved ASC')
+        leisureGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+                                          'FROM Goals, Items '+
+                                          'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                            'AND Items.Category = "Leisure"' +
+                                          'ORDER BY Goals.Achieved ASC')
         
         numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                    'FROM Goals '+
                                                    'WHERE Goals.Achieved == "Y"').fetchall()[0].Number
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
-        return render_template('goals/goal_listAll.html', goals=allGoals, numberOfAchievedGoals=numberOfAchievedGoals, \
+
+        return render_template('goals/goal_listAll.html', learningGoals=learningGoals, sportsGoals=sportsGoals, \
+                                leisureGoals=leisureGoals, numberOfAchievedGoals=numberOfAchievedGoals, \
                                 numberOfGoals=numberOfGoals, percentage=achievePercentage)
     else:
         return render_template('goals/goal_listAll.html')

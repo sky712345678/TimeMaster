@@ -18,20 +18,23 @@
             <h1 class="recordContainer">View all the records</h1>
 
             <ul class="allRecords">
-                
                 {% for r in records %}
                 <li class="allRecords">
-                    <h3 class="record" id="item">{{r.Name}} ({{r.ItemNumber}})</h3>
-                    <p class="record" id="date">Date: {{r.Date}}</p>
-                    <p class="record" id="duration">Duration: {{r.Duration}} min.</p>
-                    {% if r.Goal != None %}
-                        <p class="record" id="goal">Goal: {{r.Goal}}</p>
-                        <p class="record" id="achievePercentage">Achieve percentage: {{r.AchievePercentage}}</p>
+                    {% if r.Category == 'Learning' %}
+                        <h3 class="record" id="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
+                    {% else %}
+                        <h3 class="record" id="item">{{r.Name}} | {{r.Duration}} minutes</h3>
                     {% endif %}
-                    <!--p class="allRecords" id="goal">Goal: {{r.GoalNumber}}</p-->
+
+                    {% if r.Goal != None %}
+                        <p class="record" id="goal">Goal: {{r.Goal}} ({{r.AchievePercentage}}%)</p>
+                    {% endif %}
+
                     <p class="record" id="description">Description: {{r.Description}}</p>
-                    <button type="modifyRequest" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
-                    <button type="deleteRequest" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Delete</button>
+                    <p class="record" id="date">{{r.Date}}</p>
+
+                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
+                    <button id="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Delete</button>
                 </li>
                 {% endfor %}
             </ul>

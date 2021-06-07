@@ -11,7 +11,9 @@ function categoryCheck(that) {
     }
     else {
         $('#itemNumberInput').removeAttr('disabled');
-        document.getElementById('itemNumberInput').value = '';
+        if (originalCategory != 'Learning'){
+            document.getElementById('itemNumberInput').value = '';
+        }
         document.getElementById('itemNumberContainer').style.display = 'block';
         document.getElementById('nameInput').placeholder = 'Please enter course name';
     }
@@ -36,12 +38,11 @@ function recordAndSetInfo() {
         }
     })
     */
-    
-    $('#categorySelect').val(document.getElementById('originalCategoryInput').value).change();
-
-    originalCategory = document.getElementById('categorySelect').value;
+    originalCategory = document.getElementById('originalCategoryInput').value;
     originalItemNumber = document.getElementById("itemNumberInput").value;
     originalName = document.getElementById('nameInput').value;
+    
+    $('#categorySelect').val(document.getElementById('originalCategoryInput').value).change();
 
     if (document.getElementById('categorySelect').value != 'Learning') {
         itemNumberBackup = document.getElementById("itemNumberInput").value;

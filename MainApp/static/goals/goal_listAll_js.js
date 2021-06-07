@@ -1,12 +1,24 @@
 function setInfo() {
-    var count = $('.setGoals').children().length
-    if (count == 0) {
+    var numberOfLearningGoals = $('#learningGoalsList').children().length;
+    var numberOfSportsGoals = $('#sportsGoalsList').children().length;
+    var numberOfLeisureGoals = $('#leisureGoalsList').children().length;
+
+    if (numberOfLearningGoals == 0 && numberOfSportsGoals == 0 && numberOfLeisureGoals == 0) {
         $('.setGoals').append('<li class="noExistedGoal">' +
             '<h3 class="message" id="noExistedGoalMessage">There isn&apos;t any goal</h3></li>');
         $('#progress').remove();
         $('#bar').remove();
     }
     else {
+        if (numberOfLearningGoals == 0) {
+            $('.learningGoals').remove();
+        }
+        if (numberOfSportsGoals == 0) {
+            $('.sportsGoals').remove();
+        }
+        if (numberOfLeisureGoals == 0) {
+            $('.leisureGoals').remove();
+        }
         var element = document.getElementById('bar');
         var percentage = parseInt(document.getElementById('bar').innerHTML);
         var width = 0;

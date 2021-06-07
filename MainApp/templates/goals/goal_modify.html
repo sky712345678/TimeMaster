@@ -34,10 +34,12 @@
                 <br>
                 Goal number <input type="text" id="goalNumberInput" name="goalNumber" value="{{goal.GoalNumber}}" disabled>
                 <br>
+
                 <div id="originalGoalInfoContainer" style="display: none;">
                     <input type="text" id="originalItemNumberInput" name="originalItemNumber" value="{{goal.ItemNumber}}">
                     <input type="text" id="originalAchievedInput" name="originalAchieved" value="{{goal.Achieved}}">
                 </div>
+                
                 <button type="submit" id="confirmButton">Save</button>
                 <button type="button" id="cancelButton">Cancel</button>
             </form>
