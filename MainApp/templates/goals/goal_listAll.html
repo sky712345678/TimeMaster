@@ -7,22 +7,36 @@
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
+
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
+
                 {% for message in messages %}
                 <li>{{ message }}</li>
                 {% endfor %}
+
             </div>
             {% endwith %}
+
         {% endblock %}
+
         <div class="titleContainer">
             <h1 class="goalContainer">View all set goals</h1>
             <div id="progressContainer">
                 <div class="progress" id="percentageContainer">
-                    <h3 id="percentage">Achieved percentage:</h3>
+                    <h3 id="percentage">Achieved percentage</h3>
                 </div>
                 <div class="progress" id="barContainer">
                     <div id="bar">{{percentage}}%</div>
+                </div>
+            </div>
+            
+            <div id="progressDetailContainer">
+                <div class="progressDetail" id="numberOfGoalsContainer">
+                    <h4 id="numberOfGoals">Number of goals: {{numberOfGoals}}</h4>
+                </div>
+                <div class="progressDetail" id="numberOfAchievedGoals">
+                    <h4 id="numberOfAchievedGoals">Achieved goals: {{numberOfAchievedGoals}}</h4>
                 </div>
             </div>
         </div>
@@ -32,20 +46,25 @@
                 {% for g in goals %}
                 <li class="setGoals">
                     <h3 class="goal" id="goal">Goal: {{g.Goal}}</h3>
+
                     {% if g.Category == 'Learning' %}
                         <p class="goal" id="item">Item: {{g.Name}} ({{g.ItemNumber}})</p>
                     {% else %}
                         <p class="goal" id="item">Item: {{g.Name}}</p>
                     {% endif %}
+
                     {% if g.Achieved == 'Y' %}
                         <p class="goal" id="achieved">Achieved: Yes</p>
                     {% else %}
                         <p class="goal" id="achieved">Achieved: No</p>
                     {% endif %}
+
                     <p class="goal" id="setDate">Set date: {{g.SetDate}}</p>
+
                     {% if g.AchieveDate != None %}
                         <p class="goal" id="achieveDate">Achieve date: {{g.AchieveDate}}</p>
                     {% endif %}
+
                     <button type="modifyRequest" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
                     <button type="deleteRequest" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 </li>

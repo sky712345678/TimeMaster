@@ -73,7 +73,8 @@ def listGoals():
                                                    'FROM Goals '+
                                                    'WHERE Goals.Achieved == "Y"').fetchall()[0].Number
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
-        return render_template('goals/goal_listAll.html', goals=allGoals, percentage=achievePercentage)
+        return render_template('goals/goal_listAll.html', goals=allGoals, numberOfAchievedGoals=numberOfAchievedGoals, \
+                                numberOfGoals=numberOfGoals, percentage=achievePercentage)
     else:
         return render_template('goals/goal_listAll.html')
 
