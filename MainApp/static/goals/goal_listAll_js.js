@@ -3,6 +3,25 @@ function setInfo() {
     if (count == 0) {
         $('.setGoals').append('<li class="noExistedGoal">' +
             '<h3 class="message" id="noExistedGoalMessage">There isn&apos;t any goal</h3></li>');
+        $('#progress').remove();
+        $('#bar').remove();
+    }
+    else {
+        var element = document.getElementById('bar');
+        var percentage = parseInt(document.getElementById('bar').innerHTML);
+        var width = 0;
+        var id = setInterval(frame, 10);
+        function frame() {
+            if (width == percentage) {
+                clearInterval(id);
+            }
+            else {
+                width++;
+                element.style.width = width + "%";
+                element.innerHTML = width + "%";
+                document.getElementById('bar').innerHTML = width + "%";
+            }
+        }
     }
 }
 

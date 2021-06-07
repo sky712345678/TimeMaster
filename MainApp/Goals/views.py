@@ -66,8 +66,14 @@ def listGoals():
     if numberOfGoals > 0:
         allGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
                                       'FROM Goals, Items '+
-                                      'WHERE Goals.ItemNumber = Items.ItemNumber')
-        return render_template('goals/goal_listAll.html', goals=allGoals)
+                                      'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                      'ORDER BY Goals.Achieved ASC')
+        
+        numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
+                                                   'FROM Goals '+
+                                                   'WHERE Goals.Achieved == "Y"').fetchall()[0].Number
+        achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
+        return render_template('goals/goal_listAll.html', goals=allGoals, percentage=achievePercentage)
     else:
         return render_template('goals/goal_listAll.html')
 

@@ -25,9 +25,9 @@
                 </select>
                 <br>
                 {% if goal.AchieveDate == None %}
-                    Achieve date <input type="date" name="achieveDate" placeholder="YYYY/MM/DD">
+                    Achieve date <input type="date" id="achieveDateInput" name="achieveDate" placeholder="YYYY/MM/DD">
                 {% else %}
-                    Achieve date <input type="date" name="achieveDate" placeholder="YYYY/MM/DD" value="{{goal.AchieveDate}}">
+                    Achieve date <input type="date" id="achieveDateInput" name="achieveDate" placeholder="YYYY/MM/DD" value="{{goal.AchieveDate}}">
                 {% endif %}
                 <br>
                 Set date <input type="text" id="setDateInput" name="setDate" value="{{goal.SetDate}}" disabled>

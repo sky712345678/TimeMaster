@@ -2,6 +2,8 @@
 <html>
     <title>List goals</title>
 
+    <link rel="stylesheet" href="/static/goals/goal_listAll_css.css">
+
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
@@ -13,10 +15,19 @@
             </div>
             {% endwith %}
         {% endblock %}
+        <div class="titleContainer">
+            <h1 class="goalContainer">View all set goals</h1>
+            <div id="progressContainer">
+                <div class="progress" id="percentageContainer">
+                    <h3 id="percentage">Achieved percentage:</h3>
+                </div>
+                <div class="progress" id="barContainer">
+                    <div id="bar">{{percentage}}%</div>
+                </div>
+            </div>
+        </div>
 
         <div class="goalContainer">
-            <h1 class="goalContainer">View all set goals</h1>
-
             <ul class="setGoals">
                 {% for g in goals %}
                 <li class="setGoals">
@@ -26,9 +37,15 @@
                     {% else %}
                         <p class="goal" id="item">Item: {{g.Name}}</p>
                     {% endif %}
-                    <p class="goal" id="achieved">Achieved: {{g.Achieved}}</p>
+                    {% if g.Achieved == 'Y' %}
+                        <p class="goal" id="achieved">Achieved: Yes</p>
+                    {% else %}
+                        <p class="goal" id="achieved">Achieved: No</p>
+                    {% endif %}
                     <p class="goal" id="setDate">Set date: {{g.SetDate}}</p>
-                    <p class="goal" id="achieveDate">Achieve date: {{g.AchieveDate}}</p>
+                    {% if g.AchieveDate != None %}
+                        <p class="goal" id="achieveDate">Achieve date: {{g.AchieveDate}}</p>
+                    {% endif %}
                     <button type="modifyRequest" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
                     <button type="deleteRequest" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 </li>

@@ -1,0 +1,29 @@
+#progressContainer {
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+}
+
+.progress{
+    display: inline-block;
+    margin: 1px;
+}
+
+#percentageContainer {
+    width: auto;
+    text-align: center;
+}
+
+#barContainer {
+    width: 65%;
+    background-color: rgb(197, 197, 197);
+}
+
+#bar {
+    width: 0%;
+    height: 30px;
+    background-color: #04AA6D;
+    text-align: center; /* To center it horizontally (if you want) */
+    line-height: 30px; /* To center it vertically */
+    color: white;
+}
