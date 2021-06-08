@@ -103,16 +103,14 @@ def records_modify_submit():
     return records_views.modifyRecord(request)
 
 @app.route('/presentation/test')
-def test_chart():
-    return chart.test()
+def recent():
+    return chart.recent()
 
 @app.route('/presentation/chart', methods=['POST', 'GET'])
 def check_chart():
     return chart.chart(request)
 
-@app.route('/presentation/choose', methods=['POST', 'GET'])
-def choose_chart():
-    return chart.choose(request)
+
 
 '''
 @app.route('/learning/Course/input')

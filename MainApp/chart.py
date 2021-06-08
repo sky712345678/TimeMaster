@@ -11,17 +11,44 @@ from MainApp.models import Items
 import pandas as pd
 import random
 from datetime import datetime, timedelta
-
+import time 
 app = Flask(__name__)
 
-def test():
-    start = '20210301'
-    days = 120
-    date = [(datetime.strptime(start,'%Y%m%d')+timedelta(days=i)).strftime('%Y%m%d') for i in range(days)]
-    labels = ["January","February","March","April","May","June","July","August"]
-    values = [random.randint(0,10) for i in range((len(date)))]
-    values2 = [9, 4, 3, 8, 9, 6, 7, 6]
-    return render_template('presentation/test.html', values=values, pass_labels=date, values2=values2)
+def recent():
+    num_days = 10
+    allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'ORDER BY Records.Date DESC')
+                                            # 'WHERE Records.ItemNumber = Items.ItemNumber')
+                                            # 'AND Records.GoalNumber = Goals.GoalNumber')
+    record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
+    for i,data in enumerate(allRecords):
+        record_df = record_df.append({  'ItemName': data.Name,
+                                        'Date': data.Date,
+                                        'Duration': data.Duration,
+                                        'Content': data.Description}, ignore_index=True)
+    date_reord, time_record = course_statics(record_df.values)
+    print(date_reord, time_record)
+
+    past = (datetime.today().date() - timedelta(days=num_days)).strftime("%Y-%m-%d")
+    date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
+    print(date)
+    
+    presentation_all = {}
+    for i in time_record.keys():
+        values = [0 for i in range(num_days)]
+        d = date_reord[i]
+        t = time_record[i]
+        for j in range(len(d)):
+            if d[j] in date:
+                values[j] = t[j]
+            else:
+                values[j] = 0
+        presentation_all[i] = values
+    print(presentation_all)
+    return render_template('presentation/recent.html', items=Items.query.all(),
+                time_record=presentation_all, date =date)
 
 def chart(request):
     if request.method=='POST':
@@ -73,9 +100,9 @@ list_date, list_time: the sorted studying record of one course
 return learning curve like, date['20210301','20210302',...] 
                             values[0, 0, 0, 60, 60, 60, 180,...]
 '''
-def learning_curve(list_date, list_time):
-    start = '2021-03-01'
-    num_days = 140
+def learning_curve(list_date, list_time, start = '2021-03-01', num_days = 140):
+    
+    
     date = [(datetime.strptime(start,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     values = [0 for i in range(num_days)]
     for i in range(1, num_days):
