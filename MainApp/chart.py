@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import jsonify
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from MainApp.database import db          #created database
@@ -29,11 +30,10 @@ def chart(request):
                                             'FROM Records').fetchall()[0].Number
         
         if numberOfRecords > 0:
-            allRecords = db.session.execute('SELECT Items.Name, Items.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
-                                            # 'FROM Items, Records, Goals '+
-                                            'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
-                                                    'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
-                                            'ORDER BY Records.Date ASC')
+            allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'ORDER BY Records.Date DESC')
                                             # 'WHERE Records.ItemNumber = Items.ItemNumber')
                                             # 'AND Records.GoalNumber = Goals.GoalNumber')
             record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
@@ -43,44 +43,30 @@ def chart(request):
                                                 'Duration': data.Duration,
                                                 'Content': data.Description}, ignore_index=True)
             date_reord, time_record = course_statics(record_df.values)
-            list_date = date_reord[choose_item]
-            list_time = time_record[choose_item]
-            list_date, list_time = learning_curve(list_date, list_time)
-            print("The selected course:", choose_item)
-            return render_template('presentation/choose.html', items=Items.query.all(),
-                            date=list_date, time=list_time, selected_item=choose_item)
+            if choose_item == 'All':
+                presentation_all = {}
+                for i in time_record.keys():
+                    d = date_reord[i]
+                    t = time_record[i]
+                    l_d, l_t = learning_curve(d, t)
+                    presentation_all[i] = l_t
+                print(presentation_all)
+                return render_template('presentation/choose_ALL.html', items=Items.query.all(),
+                            time_record=presentation_all, date =l_d)
+            else:
+                list_date = date_reord[choose_item]
+                list_time = time_record[choose_item]
+                list_date, list_time = learning_curve(list_date, list_time)
+                print(list_date, list_time)
+            
+                print("The selected course:", choose_item)
+                return render_template('presentation/choose.html', items=Items.query.all(),
+                                date=list_date, time=list_time, selected_item=choose_item)
     else:
         #print(Items.query.all())
         return render_template('presentation/choose.html', items=Items.query.all(), selected_item=None,
                             date=None, time=None)
 
-def choose(request):
-    result = db.session.execute('SELECT S.CourseNumber, C.CourseName, S.Date, S.Duration, S.Content '+
-                                'FROM Studies AS S, Courses AS C '+
-                                'WHERE S.CourseNumber=C.CourseNumber')
-    course_df = pd.DataFrame(columns=['CourseNumber', 'CourseName', 'Date', 'Duration', 'Content'])
-    for i,data in enumerate(result):
-        course_df = course_df.append({'CourseNumber': data.CourseNumber,
-                                    'CourseName':   data.CourseName,
-                                    'Date':         data.Date,
-                                    'Duration':     data.Duration,
-                                    'Content':      data.Content}, ignore_index=True)
-    #print(course_df)
-    date_reord, time_record = course_statics(course_df.values)
-    print(date_reord, time_record)
-
-    if request.method=='POST':
-        choose_course = request.values['courseNumber']
-        list_date = date_reord[choose_course]
-        list_time = time_record[choose_course]
-        list_date, list_time = (list(t) for t in zip(*sorted(zip(list_date, list_time))))
-        list_date, list_time = learning_curve(list_date, list_time)
-        print("The selected course", request.values['courseNumber'])
-        return render_template('presentation/choose.html', courses=Courses.query.all(),
-                            date=list_date, time=list_time)
-    else:
-        print("GGGGGGGGGGGGGGGGGG")
-        return render_template('presentation/choose.html', courses=Courses.query.all(), date=None)
 
 '''
 list_date, list_time: the sorted studying record of one course
@@ -88,9 +74,9 @@ return learning curve like, date['20210301','20210302',...]
                             values[0, 0, 0, 60, 60, 60, 180,...]
 '''
 def learning_curve(list_date, list_time):
-    start = '2021/03/01'
-    num_days = 120
-    date = [(datetime.strptime(start,'%Y/%m/%d')+timedelta(days=i)).strftime('%Y/%m/%d') for i in range(num_days)]
+    start = '2021-03-01'
+    num_days = 140
+    date = [(datetime.strptime(start,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     values = [0 for i in range(num_days)]
     for i in range(1, num_days):
         for j in range(len(list_date)):

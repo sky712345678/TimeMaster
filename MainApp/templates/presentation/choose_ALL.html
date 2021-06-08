@@ -16,7 +16,7 @@
                 <button type="submit">Submit</button>
             </form>
             {% if selected_item != None %}
-            <h2>Learning Curve of {{selected_item}}</h2>
+            <h2>Learning Curve of All items</h2>
             <div class="chart-container" style="position: relative; height:30vh; width:60vw">
                 <canvas id="myChart"></canvas>
             </div>
@@ -25,16 +25,24 @@
     </body>
     <script>
         {% if selected_item != None %}
-            const time = {{time}};
-            const label = {{date|tojson}};
-            var random_color = "#" + ((1<<24)*Math.random() | 0).toString(16)
-            var data = {
-                labels: label,
-                datasets: [{
-                    label: 'Learning Curve',
+            const time_record = {{time_record|tojson}};
+            console.log(Object.keys(time_record).length)
+            var test = []
+            for (const [key, value] of Object.entries(time_record)) {
+                var random_color = "#" + ((1<<24)*Math.random() | 0).toString(16)
+                test = test.concat({
+                    label: key,
                     backgroundColor: random_color,
                     borderColor: random_color,
-                    data: time,}]
+                    data: value,
+                });
+                console.log(key, value);
+            }
+            console.log(test);
+            const label = {{date|tojson}};
+            var data = {
+                labels: label,
+                datasets: test
             };
 
             const config = {
@@ -61,6 +69,7 @@
                 config,
             );
         {% endif %}
+
     </script>
 
 </html>
