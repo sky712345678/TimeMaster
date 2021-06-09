@@ -125,6 +125,15 @@ def deleteRecord(request):
         tupleToDelete = Records.query.filter_by(ItemNumber=itemNumber, SetDateTime=setDateTime).first()
 
         if tupleToDelete is not None:
+            if tupleToDelete.AchievePercentage == 100:
+                goalNumberOfTuple = tupleToDelete.GoalNumber
+
+                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumberOfTuple).first()
+                if goalToUpdate.Achieved == 'Y':
+                    goalToUpdate.Achieved = 'N'
+                    goalToUpdate.AchieveDate = None
+                    db.session.commit()
+
             db.session.delete(tupleToDelete)
             db.session.commit()
 
@@ -225,13 +234,17 @@ def modifyRecord(request):
 
             if achievePercentage == '100':
                 # if the user input '100' in the achieve percentage field, update the goal tuple
-                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber)
-                if goalToUpdate.first().Achieved == 'N':
-                    goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
+                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+                if goalToUpdate.Achieved == 'N':
+                    goalToUpdate.Achieved = 'Y'
+                    goalToUpdate.AchieveDate = date
                     db.session.commit()
-                else:
-                    # normally, this won't be executed
-                    return 'The goal has already achieved'
+            else:
+                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+                if goalToUpdate.Achieved == 'Y':
+                    goalToUpdate.Achieved = 'N'
+                    goalToUpdate.AchieveDate = None
+                    db.session.commit()
 
             flash('Updated successfully.')
             return redirect('/records/listAll')

@@ -150,23 +150,14 @@ def modifyGoal(request):
         goalNumber = request.form['goalNumber']
         itemNumber = request.form['itemNumber']
         goal = request.form['goal']
-        achieved = request.form['achieved']
-        achieveDate = request.form['achieveDate']
 
         goal = goal.lower()
-
-        # make sure nullable attributes are NULL in the databse if user didn't type anything
-        # or the goal hasn't achieved yet
-        if achieveDate == '' or achieved == 'N':
-            achieveDate = None
 
         tupleToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
         
         if tupleToUpdate is not None:
             tupleToUpdate.ItemNumber = itemNumber
             tupleToUpdate.Goal = goal
-            tupleToUpdate.Achieved = achieved
-            tupleToUpdate.AchieveDate = achieveDate
 
             db.session.commit()
 
