@@ -37,23 +37,29 @@ function setInfo() {
     }
 }
 
-function deleteWarn(goalNumber) {
-    $('#deleteRequestContainer').append('<form action = "/goals/delete" method="post" id="deleteRequestInfoForm">' +
-        '<input type="deleteRequestInfo" id="deleteRequestGoalNumberInput" name="goalNumber"></form>');
-    var c = confirm('This will delete the selected goal and can\'t be recovered, are you sure you want to delete it?');
+function quitWarn(goalNumber) {
+    $('#requestContainer').append('<form action = "/goals/quit" method="post" id="quitRequestInfoForm">' +
+        '<input type="text" id="quitRequestGoalNumberInput" name="goalNumber"></form>');
+    var c = confirm('Are you sure you want to quit?');
     if (c == true) {
-        deleteImplementation(goalNumber);
+        document.getElementById('quitRequestGoalNumberInput').value = goalNumber;
+        document.getElementById('quitRequestInfoForm').submit();
     }
 }
 
-function deleteImplementation(goalNumber) {
-    document.getElementById('deleteRequestGoalNumberInput').value = goalNumber;
-    document.getElementById('deleteRequestInfoForm').submit();
+function deleteWarn(goalNumber) {
+    $('#requestContainer').append('<form action = "/goals/delete" method="post" id="deleteRequestInfoForm">' +
+        '<input type="text" id="deleteRequestGoalNumberInput" name="goalNumber"></form>');
+    var c = confirm('This will delete the selected goal and can\'t be recovered, are you sure you want to delete it?');
+    if (c == true) {
+        document.getElementById('deleteRequestGoalNumberInput').value = goalNumber;
+        document.getElementById('deleteRequestInfoForm').submit();
+    }
 }
 
 function sendModifyRequest(goalNumber) {
-    $('#modifyRequestContainer').append('<form action = "/goals/modify" method="post" id="modifyRequestInfo">' +
-        '<input type="modifyRequestInfo" id="modifyRequestGoalNumberInput" name="goalNumber"></form>');
+    $('#requestContainer').append('<form action = "/goals/modify" method="post" id="modifyRequestInfo">' +
+        '<input type="text" id="modifyRequestGoalNumberInput" name="goalNumber"></form>');
 
     document.getElementById('modifyRequestGoalNumberInput').value = goalNumber;
     document.getElementById('modifyRequestInfo').submit();

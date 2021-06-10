@@ -2,6 +2,8 @@
 <html>
     <title>List records</title>
 
+    <link rel="stylesheet" href="/static/records/record_listAll_css.css">
+
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
@@ -14,30 +16,46 @@
             {% endwith %}
         {% endblock %}
         
-        <div class="recordContainer">
-            <h1 class="recordContainer">View all the records</h1>
-
-            <ul class="allRecords">
-                {% for r in records %}
-                <li class="allRecords">
+        <div id="recordListContainer">
+            <h1 class="recordListContainer">View all the records</h1>
+            
+            {% for rl in records %}
+            <div id="intervalContainer">
+                <h2 class="interval">{{bound[loop.index0][0]}} - {{bound[loop.index0][1]}}</h2>
+                <h4 class="summary">
+                    {{summary[loop.index0][0].Name}}: {{summary[loop.index0][0].Total}} minutes
+                    {% for s in summary[loop.index0][1:] %}
+                 | {{s.Name}}: {{s.Total}} minutes
+                    {% endfor %}
+                </h4>
+                {% for r in rl %}
+                <div id="recordContainer">
+                    <hr>
                     {% if r.Category == 'Learning' %}
                         <h3 class="record" id="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
                     {% else %}
                         <h3 class="record" id="item">{{r.Name}} | {{r.Duration}} minutes</h3>
                     {% endif %}
-
-                    {% if r.Goal != None %}
-                        <p class="record" id="goal">Goal: {{r.Goal}} ({{r.AchievePercentage}}%)</p>
-                    {% endif %}
-
-                    <p class="record" id="description">Description: {{r.Description}}</p>
-                    <p class="record" id="date">{{r.Date}}</p>
-
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Delete</button>
-                </li>
+                    <div id="recordInfoContainer">
+                        {% if r.Goal != None %}
+                            <p class="record" id="goalTitle">Goal</p>
+                            <p class="record" id="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
+                        {% endif %}
+                        <p class="record" id="date">{{r.Date}}</p>
+                    </div>
+                    <div id="recordInfoContainer">
+                        <p class="record" id="descriptionTitle">Description</p>
+                        <p class="record" id="description">{{r.Description}}</p>
+                    </div>
+                    <br>
+                    <div id="buttonContainer">
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
+            {% endfor %}
         </div>
         <div id="modifyRequestContainer" style="display: none;"></div>
         <div id="deleteRequestContainer" style="display: none;"></div>

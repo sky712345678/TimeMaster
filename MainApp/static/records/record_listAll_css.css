@@ -1,0 +1,91 @@
+body {
+    background-color: #f6f6f8;
+}
+
+a, li, div, h4, p {
+    font-family: Calibri, sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: sans-serif;
+}
+
+h2 {
+    text-align: center;
+    padding-top: 2%;
+    margin-bottom: 1%;
+}
+
+h3 {
+    font-size: larger;
+    margin-bottom: 0%;
+}
+
+h4 {
+    margin-top: 1%;
+    font-weight: normal;
+    text-align: center;
+}
+
+#recordListContainer {
+    width: 60%;
+    text-align: center;
+    margin: auto;
+}
+
+#intervalContainer {
+    background-color: white;
+    text-align: left;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+    box-shadow: 0px 8px 24px rgb(13 13 18 / 4%);
+
+    margin: 1% 1% 3% 1%;
+    padding-bottom: 2%;
+}
+
+#recordContainer {
+    width: 90%;
+    margin: auto;
+}
+
+#recordInfoContainer {
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#goalTitle, #descriptionTitle{
+    font-size: smaller;
+    margin-top: 5%;
+    margin-bottom: 0%;
+}
+
+#goal, #description{
+    font-size: large;
+    margin-top: 0%;
+}
+
+#buttonContainer {
+    text-align: center;
+}
+
+button {
+    border-style: none;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+
+    padding: 8px 36px;
+}
+
+#modifyRequestButton {
+    color: black;
+}
+
+#deleteRequestButton {
+    color: rgb(235, 4, 4);
+}

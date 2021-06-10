@@ -53,6 +53,10 @@ def goals_input():
 def goals_listAll():
     return goals_views.listGoals()
 
+@app.route('/goals/quit', methods=['POST', 'GET'])
+def goals_quit():
+    return goals_views.quitGoal(request)
+
 @app.route('/goals/delete', methods=['POST', 'GET'])
 def goals_delete():
     return goals_views.deleteGoal(request)

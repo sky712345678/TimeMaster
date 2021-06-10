@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
+from datetime import datetime, timedelta
 from MainApp.database import db          #created database
 from MainApp.models import Records
 from MainApp.models import Items
@@ -106,13 +107,72 @@ def input_getAvailableGoals(request):
 def listRecords():
     numberOfRecords = db.session.execute('SELECT COUNT(*) AS Number '+
                                          'FROM Records').fetchall()[0].Number
-    
+  
     if numberOfRecords > 0:
-        allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
-                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
-                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
-                                        'ORDER BY Records.Date DESC')
-        return render_template('records/record_listAll.html', records=allRecords)
+        recordDates = db.session.execute('SELECT Records.Date '+
+                                        'FROM Records '+
+                                        'ORDER BY Records.Date ASC').fetchall()
+
+        oldest = recordDates[0].Date
+
+        upperBoundDate = datetime.today()
+        deltaDate = timedelta(days=7)
+
+        upperBoundString = upperBoundDate.strftime("%Y-%m-%d")
+        lowerBoundString = (upperBoundDate-deltaDate+timedelta(days=1)).strftime("%Y-%m-%d")
+
+        numberOfRecordsInInterval = db.session.execute('SELECT COUNT(*) AS Number '+
+                                                       'FROM Records '+
+                                                       'WHERE Date >= :lb '+
+                                                         'AND Date <= :ub',
+                                                       {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()[0].Number
+
+        orderedRecordSummary = []
+        orderedRecords = []
+        recordsBound = []
+
+        while lowerBoundString >= oldest:
+            if numberOfRecordsInInterval > 0:
+                recordsInInterval = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                                       'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                               'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                                       'WHERE Records.Date >= :lb AND Records.Date <= :ub '
+                                                       'ORDER BY Records.Date DESC',
+                                                       {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()
+                
+                recordSummaryInInterval = db.session.execute('SELECT Items.Name, SUM(Records.Duration) AS Total '+
+                                                             'FROM Records, Items '+
+                                                             'WHERE Records.ItemNumber = Items.ItemNumber '+
+                                                               'AND Records.Date >= :lb AND Records.Date <= :ub '
+                                                             'GROUP BY Records.ItemNumber',
+                                                             {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()
+                
+                recordSummaryTemp = []
+                for s in recordSummaryInInterval:
+                    recordSummaryTemp.append(s)
+                
+                orderedRecordSummary.append(recordSummaryTemp)
+
+                recordsTemp = []
+                for r in recordsInInterval:
+                    recordsTemp.append(r)
+                
+                orderedRecords.append(recordsTemp)
+                recordsBound.append([lowerBoundString, upperBoundString])
+
+            upperBoundDate = upperBoundDate - deltaDate
+
+            upperBoundString = upperBoundDate.strftime("%Y-%m-%d")
+            lowerBoundString = (upperBoundDate-deltaDate+timedelta(days=1)).strftime("%Y-%m-%d")
+
+            numberOfRecordsInInterval = db.session.execute('SELECT COUNT(*) AS Number '+
+                                                           'FROM Records '+
+                                                           'WHERE Date >= :lb '+
+                                                             'AND Date <= :ub',
+                                                           {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()[0].Number
+
+        
+        return render_template('records/record_listAll.html', summary=orderedRecordSummary, records=orderedRecords, bound=recordsBound)
     else:
         return render_template('records/record_listAll.html')
 

@@ -83,13 +83,34 @@ def listGoals():
         numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                    'FROM Goals '+
                                                    'WHERE Goals.Achieved == "Y"').fetchall()[0].Number
+        numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
+                                                  'FROM Goals '+
+                                                  'WHERE Goals.Achieved == "Q"').fetchall()[0].Number
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
 
         return render_template('goals/goal_listAll.html', learningGoals=learningGoals, sportsGoals=sportsGoals, \
                                 leisureGoals=leisureGoals, numberOfAchievedGoals=numberOfAchievedGoals, \
-                                numberOfGoals=numberOfGoals, percentage=achievePercentage)
+                                numberOfQuittedGoals=numberOfQuittedGoals, numberOfGoals=numberOfGoals, \
+                                percentage=achievePercentage)
     else:
         return render_template('goals/goal_listAll.html')
+
+
+def quitGoal(request):
+    if request.method == 'POST':
+        goalNumber = request.form['goalNumber']
+
+        tupleToQuit = Goals.query.filter_by(GoalNumber=goalNumber).first()
+
+        if tupleToQuit is not None:
+            tupleToQuit.Achieved = 'F'
+            db.session.commit()
+
+            flash('Quitted successfully.')
+            return redirect('/goals/listAll')
+        else:
+            flash('Error occured. Failed to quit the goal.')
+            return redirect('/goals/listAll')
 
 
 def deleteGoal(request):

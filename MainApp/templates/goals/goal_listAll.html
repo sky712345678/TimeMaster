@@ -23,7 +23,7 @@
 
             <div id="progressContainer">
                 <div class="progress" id="messageContainer">
-                    <h3 class="message">Achieved percentage</h3>
+                    <h3 class="message">Achieve percentage</h3>
                 </div>
 
                 <div class="progress" id="barContainer">
@@ -32,12 +32,16 @@
             </div>
 
             <div id="progressDetailContainer">
-                <div class="progressDetail" id="numberOfGoalsContainer">
-                    <h4 class="numberOfGoals">Number of goals: {{numberOfGoals}}</h4>
-                </div>
-
                 <div class="progressDetail" id="numberOfAchievedGoals">
                     <h4 class="numberOfAchievedGoals">Achieved goals: {{numberOfAchievedGoals}}</h4>
+                </div>
+
+                <div class="progressDetail" id="numberOfQuittedGoals">
+                    <h4 class="numberOfAchievedGoals">Quitted goals: {{numberOfQuittedGoals}}</h4>
+                </div>
+
+                <div class="progressDetail" id="numberOfGoalsContainer">
+                    <p class="numberOfGoals">Number of goals: {{numberOfGoals}}</p>
                 </div>
             </div>
         </div>
@@ -57,13 +61,19 @@
 
                     {% if g.Achieved == 'Y' %}
                         <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
-                    {% else %}
+                    {% elif g.Achieved == 'N' %}
                         <p class="goal" id="achieveInfo">Achieved: No</p>
+                    {% else %}
+                        <p class="goal" id="achieveInfo">Failed</p>
                     {% endif %}
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
-
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
+                    
+                    {% if g.Achieved == 'N' %}
+                        <button id="modifyRequestButton" onclick="quitWarn('{{g.GoalNumber}}')">Quit</button>
+                        <br>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
+                    {% endif %}
                     <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 </li>
                 {% endfor %}
@@ -83,13 +93,19 @@
 
                     {% if g.Achieved == 'Y' %}
                         <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
-                    {% else %}
+                    {% elif g.Achieved == 'N' %}
                         <p class="goal" id="achieveInfo">Achieved: No</p>
+                    {% else %}
+                        <p class="goal" id="achieveInfo">Failed</p>
                     {% endif %}
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
+                    {% if g.Achieved == 'N' %}
+                        <button id="modifyRequestButton" onclick="quitWarn('{{g.GoalNumber}}')">Quit</button>
+                        <br>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
+                    {% endif %}
                     <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 </li>
                 {% endfor %}
@@ -109,20 +125,26 @@
 
                     {% if g.Achieved == 'Y' %}
                         <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
-                    {% else %}
+                    {% elif g.Achieved == 'N' %}
                         <p class="goal" id="achieveInfo">Achieved: No</p>
+                    {% else %}
+                        <p class="goal" id="achieveInfo">Failed</p>
                     {% endif %}
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
+                    
+                    {% if g.Achieved == 'N' %}
+                        <button id="modifyRequestButton" onclick="quitWarn('{{g.GoalNumber}}')">Quit</button>
+                        <br>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
+                    {% endif %}
                     <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
                 </li>
                 {% endfor %}
             </ul>
         </div>
-        <div id="modifyRequestContainer" style="display: none;"></div>
-        <div id="deleteRequestContainer" style="display: none;"></div>
+        <div id="requestContainer" style="display: none;"></div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="/static/goals/goal_listAll_js.js"></script>
