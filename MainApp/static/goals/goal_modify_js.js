@@ -44,16 +44,6 @@ function recordAndSetInfo() {
     $('#originalAchievedInput').remove();
 }
 
-$('#achievedSelect').change(function () {
-    var value = document.getElementById('achievedSelect').value;
-    if (value == 'Y') {
-        $('#achieveDateInput').attr('required', true);
-    }
-    else {
-        $('#achieveDateInput').removeAttr('required');
-    }
-})
-
 $('#goalInfoForm').on('submit', function (e) {
     e.preventDefault();
 
