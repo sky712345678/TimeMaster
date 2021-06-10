@@ -15,7 +15,7 @@ import time
 app = Flask(__name__)
 
 def recent():
-    num_days = 10
+    num_days = 7
     allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
@@ -31,24 +31,38 @@ def recent():
     date_reord, time_record = course_statics(record_df.values)
     print(date_reord, time_record)
 
-    past = (datetime.today().date() - timedelta(days=num_days)).strftime("%Y-%m-%d")
+    past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
     date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
-    print(date)
+    #print(date)
+    dict_all_activity_7D, sum_7D, dict_all_activity_sum_7D = past_statics(7,date_reord,time_record)
     
-    presentation_all = {}
+    dict_all_activity_14D, sum_14D, dict_all_activity_sum_14D = past_statics(14,date_reord,time_record)
+    #print(dict_all_activity_7D, sum_7D)
+    #print(dict_all_activity_14D, sum_14D)
+    print(dict_all_activity_sum_7D)
+    print(dict_all_activity_sum_14D)
+    compare = sum_7D - sum_14D
+    return render_template('presentation/recent.html', items=Items.query.all(),
+                time_record=dict_all_activity_7D, date=date, compare=compare, sum_7D=sum_7D, each_sum=dict_all_activity_sum_7D)
+
+def past_statics(num_days,date_reord,time_record):
+    past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+    date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
+    dict_all_activity = {}
+    dict_all_activity_sum = {}
+    total_sum = 0
     for i in time_record.keys():
         values = [0 for i in range(num_days)]
         d = date_reord[i]
         t = time_record[i]
         for j in range(len(d)):
-            if d[j] in date:
-                values[j] = t[j]
-            else:
-                values[j] = 0
-        presentation_all[i] = values
-    print(presentation_all)
-    return render_template('presentation/recent.html', items=Items.query.all(),
-                time_record=presentation_all, date =date)
+            for k in range(len(date)):
+                if d[j] == date[k]:
+                    values[k] += t[j]
+                    total_sum += t[j]
+        dict_all_activity[i] = values
+        dict_all_activity_sum[i] = sum(values)
+    return dict_all_activity, total_sum, dict_all_activity_sum
 
 def chart(request):
     if request.method=='POST':

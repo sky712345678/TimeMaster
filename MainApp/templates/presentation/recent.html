@@ -6,57 +6,99 @@
     <a href="/home" title="go to Homepage">&lt; Go back home</a>
     <h1>Recent activity</h1>
     <!-- 調整大小參考 https://www.chartjs.org/docs/latest/configuration/responsive.html -->
-    <div class="chart-container" style="position: relative; height:20vh; width:40vw">
+    <div style="position: absolute;top:20vh; left: 20vw; height:20vw; width:20vw">
+        <canvas id="pie_chart" width="100" height="50"></canvas>
+    </div>
+    
+    <div class="chart-container" style="position: absolute; top:20vh; left: 40vw;height:20vh; width:40vw">
         <canvas id="myChart"></canvas>
     </div>
+    
+    <div style="position: absolute; top:60vh; left: 20vw;height:20vh; width:60vw">
+        {% if compare<0 %}
+        <h3><span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ {{compare*-1}}分鐘</span><span>）</span></h3>
+        {% else %}
+        <span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: blue">↑ {{compare*-1}}分鐘</span><span>）</span>
+        {% endif %}
+        <h4>個別時間加總：</h4>
+        {% for item,time in each_sum.items() %}
+        <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘</p>
+        {% endfor %}
+    </div>
+    
     
     
 </body>
 <!-- jinja2 一些傳遞限制語法 https://hackmd.io/@shaoeChen/SJ0X-PnkG?type=view -->
 <script>
-            const time_record = {{time_record|tojson}};
-            console.log(Object.keys(time_record).length)
-            var test = []
-            for (const [key, value] of Object.entries(time_record)) {
-                var random_color = "#" + ((1<<24)*Math.random() | 0).toString(16)
-                test = test.concat({
-                    label: key,
-                    backgroundColor: random_color,
-                    borderColor: random_color,
-                    data: value,
-                });
-                console.log(key, value);
-            }
-            console.log(test);
-            const label = {{date|tojson}};
-            var data = {
-                labels: label,
-                datasets: test
-            };
+    var backgroundColor = [
+                    'rgba(255, 99, 132)',
+                    'rgba(54, 162, 235)',
+                    'rgba(255, 206, 86)',
+                    'rgba(75, 192, 192)',
+                    'rgba(153, 102, 255)',
+                    'rgba(255, 159, 64)'
+                ]
 
-            const config = {
-                type: 'line',
-                data: data,
-                options: {
-                    scales: {
-                        
-                        x: {
-                            ticks: {
-                                // Include a dollar sign in the ticks
-                                callback: function(val, index) {
-                                    // Hide the label of every 2nd dataset
-                                    return index % 2 === 0 ? this.getLabelForValue(val) : '';
-                                },
-                                color: 'black',
-                            }
-                        }                
+    const time_record = {{time_record|tojson}};
+    console.log(Object.keys(time_record).length)
+    var test = []
+    var color_counter = 0
+    for (const [key, value] of Object.entries(time_record)) {
+        var random_color = "#" + ((1<<24)*Math.random() | 0).toString(16)
+        test = test.concat({
+            label: key,
+            backgroundColor: backgroundColor[color_counter],
+            borderColor: backgroundColor[color_counter++],
+            data: value,
+        });
+        console.log(key, value);
+    }
+    console.log(test);
+    const label = {{date|tojson}};
+    var data = {
+        labels: label,
+        datasets: test
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                
+                x: {
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function(val, index) {
+                            // Hide the label of every 2nd dataset
+                            return index % 2 === 0 ? this.getLabelForValue(val) : '';
+                        },
+                        color: 'black',
                     }
-                }
-            };
+                }                
+            }
+        }
+    };
 
-            var myChart = new Chart(
-                document.getElementById('myChart'),
-                config,
-            );
+    var myChart = new Chart(
+        document.getElementById('myChart'),
+        config,
+    );
+    let index_test = {{each_sum|tojson}}
+    console.log(Object.keys(index_test))
 
+    var ctx = document.getElementById("pie_chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(index_test),
+            datasets: [{            
+                data: Object.values(index_test),
+                backgroundColor: backgroundColor,
+                borderWidth: 1
+            }]
+        },
+        options: {}
+    });
 </script>
