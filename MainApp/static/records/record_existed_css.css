@@ -6,18 +6,18 @@ a, li, div, h4, p {
     font-family: Calibri, sans-serif;
 }
 
-h1, h2, h3 {
+h1, h3 {
     font-family: sans-serif;
+    text-align: center;
 }
 
-h2 {
-    text-align: center;
+h3 {
+    font-size: larger;
     padding-top: 2%;
     margin-bottom: 1%;
 }
 
 h3 {
-    font-size: larger;
     margin-bottom: 0%;
 }
 
@@ -27,13 +27,13 @@ h4 {
     text-align: center;
 }
 
-#recordListContainer {
+#contentContainer {
     width: 60%;
     text-align: center;
     margin: auto;
 }
 
-#intervalContainer {
+#recordOuterContainer {
     background-color: white;
     text-align: left;
 
@@ -57,14 +57,14 @@ h4 {
     vertical-align: top;
 }
 
-#goalTitle, #descriptionTitle {
+#goalTitle, #descriptionTitle{
     color: rgb(90, 90, 90);
     font-size: smaller;
     margin-top: 5%;
     margin-bottom: 0%;
 }
 
-#goal, #description {
+#goal, #description{
     font-size: large;
     margin-top: 0%;
 }
@@ -84,6 +84,7 @@ button {
 
     font-size: 14px;
 
+    margin-top: 1%;
     padding: 8px 30px;
 
     cursor: pointer;
@@ -95,8 +96,10 @@ button:hover {
 
 #modifyRequestButton {
     color: black;
+    padding: 8px 84px;
 }
 
-#deleteRequestButton {
-    color: rgb(235, 4, 4);
+#backButton {
+    color: black;
+    padding: 8px 90px;
 }

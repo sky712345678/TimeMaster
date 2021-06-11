@@ -8,6 +8,8 @@ from MainApp.database import db          #created database
 # from MainApp.models import Assignments
 # from MainApp.models import Tests
 from MainApp.models import Items
+from MainApp.models import Goals
+from MainApp.models import Records
 import pandas as pd
 import random
 from datetime import datetime, timedelta
@@ -53,9 +55,61 @@ def recent():
                                         'ORDER BY Records.Date DESC',
                                         {'lb':past_14D, 'ub':past_7D})
 
+    # modified by sky712345678
+    recentRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '
+                                        'ORDER BY Records.Date DESC',
+                                        {'lb': past_7D, 'ub': today}).fetchall()
+
+    numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
+                                       'FROM Goals').fetchall()[0].Number
+
+    numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
+                                                'FROM Goals '+
+                                                'WHERE Goals.Achieved == "Y"').fetchall()[0].Number
+    numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
+                                                'FROM Goals '+
+                                                'WHERE Goals.Achieved == "Q"').fetchall()[0].Number
+    achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
+
+    recentGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+                                    'FROM Goals, Items '+
+                                    'WHERE Goals.ItemNumber = Items.ItemNumber '+
+                                        'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
+                                    'ORDER BY Goals.Achieved, Goals.SetDate ASC',
+                                    {'lb': past_7D, 'ub': today}).fetchall()
+    
+    timeSpentRanking = db.session.execute('SELECT Records.ItemNumber, SUM(Records.Duration) AS Time '+
+                                          'FROM Records '+
+                                          'GROUP BY Records.ItemNumber '+
+                                          'ORDER BY Time DESC '+
+                                          'LIMIT 0, 3').fetchall()
+    print(timeSpentRanking)
+
+    frequentItems = db.session.execute('SELECT * '+
+                                       'FROM Items '+
+                                       'WHERE Items.ItemNumber IN ('+
+                                            'SELECT ItemNumber '+
+                                            'FROM ('
+                                                'SELECT Records.ItemNumber, SUM(Records.Duration) AS Time '+
+                                                'FROM Records '+
+                                                'GROUP BY Records.ItemNumber '+
+                                                'ORDER BY Time DESC '+
+                                                'LIMIT 0, 3) AS TimeSpentRanking)').fetchall()
+    
+    # modified by sky712345678
+
     return render_template('presentation/recent.html', items=Items.query.all(), zip=zip,
                 time_record=dict_all_activity_7D, date=date, each_sum=dict_all_activity_sum_7D,
-                category_sum=category_sum, category_sum_14D=category_sum_14D)
+                category_sum=category_sum, category_sum_14D=category_sum_14D,
+                # modified by sky712345678
+                recentRecords=recentRecords, recentGoals=recentGoals, 
+                numberOfAchievedGoals=numberOfAchievedGoals, numberOfQuittedGoals=numberOfQuittedGoals,
+                numberOfGoals=numberOfGoals, percentage=achievePercentage,
+                frequentItems=frequentItems)
+                # modified by sky712345678
 
 '''
 Turn the record to wanted format :

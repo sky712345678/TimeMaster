@@ -2,12 +2,15 @@
 <html>
     <title>Record existed</title>
 
-    <body>
-        <div class="recordContainer">
-            <h1 class="recordContainer">There's already a record for that day</h1>
+    <link rel="stylesheet" href="/static/records/record_existed_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-            <ul class="existedRecord">
-                <li class="existedRecord">
+    <body>
+        <h1 class="recordContainer">There's already a record for that day</h1>
+
+        <div id="contentContainer">
+            <div id="recordOuterContainer">
+                <div id="recordContainer">
                     {% if record.Category == 'Learning' %}
                         <h3 class="record" id="item">{{record.Name}} ({{record.ItemNumber}}) | {{record.Duration}} minutes</h3>
                     {% else %}
@@ -15,16 +18,31 @@
                     {% endif %}
 
                     {% if record.Goal != None %}
-                        <p class="record" id="goal">Goal: {{record.Goal}} ({{record.AchievePercentage}}%)</p>
+                        <div id="recordInfoContainer">
+                            <p class="record" id="goalTitle">Goal</p>
+                            <p class="record" id="goal">{{record.Goal}} ({{record.AchievePercentage}}%)</p>
+                        </div>
                     {% endif %}
+                    <div id="recordInfoContainer">
+                        <p class="record" id="descriptionTitle">Description</p>
+                        <p class="record" id="description">{{record.Description}}</p>
+                    </div>
 
-                    <p class="record" id="description">Description: {{record.Description}}</p>
-                    <p class="record" id="date">Date: {{record.Date}}</p>
-
-                    <button id="backButton" onclick="back()">Back</button>
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{record.ItemNumber}}', '{{record.Date}}', '{{record.SetDateTime}}')">Edit</button>
-                </li>
-            </ul>
+                    {% if record.Category == 'Learning' %}
+                        <p class="record" id="categoryAndDate"><i class="fa fa-book"></i> {{record.Category}} | {{record.Date}}</p>
+                    {% elif record.Category == 'Sports' %}
+                        <p class="record" id="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{record.Category}} | {{record.Date}}</p>
+                    {% else %}
+                        <p class="record" id="categoryAndDate"><i class="fa fa-gamepad"></i>  {{record.Category}} | {{record.Date}}</p>
+                    {% endif %}
+                    <br>
+                    <div id="buttonContainer">
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{record.ItemNumber}}', '{{record.Date}}', '{{record.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <br>
+                        <button id="backButton" onclick="back()">Back</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="modifyRequestContainer" style="display: none;"></div>
 

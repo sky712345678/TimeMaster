@@ -47,12 +47,13 @@ def inputRecord(request):
             if achievePercentage == '100':
                 # if the user input '100' in the achieve percentage field, update the goal tuple
                 goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber)
-                if goalToUpdate.first().Achieved == 'N':
-                    goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
-                    db.session.commit()
-                else:
-                    # normally, this won't be executed
-                    return 'The goal has already achieved'
+                if goalToUpdate is not None:
+                    if goalToUpdate.first().Achieved == 'N':
+                        goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
+                        db.session.commit()
+                    else:
+                        # normally, this won't be executed
+                        return 'The goal has already achieved'
 
             flash('The record was added successfully.')
             return redirect('/records/input')
@@ -128,6 +129,7 @@ def listRecords():
                                                        {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()[0].Number
 
         orderedRecordSummary = []
+
         orderedRecords = []
         recordsBound = []
 
@@ -139,19 +141,13 @@ def listRecords():
                                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '
                                                        'ORDER BY Records.Date DESC',
                                                        {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()
-                
-                recordSummaryInInterval = db.session.execute('SELECT Items.Name, SUM(Records.Duration) AS Total '+
-                                                             'FROM Records, Items '+
-                                                             'WHERE Records.ItemNumber = Items.ItemNumber '+
-                                                               'AND Records.Date >= :lb AND Records.Date <= :ub '
-                                                             'GROUP BY Records.ItemNumber',
-                                                             {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()
-                
-                recordSummaryTemp = []
-                for s in recordSummaryInInterval:
-                    recordSummaryTemp.append(s)
-                
-                orderedRecordSummary.append(recordSummaryTemp)
+
+                orderedRecordSummary.append(db.session.execute('SELECT Items.Category, SUM(Records.Duration) AS Total '+
+                                                               'FROM Records, Items '+
+                                                               'WHERE Records.ItemNumber = Items.ItemNumber '+
+                                                                 'AND Records.Date >= :lb AND Records.Date <= :ub '+
+                                                               'GROUP BY Items.Category',
+                                                               {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall())
 
                 recordsTemp = []
                 for r in recordsInInterval:
@@ -189,10 +185,11 @@ def deleteRecord(request):
                 goalNumberOfTuple = tupleToDelete.GoalNumber
 
                 goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumberOfTuple).first()
-                if goalToUpdate.Achieved == 'Y':
-                    goalToUpdate.Achieved = 'N'
-                    goalToUpdate.AchieveDate = None
-                    db.session.commit()
+                if goalToUpdate is not None:
+                    if goalToUpdate.Achieved == 'Y':
+                        goalToUpdate.Achieved = 'N'
+                        goalToUpdate.AchieveDate = None
+                        db.session.commit()
 
             db.session.delete(tupleToDelete)
             db.session.commit()
@@ -295,16 +292,18 @@ def modifyRecord(request):
             if achievePercentage == '100':
                 # if the user input '100' in the achieve percentage field, update the goal tuple
                 goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
-                if goalToUpdate.Achieved == 'N':
-                    goalToUpdate.Achieved = 'Y'
-                    goalToUpdate.AchieveDate = date
-                    db.session.commit()
+                if goalToUpdate is not None:
+                    if goalToUpdate.Achieved == 'N':
+                        goalToUpdate.Achieved = 'Y'
+                        goalToUpdate.AchieveDate = date
+                        db.session.commit()
             else:
                 goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
-                if goalToUpdate.Achieved == 'Y':
-                    goalToUpdate.Achieved = 'N'
-                    goalToUpdate.AchieveDate = None
-                    db.session.commit()
+                if goalToUpdate is not None:
+                    if goalToUpdate.Achieved == 'Y':
+                        goalToUpdate.Achieved = 'N'
+                        goalToUpdate.AchieveDate = None
+                        db.session.commit()
 
             flash('Updated successfully.')
             return redirect('/records/listAll')

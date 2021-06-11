@@ -1,0 +1,171 @@
+body {
+    background-color: #f6f6f8;
+}
+
+h2 {
+    padding-top: 2%;
+}
+
+#contentContainer {
+    width: 70%;
+    text-align: center;
+    margin: auto;
+}
+
+#chartContainer {
+    background-color: white;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+    box-shadow: 0px 8px 24px rgb(13 13 18 / 4%);
+
+    margin: 1% 1% 3% 1%;
+    padding-bottom: 2%;
+}
+
+#pieChartContainer {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#lineChartContainer {
+    width: 60%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#summaryContainer {
+    width: 90%;
+    margin: auto;
+}
+
+#summaryContainer {
+    text-align: left;
+}
+
+#recentRecordsContainer {
+    background-color: white;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+    box-shadow: 0px 8px 24px rgb(13 13 18 / 4%);
+
+    margin: 1% 1% 3% 1%;
+    padding-bottom: 2%;
+}
+
+#recentRecordsContainer h3 {
+    margin-bottom: 0%;
+}
+
+#recordContainer {
+    text-align: left;
+    width: 90%;
+    margin: auto;
+}
+
+#recordInfoContainer {
+    width: 49%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#goalTitle, #descriptionTitle {
+    color: rgb(90, 90, 90);
+    font-size: smaller;
+    margin-top: 5%;
+    margin-bottom: 0%;
+}
+
+#goal, #description {
+    font-size: large;
+    margin-top: 0%;
+}
+
+#categoryAndDate {
+    color: rgb(90, 90, 90);
+    margin: 0;
+}
+
+#recentGoalsContainer {
+    background-color: white;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+    box-shadow: 0px 8px 24px rgb(13 13 18 / 4%);
+
+    margin: 1% 1% 3% 1%;
+    padding-bottom: 2%;
+}
+
+#titleContainer {
+    text-align: center;
+    margin: auto;
+}
+
+.progress{
+    display: inline-block;
+}
+
+#messageContainer {
+    width: auto;
+    text-align: left;
+    margin: 0% 1% 0% 5%;
+}
+
+#barContainer {
+    width: 65%;
+    background-color: rgb(197, 197, 197);
+    margin: 1% 5% 1% 1%;
+    align-items: center;
+}
+
+#bar {
+    width: 0%;
+    height: 30px;
+    background-color: #04AA6D;
+    text-align: center; /* To center it horizontally (if you want) */
+    line-height: 30px; /* To center it vertically */
+    color: white;
+}
+
+#numberOfAchievedGoals {
+    margin: 0;
+}
+
+#progressDetailContainer {
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+}
+
+.progressDetail {
+    width: 30%;
+    display: inline-block;
+}
+
+#goalContainer {
+    width: 90%;
+    margin: auto;
+}
+
+#frequentItemsContainer {
+    background-color: white;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+    box-shadow: 0px 8px 24px rgb(13 13 18 / 4%);
+
+    margin: 1% 1% 3% 1%;
+    padding-bottom: 2%;
+}
+
+#itemContainer {
+    width: 90%;
+    margin: auto;
+}

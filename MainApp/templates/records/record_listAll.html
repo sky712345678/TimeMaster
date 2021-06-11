@@ -24,9 +24,9 @@
             <div id="intervalContainer">
                 <h2 class="interval">{{bound[loop.index0][0]}} - {{bound[loop.index0][1]}}</h2>
                 <h4 class="summary">
-                    {{summary[loop.index0][0].Name}}: {{summary[loop.index0][0].Total}} minutes
+                    {{summary[loop.index0][0].Category}}: {{summary[loop.index0][0].Total}} minutes
                     {% for s in summary[loop.index0][1:] %}
-                 | {{s.Name}}: {{s.Total}} minutes
+                 | {{s.Category}}: {{s.Total}} minutes
                     {% endfor %}
                 </h4>
                 {% for r in rl %}
@@ -48,11 +48,11 @@
                         <p class="record" id="description">{{r.Description}}</p>
                     </div>
                     {% if r.Category == 'Learning' %}
-                        <p class="record" id="date"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
+                        <p class="record" id="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
                     {% elif r.Category == 'Sports' %}
-                        <p class="record" id="date"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
+                        <p class="record" id="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
                     {% else %}
-                        <p class="record" id="date"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
+                        <p class="record" id="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
                     {% endif %}
                     <br>
                     <div id="buttonContainer">
