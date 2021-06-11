@@ -36,17 +36,17 @@
                     {% else %}
                         <h3 class="record" id="item">{{r.Name}} | {{r.Duration}} minutes</h3>
                     {% endif %}
-                    <div id="recordInfoContainer">
-                        {% if r.Goal != None %}
+                    {% if r.Goal != None %}
+                        <div id="recordInfoContainer">
                             <p class="record" id="goalTitle">Goal</p>
                             <p class="record" id="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
-                        {% endif %}
-                        <p class="record" id="date">{{r.Date}}</p>
-                    </div>
+                        </div>
+                    {% endif %}
                     <div id="recordInfoContainer">
                         <p class="record" id="descriptionTitle">Description</p>
                         <p class="record" id="description">{{r.Description}}</p>
                     </div>
+                    <p class="record" id="date">{{r.Date}}</p>
                     <br>
                     <div id="buttonContainer">
                         <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
