@@ -15,13 +15,12 @@ import time
 app = Flask(__name__)
 
 def recent():
+    # deal with the data passed to chart.js
     num_days = 7
     allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
-                                        'ORDER BY Records.Date DESC')
-                                            # 'WHERE Records.ItemNumber = Items.ItemNumber')
-                                            # 'AND Records.GoalNumber = Goals.GoalNumber')
+                                        'ORDER BY Records.Date DESC') # select all record
     record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
     for i,data in enumerate(allRecords):
         record_df = record_df.append({  'ItemName': data.Name,
@@ -29,28 +28,47 @@ def recent():
                                         'Duration': data.Duration,
                                         'Content': data.Description}, ignore_index=True)
     date_reord, time_record = course_statics(record_df.values)
-    print(date_reord, time_record)
-
+    #print(date_reord, time_record)
+    
     past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
     date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     #print(date)
-    dict_all_activity_7D, sum_7D, dict_all_activity_sum_7D = past_statics(7,date_reord,time_record)
-    
-    dict_all_activity_14D, sum_14D, dict_all_activity_sum_14D = past_statics(14,date_reord,time_record)
-    #print(dict_all_activity_7D, sum_7D)
-    #print(dict_all_activity_14D, sum_14D)
-    print(dict_all_activity_sum_7D)
-    print(dict_all_activity_sum_14D)
-    compare = sum_7D - sum_14D
-    return render_template('presentation/recent.html', items=Items.query.all(),
-                time_record=dict_all_activity_7D, date=date, compare=compare, sum_7D=sum_7D, each_sum=dict_all_activity_sum_7D)
+    dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(7,date_reord,time_record)
+    # deal with the staticial info of category 
+    today = (datetime.today().date()).strftime("%Y-%m-%d")
+    past_7D = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+    past_14D = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+    category_sum = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
+                                        'GROUP BY Items.Category '+ 
+                                        'ORDER BY Records.Date DESC',
+                                        {'lb':past_7D, 'ub':today})
+    category_sum_14D = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
+                                        'GROUP BY Items.Category '+ 
+                                        'ORDER BY Records.Date DESC',
+                                        {'lb':past_14D, 'ub':past_7D})
 
+    return render_template('presentation/recent.html', items=Items.query.all(), zip=zip,
+                time_record=dict_all_activity_7D, date=date, each_sum=dict_all_activity_sum_7D,
+                category_sum=category_sum, category_sum_14D=category_sum_14D)
+
+'''
+Turn the record to wanted format :
+date_reord: {'database system': ['2021-06-07', '2021-05-07'], 'cycling': ['2021-06-07']}
+time_record: {'database system': [175, 120], 'cycling': [60]}
+dict_all_activity: {'database system':[0, 0, 0, 0, 175, 0, 0], 'cycling':...}
+dict_all_activity_sum: {'database system':295, 'cycling':60}
+'''
 def past_statics(num_days,date_reord,time_record):
     past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
     date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     dict_all_activity = {}
     dict_all_activity_sum = {}
-    total_sum = 0
     for i in time_record.keys():
         values = [0 for i in range(num_days)]
         d = date_reord[i]
@@ -59,10 +77,9 @@ def past_statics(num_days,date_reord,time_record):
             for k in range(len(date)):
                 if d[j] == date[k]:
                     values[k] += t[j]
-                    total_sum += t[j]
         dict_all_activity[i] = values
         dict_all_activity_sum[i] = sum(values)
-    return dict_all_activity, total_sum, dict_all_activity_sum
+    return dict_all_activity, dict_all_activity_sum
 
 def chart(request):
     if request.method=='POST':
@@ -91,7 +108,7 @@ def chart(request):
                     t = time_record[i]
                     l_d, l_t = learning_curve(d, t)
                     presentation_all[i] = l_t
-                print(presentation_all)
+                #print(presentation_all)
                 return render_template('presentation/choose_ALL.html', items=Items.query.all(),
                             time_record=presentation_all, date =l_d)
             else:

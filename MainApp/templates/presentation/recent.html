@@ -4,23 +4,23 @@
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='chart.css') }}"/>    
 <body>
     <a href="/home" title="go to Homepage">&lt; Go back home</a>
-    <h1>Recent activity</h1>
+    <h1 align="center">Recent activity</h1>
     <!-- 調整大小參考 https://www.chartjs.org/docs/latest/configuration/responsive.html -->
-    <div style="position: absolute;top:20vh; left: 20vw; height:20vw; width:20vw">
+    <div style="position: absolute;top:15vh; left: 20vw; height:20vw; width:20vw">
         <canvas id="pie_chart" width="100" height="50"></canvas>
     </div>
     
-    <div class="chart-container" style="position: absolute; top:20vh; left: 40vw;height:20vh; width:40vw">
+    <div class="chart-container" style="position: absolute; top:15vh; left: 40vw;height:20vh; width:40vw">
         <canvas id="myChart"></canvas>
     </div>
     
-    <div style="position: absolute; top:60vh; left: 20vw;height:20vh; width:60vw">
-        {% if compare<0 %}
-        <h3><span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ {{compare*-1}}分鐘</span><span>）</span></h3>
-        {% else %}
-        <span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: blue">↑ {{compare*-1}}分鐘</span><span>）</span>
-        {% endif %}
-        <h4>個別時間加總：</h4>
+    <div style="position: absolute; top:55vh; left: 20vw;height:20vh; width:60vw">
+        <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
+        <h3>近七天總活動時間：</h3>
+        {% for i in category_sum %}
+        <span>{{i[0]}}：</span><span>{{i[1]}} 分鐘 &nbsp;</span>
+        {% endfor %}
+        <hr>
         {% for item,time in each_sum.items() %}
         <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘</p>
         {% endfor %}
