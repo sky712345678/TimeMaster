@@ -3,6 +3,7 @@
     <title>List goals</title>
 
     <link rel="stylesheet" href="/static/goals/goal_listAll_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
@@ -18,7 +19,7 @@
             {% endwith %}
         {% endblock %}
 
-        <div class="titleContainer">
+        <div id="titleContainer">
             <h1 class="containerTitle">View all set goals</h1>
 
             <div id="progressContainer">
@@ -46,19 +47,25 @@
             </div>
         </div>
 
-        <div class="goals" id="goalContainer">
+        <div class="goals" id="goalListContainer">
             <h2 class="learningGoals">Learning</h2>
-            <ul class="learningGoals">
+            <div id="learningGoalsContainer">
                 {% for g in learningGoals %}
-                <li class="learningGoals" id="learningGoalsList">
-                    <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                <div id="goalContainer">
+                    {% if g.Achieved == 'Y' %}
+                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-check-circle"></i></h3>
+                    {% elif g.Achieved == 'Q' %}
+                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-times-circle"></i></h3>
+                    {% else %}
+                        <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                    {% endif %}
 
                     {% if g.Category == 'Learning' %}
                         <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
                     {% else %}
                         <p class="goal" id="item">{{g.Name}}</p>
                     {% endif %}
-
+                    
                     {% if g.Achieved == 'Y' %}
                         <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
                     {% elif g.Achieved == 'N' %}
@@ -69,21 +76,29 @@
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
                     
-                    {% if g.Achieved == 'N' %}
-                        <button id="modifyRequestButton" onclick="quitWarn('{{g.GoalNumber}}')">Quit</button>
-                        <br>
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
-                    {% endif %}
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
-                </li>
+                    <div id="buttonContainer">
+                        {% if g.Achieved == 'N' %}
+                            <button id="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <br>
+                            <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                        {% endif %}
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
 
             <h2 class="sportsGoals">Sports</h2>
-            <ul class="sportsGoals">
+            <div id="sportsGoalsContainer">
                 {% for g in sportsGoals %}
-                <li class="sportsGoals" id="sportsGoalsList">
-                    <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                <div id="goalContainer">
+                    {% if g.Achieved == 'Y' %}
+                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-check-circle"></i></h3>
+                    {% elif g.Achieved == 'Q' %}
+                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-times-circle"></i></h3>
+                    {% else %}
+                        <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                    {% endif %}
 
                     {% if g.Category == 'Learning' %}
                         <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
@@ -101,21 +116,29 @@
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
-                    {% if g.Achieved == 'N' %}
-                        <button id="modifyRequestButton" onclick="quitWarn('{{g.GoalNumber}}')">Quit</button>
-                        <br>
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
-                    {% endif %}
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
-                </li>
+                    <div id="buttonContainer">
+                        {% if g.Achieved == 'N' %}
+                            <button id="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <br>
+                            <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                        {% endif %}
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
 
             <h2 class="leisureGoals">Leisure</h2>
-            <ul class="leisureGoals">
+            <div id="leisureGoalsContainer">
                 {% for g in leisureGoals %}
-                <li class="leisureGoals" id="leisureGoalsList">
-                    <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                <div id="goalContainer">
+                    {% if g.Achieved == 'Y' %}
+                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-check-circle"></i></h3>
+                    {% elif g.Achieved == 'Q' %}
+                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-times-circle"></i></h3>
+                    {% else %}
+                        <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                    {% endif %}
 
                     {% if g.Category == 'Learning' %}
                         <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
@@ -133,16 +156,17 @@
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
-                    
-                    {% if g.Achieved == 'N' %}
-                        <button id="modifyRequestButton" onclick="quitWarn('{{g.GoalNumber}}')">Quit</button>
-                        <br>
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')">Edit</button>
-                    {% endif %}
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')">Delete</button>
-                </li>
+                    <div id="buttonContainer">
+                        {% if g.Achieved == 'N' %}
+                            <button id="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <br>
+                            <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                        {% endif %}
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
         <div id="requestContainer" style="display: none;"></div>
 

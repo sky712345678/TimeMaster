@@ -2,6 +2,9 @@
 <html>
     <title>List items</title>
 
+    <link rel="stylesheet" href="/static/items/item_listAll_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
@@ -16,45 +19,54 @@
             {% endwith %}
         {% endblock %}
 
-        <div class="items" id="itemContainer">
+        <div class="items" id="itemListContainer">
             <h1 class="items">View all items</h1>
 
             <h2 class="learningItems">Learning</h2>
-            <ul class="learningItems" id="learningItemsList">
+            <div id="learningItemsContainer">
                 {% for i in learningItems%}
-                <li class="learningItems">
+                <div id="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
                     <p class="item" id="category">Category: {{i.Category}}</p>
                     <p class="item" id="itemNumber">{{i.ItemNumber}}</p>
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
-                </li>
+
+                    <div id="buttonContainer">
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
 
             <h2 class="sportsItems">Sports</h2>
-            <ul class="sportsItems" id="sportsItemsList">
+            <div id="sportsItemsContainer">
                 {% for i in sportsItems%}
-                <li class="sportsItems">
+                <div id="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
                     <p class="item" id="category">Category: {{i.Category}}</p>
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
-                </li>
+
+                    <div id="buttonContainer">
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
 
             <h2 class="leisureItems">Leisure</h2>
-            <ul class="leisureItems" id="leisureItemsList">
+            <div id="learningItemsContainer">
                 {% for i in leisureItems%}
-                <li class="leisureItems">
+                <div id="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
                     <p class="item" id="category">Category: {{i.Category}}</p>
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
-                    <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
-                </li>
+
+                    <div id="buttonContainer">
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
         <div id="modifyRequestContainer" style="display: none;"></div>
         <div id="deleteRequestContainer" style="display: none;"></div>

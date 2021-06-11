@@ -1,7 +1,7 @@
 function setInfo() {
-    var numberOfLearningItems = $('#learningItemsList').children().length;
-    var numberOfSportsItems = $('#sportsItemsList').children().length;
-    var numberOfLeisureItems = $('#leisureItemsList').children().length;
+    var numberOfLearningItems = $('#learningItemsContainer div').length;
+    var numberOfSportsItems = $('#sportsItemsContainer div').length;
+    var numberOfLeisureItems = $('#leisureItemsContainer div').length;
 
     if (numberOfLearningItems == 0) {
         $('.learningItems').remove();

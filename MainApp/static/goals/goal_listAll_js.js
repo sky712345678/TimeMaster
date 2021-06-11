@@ -1,7 +1,7 @@
 function setInfo() {
-    var numberOfLearningGoals = $('#learningGoalsList').children().length;
-    var numberOfSportsGoals = $('#sportsGoalsList').children().length;
-    var numberOfLeisureGoals = $('#leisureGoalsList').children().length;
+    var numberOfLearningGoals = $('#learningGoalsContainer div').length;
+    var numberOfSportsGoals = $('#sportsGoalsContainer div').length;
+    var numberOfLeisureGoals = $('#leisureGoalsContainer div').length;
 
     if (numberOfLearningGoals == 0 && numberOfSportsGoals == 0 && numberOfLeisureGoals == 0) {
         $('.setGoals').append('<li class="noExistedGoal">' +

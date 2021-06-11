@@ -3,6 +3,7 @@
     <title>List records</title>
 
     <link rel="stylesheet" href="/static/records/record_listAll_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
@@ -49,8 +50,8 @@
                     <p class="record" id="date">{{r.Date}}</p>
                     <br>
                     <div id="buttonContainer">
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Edit</button>
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')">Delete</button>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}

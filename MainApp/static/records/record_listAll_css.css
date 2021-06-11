@@ -74,12 +74,17 @@ h4 {
 
 button {
     border-style: none;
-
     border-radius: 5px;
 
     font-size: 14px;
 
-    padding: 8px 36px;
+    padding: 8px 30px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #d4d3d3;
 }
 
 #modifyRequestButton {
