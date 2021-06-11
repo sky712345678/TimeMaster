@@ -2,32 +2,44 @@
 <html>
     <title>Unfinished goals existed</title>
 
+    <link rel="stylesheet" href="/static/goals/goal_existed_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <body>
-        <div class="goalContainer">
-            <h1 class="containerTitle">There's an unfinished goal</h1>
+        <h1 class="containerTitle">There's an unfinished goal</h1>
 
-            <ul class="unfinishedGoal">
-                <li class="unfinishedGoal">
-                    <h3 class="goal" id="goal">Goal: {{goal.Goal}}</h3>
+        <div id="goalOuterContainer">
+            <div id="goalContainer">
+                {% if goal.Achieved == 'Y' %}
+                    <h3 class="goal" id="goal">{{goal.Goal}} <i class="fa fa-check-circle"></i></h3>
+                {% elif goal.Achieved == 'Q' %}
+                    <h3 class="goal" id="goal">{{goal.Goal}} <i class="fa fa-times-circle"></i></h3>
+                {% else %}
+                    <h3 class="goal" id="goal">{{goal.Goal}}</h3>
+                {% endif %}
 
-                    {% if goal.Category == 'Learning' %}
-                        <p class="goal" id="item">{{goal.Name}} ({{goal.ItemNumber}})</p>
-                    {% else %}
-                        <p class="goal" id="item">{{goal.Name}}</p>
-                    {% endif %}
+                {% if goal.Category == 'Learning' %}
+                    <p class="goal" id="item">{{goal.Name}} ({{goal.ItemNumber}})</p>
+                {% else %}
+                    <p class="goal" id="item">{{goal.Name}}</p>
+                {% endif %}
 
-                    {% if goal.Achieved == 'Y' %}
-                        <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{goal.AchieveDate}}.</p>
-                    {% else %}
-                        <p class="goal" id="achieveInfo">Achieved: No</p>
-                    {% endif %}
-                    
-                    <p class="goal" id="setDate">{{goal.SetDate}}</p>
+                <p class="goal" id="achieveInfo">Achieved: No</p>
+                
+                {% if goal.Category == 'Learning' %}
+                    <p class="goal" id="setDate"><i class="fa fa-book"></i> {{goal.Category}} | {{goal.SetDate}}</p>
+                {% elif goal.Category == 'Sports' %}
+                    <p class="goal" id="setDate"><i class="fa fa-soccer-ball-o"></i> {{goal.Category}} |  {{goal.SetDate}}</p>
+                {% else %}
+                    <p class="goal" id="setDate"><i class="fa fa-gamepad"></i> {{goal.Category}} |  {{goal.SetDate}}</p>
+                {% endif %}
 
+                <div id="buttonContainer">
+                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{goal.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                    <br>
                     <button id="backButton" onclick="back()">Back</button>
-                    <button type="modifyRequest" onclick="sendModifyRequest('{{goal.GoalNumber}}')">Edit</button>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
         <div id="modifyRequestContainer" style="display: none;"></div>
 

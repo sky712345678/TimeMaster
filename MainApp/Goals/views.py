@@ -48,7 +48,7 @@ def inputGoal(request):
             return redirect('/goals/input')
         else:
             # else, show existied, unfinished goal
-            existedGoal = db.session.execute('SELECT Items.Name, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.GoalNumber '+
+            existedGoal = db.session.execute('SELECT Items.ItemNumber, Items.Name, Items.Category, Goals.Goal, Goals.Achieved, Goals.SetDate, Goals.GoalNumber '+
                                               'FROM Items, Goals '+
                                               'WHERE Goals.ItemNumber = :in '+
                                                 'AND Goals.Goal = :go '+

@@ -47,7 +47,13 @@
                         <p class="record" id="descriptionTitle">Description</p>
                         <p class="record" id="description">{{r.Description}}</p>
                     </div>
-                    <p class="record" id="date">{{r.Date}}</p>
+                    {% if r.Category == 'Learning' %}
+                        <p class="record" id="date"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
+                    {% elif r.Category == 'Sports' %}
+                        <p class="record" id="date"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
+                    {% else %}
+                        <p class="record" id="date"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
+                    {% endif %}
                     <br>
                     <div id="buttonContainer">
                         <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>

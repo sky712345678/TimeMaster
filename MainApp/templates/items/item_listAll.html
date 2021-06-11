@@ -22,7 +22,7 @@
         <div class="items" id="itemListContainer">
             <h1 class="items">View all items</h1>
 
-            <h2 class="learningItems">Learning</h2>
+            <h2 class="learningItems"><i class="fa fa-book"></i> Learning</h2>
             <div id="learningItemsContainer">
                 {% for i in learningItems%}
                 <div id="itemContainer">
@@ -31,38 +31,36 @@
                     <p class="item" id="itemNumber">{{i.ItemNumber}}</p>
 
                     <div id="buttonContainer">
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <h2 class="sportsItems">Sports</h2>
+            <h2 class="sportsItems"><i class="fa fa-soccer-ball-o"></i> Sports</h2>
             <div id="sportsItemsContainer">
                 {% for i in sportsItems%}
                 <div id="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
-                    <p class="item" id="category">Category: {{i.Category}}</p>
 
                     <div id="buttonContainer">
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <h2 class="leisureItems">Leisure</h2>
-            <div id="learningItemsContainer">
+            <h2 class="leisureItems"><i class="fa fa-gamepad"></i> Leisure</h2>
+            <div id="leisureItemsContainer">
                 {% for i in leisureItems%}
                 <div id="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
-                    <p class="item" id="category">Category: {{i.Category}}</p>
 
                     <div id="buttonContainer">
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')">Edit</button>
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')">Delete</button>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <button id="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}
