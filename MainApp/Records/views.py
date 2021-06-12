@@ -45,12 +45,21 @@ def inputRecord(request):
             db.session.commit()
 
             goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+            
             if goalToUpdate is not None:
-                print(goalToUpdate.Goal)
-                goalToUpdate.AchievePercentage = int(achievePercentage)
+                achievePercentageRanking = db.session.execute('SELECT AchievePercentage '+
+                                                             'FROM Records '+
+                                                             'WHERE GoalNumber = :gn '+
+                                                             'ORDER BY AchievePercentage DESC',
+                                                             {'gn': goalNumber}).fetchall()
+                
+                if len(achievePercentageRanking) > 0:
+                    goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+                else:
+                    goalToUpdate.AchievePercentage = 0
 
                 if achievePercentage == '100':
-                # if the user input '100' in the achieve percentage field, update the goal tuple
+                    # if the user input '100' in the achieve percentage field, update the goal tuple
                     if goalToUpdate.Achieved == 'N':
                         goalToUpdate.Achieved = 'Y'
                         goalToUpdate.AchieveDate = date
@@ -186,19 +195,31 @@ def deleteRecord(request):
         tupleToDelete = Records.query.filter_by(ItemNumber=itemNumber, SetDateTime=setDateTime).first()
 
         if tupleToDelete is not None:
-            if tupleToDelete.AchievePercentage == 100:
-                goalNumberOfTuple = tupleToDelete.GoalNumber
-
-                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumberOfTuple).first()
-                if goalToUpdate is not None:
-                    if goalToUpdate.Achieved == 'Y':
-                        goalToUpdate.Achieved = 'N'
-                        goalToUpdate.AchievePercentage = 0
-                        goalToUpdate.AchieveDate = None
-                        db.session.commit()
+            goalNumber = tupleToDelete.GoalNumber
+            achievePercentage = tupleToDelete.AchievePercentage
 
             db.session.delete(tupleToDelete)
             db.session.commit()
+
+            goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+
+            if goalToUpdate is not None:
+                achievePercentageRanking = db.session.execute('SELECT AchievePercentage '+
+                                                              'FROM Records '+
+                                                              'WHERE GoalNumber = :gn '+
+                                                              'ORDER BY AchievePercentage DESC',
+                                                              {'gn': goalNumber}).fetchall()
+                
+                if len(achievePercentageRanking) > 0:
+                    goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+                else:
+                    goalToUpdate.AchievePercentage = 0
+
+                if achievePercentage == 100:
+                    goalToUpdate.Achieved = 'N'
+                    goalToUpdate.AchieveDate = None
+                    
+                db.session.commit()
 
             flash('Deleted successfully.')
             return redirect('/records/listAll')
@@ -225,7 +246,6 @@ def modify_getAvailableGoals(request):
                                                    'FROM Items, Goals '+
                                                    'WHERE Goals.ItemNumber = Items.ItemNumber '+
                                                      'AND Goals.ItemNumber = :it '+
-                                                     'AND Goals.SetDate <= :dt '+
                                                      'AND (Goals.AchieveDate >= :dt OR Goals.AchieveDate IS NULL)',
                                                    {'it': itemNumber, 'dt': date}).fetchall()
 
@@ -286,6 +306,8 @@ def modifyRecord(request):
         tupleToUpdate = Records.query.filter_by(ItemNumber=originalItemNumber, SetDateTime=setDateTime).first()
 
         if tupleToUpdate is not None:
+            originalAchievePercentage = tupleToUpdate.AchievePercentage
+
             tupleToUpdate.ItemNumber = itemNumber
             tupleToUpdate.Date = date
             tupleToUpdate.Duration = duration
@@ -296,20 +318,27 @@ def modifyRecord(request):
             db.session.commit()
 
             goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+
             if goalToUpdate is not None:
-                goalToUpdate.AchievePercentage = achievePercentage
-                
                 if achievePercentage == '100':
-                # if the user input '100' in the achieve percentage field, update the goal tuple
+                    # if the user input '100' in the achieve percentage field, update the goal tuple
                     if goalToUpdate.Achieved == 'N':
                         goalToUpdate.Achieved = 'Y'
+                        goalToUpdate.AchievePercentage = achievePercentage
                         goalToUpdate.AchieveDate = date
-                        db.session.commit()
                 else:
-                    if goalToUpdate.Achieved == 'Y':
-                        goalToUpdate.Achieved = 'N'
-                        goalToUpdate.AchieveDate = None
-                        db.session.commit()
+                    achievePercentageRanking = db.session.execute('SELECT AchievePercentage '+
+                                                                  'FROM Records '+
+                                                                  'WHERE GoalNumber = :gn '+
+                                                                  'ORDER BY AchievePercentage DESC',
+                                                                  {'gn': goalNumber}).fetchall()
+                    
+                    if len(achievePercentageRanking) > 0:
+                        goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+                    else:
+                        goalToUpdate.AchievePercentage = 0
+                
+                db.session.commit()
 
             flash('Updated successfully.')
             return redirect('/records/listAll')

@@ -27,9 +27,9 @@ function recordAndSetInfo() {
 $('#recordInfoForm').on('submit', function (e) {
     e.preventDefault();
 
-    $('#originalRecordInfoContainer').append('<input type="record" id="originalItemNumberInput" name="originalItemNumber">');
+    $('#originalRecordInfoContainer').append('<input type="text" id="originalItemNumberInput" name="originalItemNumber">');
     $('#originalRecordInfoContainer').append('<input type="text" id="originalGoalNumberInput" name="originalGoalNumber">');
-    $('#originalRecordInfoContainer').append('<input type="record" id="originalDateInput" name="originalDate">');
+    $('#originalRecordInfoContainer').append('<input type="text" id="originalDateInput" name="originalDate">');
 
     document.getElementById('originalItemNumberInput').value = originalItemNumber;
     document.getElementById('originalGoalNumberInput').value = originalGoalNumber;

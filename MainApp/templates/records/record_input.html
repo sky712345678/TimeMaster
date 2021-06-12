@@ -7,7 +7,7 @@
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
                 {% for message in messages %}
-                <li>{{ message }} <a href="./listAll" title="record listAll">List all records</a></li>
+                - {{ message }} <a href="./listAll" title="record listAll">List all records</a>
                 {% endfor %}
             </div>
             {% endwith %}
