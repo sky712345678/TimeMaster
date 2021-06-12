@@ -1,5 +1,5 @@
 function setInfo() {
-    var count = $('.allRecords').children().length
+    var count = $('#recordListContainer').children().length
     if (count == 0) {
         $('#recordListContainer').append('<h3 class="message" id="noExistedRecordMessage">There isn&apos;t any record</h3>');
     }

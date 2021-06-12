@@ -2,7 +2,7 @@ body {
     background-color: #f6f6f8;
 }
 
-h2 {
+h1, h2 {
     padding-top: 1%;
 }
 
@@ -227,7 +227,7 @@ h2 {
     border-radius: 12px;
     border-color: rgb(200, 200, 200);
 
-    height: 150px;
+    height: 140px;
     width: 43%;
     margin: 0% 1% 2% 1%;
 
@@ -237,7 +237,7 @@ h2 {
 }
 
 .itemContainer {
-    height: 140px;
+    height: 130px;
     margin-top: 5px;
     margin-bottom: 5px;
 }

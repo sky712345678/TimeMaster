@@ -54,10 +54,10 @@
                 <div class="goalContainer">
                     {% if g.Achieved == 'Y' %}
                         <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-                    {% elif g.Achieved == 'Q' %}
+                    {% elif g.Achieved == 'F' %}
                         <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                     {% else %}
-                        <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                        <h3 class="goal" id="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
                     {% endif %}
 
                     {% if g.Category == 'Learning' %}
@@ -94,10 +94,10 @@
                 <div class="goalContainer">
                     {% if g.Achieved == 'Y' %}
                         <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-                    {% elif g.Achieved == 'Q' %}
+                    {% elif g.Achieved == 'F' %}
                         <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                     {% else %}
-                        <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                        <h3 class="goal" id="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
                     {% endif %}
 
                     {% if g.Category == 'Learning' %}
@@ -134,10 +134,10 @@
                 <div class="goalContainer">
                     {% if g.Achieved == 'Y' %}
                         <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-                    {% elif g.Achieved == 'Q' %}
+                    {% elif g.Achieved == 'F' %}
                         <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                     {% else %}
-                        <h3 class="goal" id="goal">{{g.Goal}}</h3>
+                        <h3 class="goal" id="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
                     {% endif %}
 
                     {% if g.Category == 'Learning' %}

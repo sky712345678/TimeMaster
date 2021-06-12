@@ -64,17 +64,17 @@ def listGoals():
                                        'FROM Goals').fetchall()[0].Number
     
     if numberOfGoals > 0:
-        learningGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+        learningGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.AchievePercentage, Goals.SetDate, Goals.AchieveDate '+
                                            'FROM Goals, Items '+
                                            'WHERE Goals.ItemNumber = Items.ItemNumber '+
                                              'AND Items.Category = "Learning"' +
                                            'ORDER BY Goals.Achieved ASC')
-        sportsGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+        sportsGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.AchievePercentage, Goals.SetDate, Goals.AchieveDate '+
                                          'FROM Goals, Items '+
                                          'WHERE Goals.ItemNumber = Items.ItemNumber '+
                                            'AND Items.Category = "Sports"' +
                                          'ORDER BY Goals.Achieved ASC')
-        leisureGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+        leisureGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.AchievePercentage, Goals.SetDate, Goals.AchieveDate '+
                                           'FROM Goals, Items '+
                                           'WHERE Goals.ItemNumber = Items.ItemNumber '+
                                             'AND Items.Category = "Leisure"' +

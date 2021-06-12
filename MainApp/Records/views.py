@@ -44,16 +44,21 @@ def inputRecord(request):
             db.session.add(tupleToInsert)
             db.session.commit()
 
-            if achievePercentage == '100':
+            goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+            if goalToUpdate is not None:
+                print(goalToUpdate.Goal)
+                goalToUpdate.AchievePercentage = int(achievePercentage)
+
+                if achievePercentage == '100':
                 # if the user input '100' in the achieve percentage field, update the goal tuple
-                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber)
-                if goalToUpdate is not None:
-                    if goalToUpdate.first().Achieved == 'N':
-                        goalToUpdate.update({'Achieved': 'Y', 'AchieveDate': date})
-                        db.session.commit()
+                    if goalToUpdate.Achieved == 'N':
+                        goalToUpdate.Achieved = 'Y'
+                        goalToUpdate.AchieveDate = date
                     else:
                         # normally, this won't be executed
                         return 'The goal has already achieved'
+                
+                db.session.commit()
 
             flash('The record was added successfully.')
             return redirect('/records/input')
@@ -188,6 +193,7 @@ def deleteRecord(request):
                 if goalToUpdate is not None:
                     if goalToUpdate.Achieved == 'Y':
                         goalToUpdate.Achieved = 'N'
+                        goalToUpdate.AchievePercentage = 0
                         goalToUpdate.AchieveDate = None
                         db.session.commit()
 
@@ -289,17 +295,17 @@ def modifyRecord(request):
 
             db.session.commit()
 
-            if achievePercentage == '100':
+            goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
+            if goalToUpdate is not None:
+                goalToUpdate.AchievePercentage = achievePercentage
+                
+                if achievePercentage == '100':
                 # if the user input '100' in the achieve percentage field, update the goal tuple
-                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
-                if goalToUpdate is not None:
                     if goalToUpdate.Achieved == 'N':
                         goalToUpdate.Achieved = 'Y'
                         goalToUpdate.AchieveDate = date
                         db.session.commit()
-            else:
-                goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
-                if goalToUpdate is not None:
+                else:
                     if goalToUpdate.Achieved == 'Y':
                         goalToUpdate.Achieved = 'N'
                         goalToUpdate.AchieveDate = None

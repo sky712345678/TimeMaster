@@ -60,30 +60,38 @@ def recent():
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'WHERE Records.Date >= :lb AND Records.Date <= :ub '
-                                        'ORDER BY Records.Date DESC',
+                                        'ORDER BY Records.Date DESC '+
+                                        'LIMIT 0, 4',
                                         {'lb': past_7D, 'ub': today}).fetchall()
 
     numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
-                                       'FROM Goals').fetchall()[0].Number
+                                       'FROM Goals '+
+                                       'WHERE Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
+                                       {'lb': past_14D, 'ub': today}).fetchall()[0].Number
 
     numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
-                                                'WHERE Goals.Achieved == "Y"').fetchall()[0].Number
+                                                'WHERE Goals.Achieved == "Y" '+
+                                                  'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
+                                                {'lb': past_14D, 'ub': today}).fetchall()[0].Number
     numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
-                                                'WHERE Goals.Achieved == "Q"').fetchall()[0].Number
+                                                'WHERE Goals.Achieved == "Q" '+
+                                                  'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
+                                                {'lb': past_14D, 'ub': today}).fetchall()[0].Number
     
     if numberOfGoals > 0:
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
     else:
         achievePercentage = 0
 
-    recentGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
+    recentGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.AchievePercentage, Goals.SetDate, Goals.AchieveDate '+
                                     'FROM Goals, Items '+
                                     'WHERE Goals.ItemNumber = Items.ItemNumber '+
-                                        'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
-                                    'ORDER BY Goals.Achieved, Goals.SetDate ASC',
-                                    {'lb': past_7D, 'ub': today}).fetchall()
+                                      'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
+                                    'ORDER BY Goals.Achieved, Goals.SetDate ASC '+
+                                    'LIMIT 0, 4',
+                                    {'lb': past_14D, 'ub': today}).fetchall()
 
     frequentItems = db.session.execute('SELECT * '+
                                        'FROM Items '+

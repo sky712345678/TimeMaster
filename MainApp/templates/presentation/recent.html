@@ -9,7 +9,6 @@
 <!-- modified by sky712345678-->
 
 <body>
-    <a href="/home" title="go to Homepage">&lt; Go back home</a>
     <!-- modified by sky712345678-->
     <!--h1 align="center">Recent activity</h1-->
     <!-- modified by sky712345678-->
@@ -107,7 +106,7 @@
     <div class="goals" id="recentGoalsContainer">
         <div class="cardHeaderContainer">
             <div class="titleContainer">
-                <h2 class="cardHeader"><i class="fa fa-rocket"></i> 目標</h2>
+                <h2 class="cardHeader"><i class="fa fa-rocket"></i> 近期目標</h2>
             </div>
 
             <div class="buttonContainer">
@@ -145,10 +144,10 @@
             <div class="goalContainer">
                 {% if g.Achieved == 'Y' %}
                     <h3 class="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-                {% elif g.Achieved == 'Q' %}
+                {% elif g.Achieved == 'F' %}
                     <h3 class="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                 {% else %}
-                    <h3 class="goal">{{g.Goal}}</h3>
+                    <h3 class="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
                 {% endif %}
 
                 {% if g.Category == 'Learning' %}
@@ -180,7 +179,7 @@
     <div class="items" id="frequentItemsContainer">
         <div class="cardHeaderContainer">
             <div class="titleContainer">
-                <h2 class="frequentItemsContainer"><i class="fa fa-angle-double-right"></i> 項目</h2>
+                <h2 class="frequentItemsContainer"><i class="fa fa-angle-double-right"></i> 常做的項目</h2>
             </div>
             <div class="buttonContainer">
                 <button class="inputButton" onclick="location.href='/items/input'"><i class="fa fa-plus"></i> 新增</button>

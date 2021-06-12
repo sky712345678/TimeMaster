@@ -24,7 +24,7 @@ class Records(db.Model):
     Date = db.Column(db.CHAR(10), default=datetime.today().strftime("%Y/%m/%d"))
     Duration = db.Column(db.Integer, nullable=False)
     GoalNumber = db.Column(db.CHAR(6), db.ForeignKey('Goals.GoalNumber', ondelete='SET NULL'), default=None)
-    AchievePercentage = db.Column(db.Integer, default=None)
+    AchievePercentage = db.Column(db.Integer, default=0)
     Description = db.Column(db.VARCHAR(100))
     SetDateTime = db.Column(db.CHAR(20), primary_key=True)
     '''
@@ -49,6 +49,7 @@ class Goals(db.Model):
     ItemNumber = db.Column(db.CHAR(6), db.ForeignKey('Items.ItemNumber', ondelete='CASCADE'), nullable=False)
     Goal = db.Column(db.VARCHAR(100), nullable=False)
     Achieved = db.Column(db.CHAR(1), nullable=False)
+    AchievePercentage = db.Column(db.Integer, default=0)
     SetDate = db.Column(db.CHAR(10))
     AchieveDate = db.Column(db.CHAR(10))
     '''
@@ -63,5 +64,6 @@ class Goals(db.Model):
         self.ItemNumber = itemNumber
         self.Goal = goal
         self.Achieved = 'N'
+        self.AchievePercentage = 0
         self.SetDate = datetime.today().strftime("%Y-%m-%d")
         self.AchieveDate = None

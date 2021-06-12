@@ -12,8 +12,8 @@ app = create()
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/home')
-def hello_world():
-    return render_template('homepage.html')
+def recent():
+    return chart.recent()
 
 @app.route('/items/input/check', methods=['POST', 'GET'])
 def items_input_check():
@@ -105,10 +105,6 @@ def records_modify_check():
 @app.route('/records/modify/submit', methods=['POST', 'GET'])
 def records_modify_submit():
     return records_views.modifyRecord(request)
-
-@app.route('/presentation/test')
-def recent():
-    return chart.recent()
 
 @app.route('/presentation/chart', methods=['POST', 'GET'])
 def check_chart():
