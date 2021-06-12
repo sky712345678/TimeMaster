@@ -80,13 +80,6 @@ def recent():
                                         'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
                                     'ORDER BY Goals.Achieved, Goals.SetDate ASC',
                                     {'lb': past_7D, 'ub': today}).fetchall()
-    
-    timeSpentRanking = db.session.execute('SELECT Records.ItemNumber, SUM(Records.Duration) AS Time '+
-                                          'FROM Records '+
-                                          'GROUP BY Records.ItemNumber '+
-                                          'ORDER BY Time DESC '+
-                                          'LIMIT 0, 3').fetchall()
-    print(timeSpentRanking)
 
     frequentItems = db.session.execute('SELECT * '+
                                        'FROM Items '+

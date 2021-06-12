@@ -10,7 +10,9 @@
 
 <body>
     <a href="/home" title="go to Homepage">&lt; Go back home</a>
-    <h1 align="center">Recent activity</h1>
+    <!-- modified by sky712345678-->
+    <!--h1 align="center">Recent activity</h1-->
+    <!-- modified by sky712345678-->
     <!-- 調整大小參考 https://www.chartjs.org/docs/latest/configuration/responsive.html -->
 
     <!-- modified by sky712345678-->
@@ -30,7 +32,13 @@
     <!-- modified by sky712345678-->
 
     <!-- modified by sky712345678-->
+    <h1 id="pageTitle">時間管理大師</h1>
     <div id="chartContainer">
+        <div class="cardHeaderContainer">
+            <div class="titleContainer">
+                <h2 class="recentRecordsContainer"><i class="fa fa-pie-chart"></i> 總覽</h2>
+            </div>
+        </div>
         <div id="pieChartContainer">
             <canvas id="pie_chart" width="100" height="50"></canvas>
         </div>
@@ -40,70 +48,76 @@
     
     <!-- modified by sky712345678-->
     <!--div style="position: absolute; top:55vh; left: 20vw;height:20vh; width:60vw"-->
-    <div id="summaryContainer">
-    <!-- modified by sky712345678-->
-        <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
-        <h3>近七天總活動時間：</h3>
-        {% for i in category_sum %}
-        <span>{{i[0]}}：</span><span>{{i[1]}} 分鐘 &nbsp;</span>
-        {% endfor %}
-        <hr>
-        {% for item,time in each_sum.items() %}
-        <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘</p>
-        {% endfor %}
-    </div>
+        <div id="summaryContainer">
+        <!-- modified by sky712345678-->
+            <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
+            <h3>近七天總活動時間</h3>
+            {% for i in category_sum %}
+            <span>{{i[0]}}：</span><span>{{i[1]}} 分鐘 &nbsp;</span>
+            {% endfor %}
+            <hr>
+            {% for item,time in each_sum.items() %}
+            <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘</p>
+            {% endfor %}
+        </div>
     </div>
     <!-- modified by sky712345678-->
 
     <!-- modified by sky712345678-->
     <div id="recentRecordsContainer">
-        <h2 class="recentRecordsContainer">最近的活動紀錄</h2>
-        <div id="buttonContainer">
-            <button id="inputButton" onclick="location.href='/records/input'"><i class="fa fa-plus"></i> 新增</button>
-            <button id="listAllButton" onclick="location.href='/records/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
+        <div class="cardHeaderContainer">
+            <div class="titleContainer">
+                <h2 class="recentRecordsContainer"><i class="fa fa-clock-o"></i> 最近的活動紀錄</h2>
+            </div>
+            <div class="buttonContainer">
+                <button class="inputButton" onclick="location.href='/records/input'"><i class="fa fa-plus"></i> 新增</button>
+                <button class="listAllButton" onclick="location.href='/records/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
+            </div>
         </div>
 
         {% for r in recentRecords %}
-        <div id="recordContainer">
+        <div class="recordContainer">
             <hr>
             {% if r.Category == 'Learning' %}
-                <h3 class="record" id="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
+                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
             {% else %}
-                <h3 class="record" id="item">{{r.Name}} | {{r.Duration}} minutes</h3>
+                <h3 class="item">{{r.Name}} | {{r.Duration}} minutes</h3>
             {% endif %}
             {% if r.Goal != None %}
-                <div id="recordInfoContainer">
-                    <p class="record" id="goalTitle">Goal</p>
-                    <p class="record" id="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
+                <div class="recordInfoContainer">
+                    <p class="goalTitle">Goal</p>
+                    <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
                 </div>
             {% endif %}
-            <div id="recordInfoContainer">
-                <p class="record" id="descriptionTitle">Description</p>
-                <p class="record" id="description">{{r.Description}}</p>
+            <div class="recordInfoContainer">
+                <p class="descriptionTitle">Description</p>
+                <p class="description">{{r.Description}}</p>
             </div>
             {% if r.Category == 'Learning' %}
-                <p class="record" id="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
+                <p class="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
             {% elif r.Category == 'Sports' %}
-                <p class="record" id="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
+                <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
             {% else %}
-                <p class="record" id="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
+                <p class="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
             {% endif %}
         </div>
         {% endfor %}
     </div>
 
     <div class="goals" id="recentGoalsContainer">
-        <div id="titleContainer">
-            <h2 class="containerTitle">目標</h2>
+        <div class="cardHeaderContainer">
+            <div class="titleContainer">
+                <h2 class="cardHeader"><i class="fa fa-rocket"></i> 目標</h2>
+            </div>
 
-            <div id="buttonContainer">
-                <button id="inputButton" onclick="location.href='/goals/input'"><i class="fa fa-plus"></i> 新增</button>
-                <button id="listAllButton" onclick="location.href='/goals/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
+            <div class="buttonContainer">
+                <button class="inputButton" onclick="location.href='/goals/input'"><i class="fa fa-plus"></i> 新增</button>
+                <button class="listAllButton" onclick="location.href='/goals/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
             </div>
     
-            <div id="progressContainer">
+            <div class="progressContainer">
                 <div class="progress" id="messageContainer">
-                    <h3 class="message">達成百分比</h3>
+                    <h3 class="message">{{percentage}}% 達成</h3>
                 </div>
     
                 <div class="progress" id="barContainer">
@@ -111,7 +125,7 @@
                 </div>
             </div>
     
-            <div id="progressDetailContainer">
+            <div class="progressDetailContainer">
                 <div class="progressDetail" id="numberOfAchievedGoals">
                     <h4 class="numberOfAchievedGoals">達成的目標: {{numberOfAchievedGoals}}</h4>
                 </div>
@@ -125,56 +139,70 @@
                 </div>
             </div>
         </div>
-
+        
         {% for g in recentGoals %}
-        <div id="goalContainer">
-            <hr>
-            {% if g.Achieved == 'Y' %}
-                <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-            {% elif g.Achieved == 'Q' %}
-                <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
-            {% else %}
-                <h3 class="goal" id="goal">{{g.Goal}}</h3>
-            {% endif %}
+        <div class="goalOuterContainer">
+            <div class="goalContainer">
+                {% if g.Achieved == 'Y' %}
+                    <h3 class="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
+                {% elif g.Achieved == 'Q' %}
+                    <h3 class="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
+                {% else %}
+                    <h3 class="goal">{{g.Goal}}</h3>
+                {% endif %}
 
-            {% if g.Category == 'Learning' %}
-                <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
-            {% else %}
-                <p class="goal" id="item">{{g.Name}}</p>
-            {% endif %}
-            
-            {% if g.Achieved == 'Y' %}
-                <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
-            {% elif g.Achieved == 'N' %}
-                <p class="goal" id="achieveInfo">Achieved: No</p>
-            {% else %}
-                <p class="goal" id="achieveInfo">Failed</p>
-            {% endif %}
+                {% if g.Category == 'Learning' %}
+                    <p class="item">{{g.Name}} ({{g.ItemNumber}})</p>
+                {% else %}
+                    <p class="item">{{g.Name}}</p>
+                {% endif %}
+                
+                {% if g.Achieved == 'Y' %}
+                    <p class="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
+                {% elif g.Achieved == 'N' %}
+                    <p class="achieveInfo">Achieved: No</p>
+                {% else %}
+                    <p class="achieveInfo">Failed</p>
+                {% endif %}
 
-            <p class="goal" id="setDate">{{g.SetDate}}</p>
+                {% if g.Category == 'Learning' %}
+                    <p class="categoryAndDate"><i class="fa fa-book"></i> {{g.Category}} | {{g.SetDate}}</p>
+                {% elif g.Category == 'Sports' %}
+                    <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> {{g.Category}} | {{g.SetDate}}</p>
+                {% else %}
+                    <p class="categoryAndDate"><i class="fa fa-gamepad"></i> {{g.Category}} | {{g.SetDate}}</p>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>
 
     <div class="items" id="frequentItemsContainer">
-        <h2 class="frequentItemsContainer">項目</h2>
-
-        <div id="buttonContainer">
-            <button id="inputButton" onclick="location.href='/items/input'"><i class="fa fa-plus"></i> 新增</button>
-            <button id="listAllButton" onclick="location.href='/items/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
+        <div class="cardHeaderContainer">
+            <div class="titleContainer">
+                <h2 class="frequentItemsContainer"><i class="fa fa-angle-double-right"></i> 項目</h2>
+            </div>
+            <div class="buttonContainer">
+                <button class="inputButton" onclick="location.href='/items/input'"><i class="fa fa-plus"></i> 新增</button>
+                <button class="listAllButton" onclick="location.href='/items/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
+            </div>
         </div>
         
         {% for i in frequentItems%}
-        <div id="itemContainer">
-            <hr>
-            <h3 class="item" id="name">{{i.Name}}</h3>
-            <p class="item" id="category">Category: {{i.Category}}</p>
-            {% if i.Category == 'Learning' %}
-                <p class="item" id="itemNumber">{{i.ItemNumber}}</p>
-            {% endif %}
+        <div class="itemOuterContainer">
+            <div class="itemContainer">
+                <h3 class="name">{{i.Name}}</h3>
+                {% if i.Category == 'Learning' %}
+                    <p class="category">Category: <i class="fa fa-book"></i> {{i.Category}}</p>
+                    <p class="itemNumber">{{i.ItemNumber}}</p>
+                {% elif i.Category == 'Sports' %}
+                    <p class="category">Category: <i class="fa fa-soccer-ball-o"></i> {{i.Category}}</p>
+                {% else %}
+                    <p class="category">Category: <i class="fa fa-gamepad"></i> {{i.Category}}</p>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
-    </div>
     </div>
     <!-- modified by sky712345678-->
     
@@ -255,18 +283,45 @@
 
     /*modified by sky712345678*/
     var element = document.getElementById('bar');
-    var percentage = parseInt(document.getElementById('bar').innerHTML);
-    var width = 0;
-    var id = setInterval(frame, 10);
-    function frame() {
-        if (width == percentage) {
-            clearInterval(id);
+    var elementHeight = element.clientHeight;
+    document.addEventListener('scroll', animate);
+
+    function inView() {
+        // get window height
+        var windowHeight = window.innerHeight;
+        // get number of pixels that the document is scrolled
+        var scrollY = window.scrollY || window.pageYOffset;
+        
+        // get current scroll position (distance from the top of the page to the bottom of the current viewport)
+        var scrollPosition = scrollY + windowHeight;
+        // get element position (distance from the top of the page to the bottom of the element)
+        var elementPosition = element.getBoundingClientRect().top + scrollY + elementHeight;
+        
+        // is scroll position greater than element position? (is element in view?)
+        if (scrollPosition > elementPosition) {
+            return true;
         }
-        else {
-            width++;
-            element.style.width = width + "%";
-            element.innerHTML = width + "%";
-            document.getElementById('bar').innerHTML = width + "%";
+        
+        return false;
+    }
+
+    function animate(){
+        if (element.classList.contains('animated') == false && inView()){
+            element.classList.add('animated');
+            var percentage = parseInt(document.getElementById('bar').innerHTML);
+            var width = 0;
+            var id = setInterval(frame, 10);
+            function frame() {
+                if (width == percentage) {
+                    clearInterval(id);
+                }
+                else {
+                    width++;
+                    element.style.width = width + "%";
+                    element.innerHTML = width + "%";
+                    document.getElementById('bar').innerHTML = width + "%";
+                }
+            }
         }
     }
     /*modified by sky712345678*/
