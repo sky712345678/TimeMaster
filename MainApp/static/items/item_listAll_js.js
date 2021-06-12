@@ -14,7 +14,7 @@ function setInfo() {
     }
 
     if (numberOfLearningItems == 0 && numberOfSportsItems == 0 && numberOfLeisureItems == 0) {
-        $('#itemContainer').append('<h3 class="message">There isn&apos;t any item</h3></li>');
+        $('#itemListContainer').append('<h3 class="message">There isn&apos;t any item</h3>');
     }
 }
 

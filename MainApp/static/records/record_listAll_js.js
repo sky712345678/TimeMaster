@@ -1,16 +1,15 @@
 function setInfo() {
     var count = $('.allRecords').children().length
     if (count == 0) {
-        $('.allRecords').append('<li class="noExistedRecord">' +
-            '<h3 class="message" id="noExistedRecordMessage">There isn&apos;t any record</h3></li>');
+        $('#recordListContainer').append('<h3 class="message" id="noExistedRecordMessage">There isn&apos;t any record</h3>');
     }
 }
 
 function deleteWarn(itemNumber, date, setDateTime) {
     $('#deleteRequestContainer').append('<form action = "/records/delete" method="post" id="deleteRequestInfoForm">' +
-        '<input type="deleteRequestInfo" id="deleteRequestItemNumberInput" name="itemNumber">' +
-        '<input type="deleteRequestInfo" id="deleteRequestDateInput" name="date">' +
-        '<input type="deleteRequestInfo" id="deleteRequestSetDateTimeInput" name="setDateTime"></form >');
+        '<input type="text" id="deleteRequestItemNumberInput" name="itemNumber">' +
+        '<input type="text" id="deleteRequestDateInput" name="date">' +
+        '<input type="text" id="deleteRequestSetDateTimeInput" name="setDateTime"></form >');
     var c = confirm('This will delete the selected record and can\'t be recovered, are you sure you want to delete it?');
     if (c == true) {
         deleteImplementation(itemNumber, date, setDateTime);
@@ -26,9 +25,9 @@ function deleteImplementation(itemNumber, date, setDateTime) {
 
 function sendModifyRequest(itemNumber, date, setDateTime) {
     $('#modifyRequestContainer').append('<form action = "/records/modify" method="post" id="modifyRequestInfo">' +
-        '<input type="modifyRequestInfo" id="modifyRequestItemNumberInput" name="itemNumber">' +
-        '<input type="modifyRequestInfo" id="modifyRequestDateInput" name="date">' +
-        '<input type="modifyRequestInfo" id="modifyRequestSetDateTimeInput" name="setDateTime"></form >');
+        '<input type="text" id="modifyRequestItemNumberInput" name="itemNumber">' +
+        '<input type="text" id="modifyRequestDateInput" name="date">' +
+        '<input type="text" id="modifyRequestSetDateTimeInput" name="setDateTime"></form >');
 
     document.getElementById('modifyRequestItemNumberInput').value = itemNumber;
     document.getElementById('modifyRequestDateInput').value = date;

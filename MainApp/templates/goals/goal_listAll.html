@@ -49,9 +49,9 @@
 
         <div class="goals" id="goalListContainer">
             <h2 class="learningGoals"><i class="fa fa-book"></i> Learning</h2>
-            <div id="learningGoalsContainer">
+            <div class="goalsOuterContainer" id="learningGoalsContainer">
                 {% for g in learningGoals %}
-                <div id="goalContainer">
+                <div class="goalContainer">
                     {% if g.Achieved == 'Y' %}
                         <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
                     {% elif g.Achieved == 'Q' %}
@@ -76,26 +76,26 @@
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
                     
-                    <div id="buttonContainer">
+                    <div class="buttonContainer">
                         {% if g.Achieved == 'N' %}
-                            <button id="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
                             <br>
-                            <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
                         {% endif %}
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
             <h2 class="sportsGoals"><i class="fa fa-soccer-ball-o"></i> Sports</h2>
-            <div id="sportsGoalsContainer">
+            <div class="goalsOuterContainer" id="sportsGoalsContainer">
                 {% for g in sportsGoals %}
-                <div id="goalContainer">
+                <div class="goalContainer">
                     {% if g.Achieved == 'Y' %}
-                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-check-circle"></i></h3>
+                        <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
                     {% elif g.Achieved == 'Q' %}
-                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-times-circle"></i></h3>
+                        <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                     {% else %}
                         <h3 class="goal" id="goal">{{g.Goal}}</h3>
                     {% endif %}
@@ -116,26 +116,26 @@
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
-                    <div id="buttonContainer">
+                    <div class="buttonContainer">
                         {% if g.Achieved == 'N' %}
-                            <button id="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
                             <br>
-                            <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
                         {% endif %}
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
             <h2 class="leisureGoals"><i class="fa fa-gamepad"></i> Leisure</h2>
-            <div id="leisureGoalsContainer">
+            <div class="goalsOuterContainer" id="leisureGoalsContainer">
                 {% for g in leisureGoals %}
-                <div id="goalContainer">
+                <div class="goalContainer">
                     {% if g.Achieved == 'Y' %}
-                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-check-circle"></i></h3>
+                        <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
                     {% elif g.Achieved == 'Q' %}
-                        <h3 class="goal" id="goal">{{g.Goal}} <i class="fa fa-times-circle"></i></h3>
+                        <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                     {% else %}
                         <h3 class="goal" id="goal">{{g.Goal}}</h3>
                     {% endif %}
@@ -156,13 +156,13 @@
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
-                    <div id="buttonContainer">
+                    <div class="buttonContainer">
                         {% if g.Achieved == 'N' %}
-                            <button id="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
                             <br>
-                            <button id="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
                         {% endif %}
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}

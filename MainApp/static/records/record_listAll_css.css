@@ -33,7 +33,7 @@ h4 {
     margin: auto;
 }
 
-#intervalContainer {
+.intervalContainer {
     background-color: white;
     text-align: left;
 
@@ -46,35 +46,35 @@ h4 {
     padding-bottom: 2%;
 }
 
-#recordContainer {
+.recordContainer {
     width: 90%;
     margin: auto;
 }
 
-#recordInfoContainer {
+.recordInfoContainer {
     width: 49%;
     display: inline-block;
     vertical-align: top;
 }
 
-#goalTitle, #descriptionTitle {
+.goalTitle, .descriptionTitle {
     color: rgb(90, 90, 90);
     font-size: smaller;
     margin-top: 5%;
     margin-bottom: 0%;
 }
 
-#goal, #description {
+.goal, .description {
     font-size: large;
     margin-top: 0%;
 }
 
-#categoryAndDate {
+.categoryAndDate {
     color: rgb(90, 90, 90);
     margin: 0;
 }
 
-#buttonContainer {
+.buttonContainer {
     text-align: center;
 }
 
@@ -93,10 +93,10 @@ button:hover {
     background-color: #d4d3d3;
 }
 
-#modifyRequestButton {
+.modifyRequestButton {
     color: black;
 }
 
-#deleteRequestButton {
+.deleteRequestButton {
     color: rgb(235, 4, 4);
 }

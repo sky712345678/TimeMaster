@@ -3,22 +3,21 @@ function setInfo() {
     var numberOfSportsGoals = $('#sportsGoalsContainer div').length;
     var numberOfLeisureGoals = $('#leisureGoalsContainer div').length;
 
+    if (numberOfLearningGoals == 0) {
+        $('.learningGoals').remove();
+    }
+    if (numberOfSportsGoals == 0) {
+        $('.sportsGoals').remove();
+    }
+    if (numberOfLeisureGoals == 0) {
+        $('.leisureGoals').remove();
+    }
     if (numberOfLearningGoals == 0 && numberOfSportsGoals == 0 && numberOfLeisureGoals == 0) {
-        $('.setGoals').append('<li class="noExistedGoal">' +
-            '<h3 class="message" id="noExistedGoalMessage">There isn&apos;t any goal</h3></li>');
-        $('#progress').remove();
-        $('#bar').remove();
+        $('#goalListContainer').append('<h3 class="message" id="noExistedGoalMessage">There isn&apos;t any goal</h3>');
+        $('#progressContainer').remove();
+        $('#progressDetailContainer').remove();
     }
     else {
-        if (numberOfLearningGoals == 0) {
-            $('.learningGoals').remove();
-        }
-        if (numberOfSportsGoals == 0) {
-            $('.sportsGoals').remove();
-        }
-        if (numberOfLeisureGoals == 0) {
-            $('.leisureGoals').remove();
-        }
         var element = document.getElementById('bar');
         var percentage = parseInt(document.getElementById('bar').innerHTML);
         var width = 0;

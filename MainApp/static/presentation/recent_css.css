@@ -154,6 +154,7 @@ h2 {
     width: 75%;
 
     background-color: #d4d3d3;
+    border-radius: 6px;
 
     display: inline-block;
     align-items: center;
@@ -165,6 +166,7 @@ h2 {
 
     color: white;
     background-color: #04AA6D;
+    border-radius: 6px;
 
     text-align: center; /* To center it horizontally (if you want) */
     line-height: 30px; /* To center it vertically */

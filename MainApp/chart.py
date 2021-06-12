@@ -72,7 +72,11 @@ def recent():
     numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Q"').fetchall()[0].Number
-    achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
+    
+    if numberOfGoals > 0:
+        achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
+    else:
+        achievePercentage = 0
 
     recentGoals = db.session.execute('SELECT Items.Category, Items.Name, Goals.ItemNumber, Goals.Goal, Goals.GoalNumber, Goals.Achieved, Goals.SetDate, Goals.AchieveDate '+
                                     'FROM Goals, Items '+
@@ -90,7 +94,7 @@ def recent():
                                                 'FROM Records '+
                                                 'GROUP BY Records.ItemNumber '+
                                                 'ORDER BY Time DESC '+
-                                                'LIMIT 0, 3) AS TimeSpentRanking)').fetchall()
+                                                'LIMIT 0, 4) AS TimeSpentRanking)').fetchall()
     
     # modified by sky712345678
 

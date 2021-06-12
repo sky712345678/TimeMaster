@@ -21,7 +21,7 @@
             <h1 class="recordListContainer">View all the records</h1>
             
             {% for rl in records %}
-            <div id="intervalContainer">
+            <div class="intervalContainer">
                 <h2 class="interval">{{bound[loop.index0][0]}} - {{bound[loop.index0][1]}}</h2>
                 <h4 class="summary">
                     {{summary[loop.index0][0].Category}}: {{summary[loop.index0][0].Total}} minutes
@@ -30,34 +30,34 @@
                     {% endfor %}
                 </h4>
                 {% for r in rl %}
-                <div id="recordContainer">
+                <div class="recordContainer">
                     <hr>
                     {% if r.Category == 'Learning' %}
-                        <h3 class="record" id="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
+                        <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
                     {% else %}
-                        <h3 class="record" id="item">{{r.Name}} | {{r.Duration}} minutes</h3>
+                        <h3 class="item">{{r.Name}} | {{r.Duration}} minutes</h3>
                     {% endif %}
                     {% if r.Goal != None %}
-                        <div id="recordInfoContainer">
-                            <p class="record" id="goalTitle">Goal</p>
-                            <p class="record" id="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
+                        <div class="recordInfoContainer">
+                            <p class="goalTitle">Goal</p>
+                            <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
                         </div>
                     {% endif %}
-                    <div id="recordInfoContainer">
-                        <p class="record" id="descriptionTitle">Description</p>
-                        <p class="record" id="description">{{r.Description}}</p>
+                    <div class="recordInfoContainer">
+                        <p class="descriptionTitle">Description</p>
+                        <p class="description">{{r.Description}}</p>
                     </div>
                     {% if r.Category == 'Learning' %}
-                        <p class="record" id="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
+                        <p class="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
                     {% elif r.Category == 'Sports' %}
-                        <p class="record" id="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
+                        <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
                     {% else %}
-                        <p class="record" id="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
+                        <p class="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
                     {% endif %}
                     <br>
-                    <div id="buttonContainer">
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>
-                        <button id="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i> Delete</button>
+                    <div class="buttonContainer">
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i> Delete</button>
                     </div>
                 </div>
                 {% endfor %}

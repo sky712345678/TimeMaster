@@ -45,18 +45,24 @@ h4 {
 
 #barContainer {
     width: 65%;
-    background-color: #d4d3d3;
     margin: 1% 5% 1% 1%;
+
+    background-color: #d4d3d3;
+    border-radius: 6px;
+
     align-items: center;
 }
 
 #bar {
     width: 0%;
     height: 30px;
+
+    color: white;
     background-color: #04AA6D;
+    border-radius: 6px;
+
     text-align: center; /* To center it horizontally (if you want) */
     line-height: 30px; /* To center it vertically */
-    color: white;
 }
 
 #numberOfAchievedGoals {
@@ -64,7 +70,7 @@ h4 {
 }
 
 #progressDetailContainer {
-    width: 50%;
+    width: 70%;
     text-align: center;
     display: inline-block;
 }
@@ -75,12 +81,18 @@ h4 {
 }
 
 #goalListContainer {
-    width: 30%;
-    text-align: center;
+    width: 70%;
     margin: auto;
+
+    text-align: center;
 }
 
-#goalContainer {
+.goalContainer {
+    height: 240px;
+    width: 43%;
+    margin: 1%;
+    padding-bottom: 2%;
+
     background-color: white;
 
     border-width: 1px;
@@ -88,15 +100,11 @@ h4 {
 
     box-shadow: 0px 8px 24px rgb(13 13 18 / 4%);
 
-    margin: 1% 1% 3% 1%;
-    padding-bottom: 2%;
+    vertical-align: top;
+    display: inline-block;
 }
 
-#goalContainer h3 {
-    padding-top: 2%;
-}
-
-#buttonContainer {
+.buttonContainer {
     text-align: center;
 }
 
@@ -116,17 +124,17 @@ button:hover {
     background-color: #d4d3d3;
 }
 
-#modifyRequestButton {
+.modifyRequestButton {
     color: black;
     padding: 8px 30px;
 }
 
-#deleteRequestButton {
+.deleteRequestButton {
     color: rgb(235, 4, 4);
     padding: 8px 30px;
 }
 
-#quitRequestButton{
+.quitRequestButton{
     color: rgb(235, 127, 4);
     padding: 8px 90px;
 }
