@@ -32,11 +32,17 @@
                 {% for r in rl %}
                 <div class="recordContainer">
                     <hr>
+                    <div class="recordTitleContainer">
                     {% if r.Category == 'Learning' %}
                         <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
                     {% else %}
                         <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
                     {% endif %}
+                    </div>
+                    <div class="buttonContainer">
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i></button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i></button>
+                    </div>
                     {% if r.Goal != None %}
                         <div class="recordInfoContainer">
                             <p class="goalTitle">目標</p>
@@ -50,17 +56,13 @@
                         </div>
                     {% endif %}
                     {% if r.Category == 'Learning' %}
-                        <p class="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
+                        <p class="categoryAndDate"><i class="fa fa-book"></i> 學習 | {{r.Date}}</p>
                     {% elif r.Category == 'Sports' %}
-                        <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
+                        <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> 運動 | {{r.Date}}</p>
                     {% else %}
-                        <p class="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
+                        <p class="categoryAndDate"><i class="fa fa-gamepad"></i> 休閒 | {{r.Date}}</p>
                     {% endif %}
                     <br>
-                    <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> 編輯</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i> 刪除</button>
-                    </div>
                 </div>
                 {% endfor %}
             </div>

@@ -22,43 +22,49 @@
         <div class="items" id="itemListContainer">
             <h1 class="items">查看所有項目</h1>
 
-            <h2 class="learningItems"><i class="fa fa-book"></i> Learning</h2>
+            <h2 class="learningItems"><i class="fa fa-book"></i> 學習</h2>
             <div class="itemsOuterContainer" id="learningItemsContainer">
                 {% for i in learningItems%}
                 <div class="itemContainer">
-                    <h3 class="item" id="name">{{i.Name}} ({{i.ItemNumber}})</h3>
+                    <div class="itemTitleContainer">
+                        <h3 class="item" id="name">{{i.Name}} ({{i.ItemNumber}})</h3>
+                    </div>
 
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i></button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <h2 class="sportsItems"><i class="fa fa-soccer-ball-o"></i> Sports</h2>
+            <h2 class="sportsItems"><i class="fa fa-soccer-ball-o"></i> 運動</h2>
             <div class="itemsOuterContainer" id="sportsItemsContainer">
                 {% for i in sportsItems%}
                 <div class="itemContainer">
-                    <h3 class="item" id="name">{{i.Name}}</h3>
+                    <div class="itemTitleContainer">
+                        <h3 class="item" id="name">{{i.Name}}</h3>
+                    </div>
 
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i></button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
-            <h2 class="leisureItems"><i class="fa fa-gamepad"></i> Leisure</h2>
+            <h2 class="leisureItems"><i class="fa fa-gamepad"></i> 休閒</h2>
             <div class="itemsOuterContainer" id="leisureItemsContainer">
                 {% for i in leisureItems%}
                 <div class="itemContainer">
-                    <h3 class="item" id="name">{{i.Name}}</h3>
+                    <div class="itemTitleContainer">
+                        <h3 class="item" id="name">{{i.Name}}</h3>
+                    </div>
 
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i></button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
                 {% endfor %}

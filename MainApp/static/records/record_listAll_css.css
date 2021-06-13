@@ -48,6 +48,56 @@ h4 {
     margin: auto;
 }
 
+.recordTitleContainer, .buttonContainer {
+    width: 49%;
+    
+    display: inline-block;
+}
+
+.buttonContainer {
+    margin-top: 0;
+    text-align: right;
+}
+
+button {
+    background-color: white;
+
+    border-style: none;
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    padding: 8px 12px;
+
+    cursor: pointer;
+}
+
+
+button:hover {
+    background-color: #f6f6f8;
+}
+
+
+.modifyRequestButton {
+    color: black;
+}
+
+.modifyRequestButton:hover {
+    color: royalblue;
+}
+
+.deleteRequestButton {
+    color: rgb(215, 4, 4);
+}
+
+.deleteRequestButton:hover {
+    color:rgb(255, 4, 4)
+}
+
+.recordContainer {
+    text-align: left;
+}
+
 .recordInfoContainer {
     width: 49%;
     display: inline-block;
@@ -72,32 +122,4 @@ h4 {
 
     margin-top: 1%;
     margin-bottom: 1%;
-}
-
-.buttonContainer {
-    margin-top: 0;
-    text-align: center;
-}
-
-button {
-    border-style: none;
-    border-radius: 6px;
-
-    font-size: 14px;
-
-    padding: 8px 30px;
-
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #d4d3d3;
-}
-
-.modifyRequestButton {
-    color: black;
-}
-
-.deleteRequestButton {
-    color: rgb(235, 4, 4);
 }

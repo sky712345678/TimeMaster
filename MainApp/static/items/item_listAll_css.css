@@ -30,7 +30,7 @@ h4 {
 }
 
 .itemContainer {
-    height: 90px;
+    height: 70px;
     width: 43%;
     margin: 1%;
     padding-bottom: 2%;
@@ -46,15 +46,28 @@ h4 {
     display: inline-block;
 }
 
-.itemMinimalContainer h3 {
-    padding-bottom: 1%;
+.itemTitleContainer, .buttonContainer {
+    width: 43%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
+    
+    display: inline-block;
+}
+
+.itemTitleContainer {
+    text-align: left;
 }
 
 .buttonContainer {
-    text-align: center;
+    margin-top: 0;
+    text-align: right;
 }
 
 button {
+    background-color: white;
+
     border-style: none;
     border-radius: 6px;
 
@@ -62,20 +75,27 @@ button {
 
     margin-top: 1%;
     margin-bottom: 1%;
+    padding: 8px 12px;
 
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #d4d3d3;
+    background-color: #f6f6f8;
 }
 
 .modifyRequestButton {
     color: black;
-    padding: 8px 30px;
+}
+
+.modifyRequestButton:hover {
+    color: royalblue;
 }
 
 .deleteRequestButton {
-    color: rgb(235, 4, 4);
-    padding: 8px 30px;
+    color: rgb(215, 4, 4);
+}
+
+.deleteRequestButton:hover {
+    color:rgb(255, 4, 4)
 }

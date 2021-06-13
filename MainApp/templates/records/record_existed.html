@@ -29,11 +29,11 @@
                     </div>
 
                     {% if record.Category == 'Learning' %}
-                        <p class="record" id="categoryAndDate"><i class="fa fa-book"></i> {{record.Category}} | {{record.Date}}</p>
+                        <p class="record" id="categoryAndDate"><i class="fa fa-book"></i> 學習 | {{record.Date}}</p>
                     {% elif record.Category == 'Sports' %}
-                        <p class="record" id="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{record.Category}} | {{record.Date}}</p>
+                        <p class="record" id="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> 運動 | {{record.Date}}</p>
                     {% else %}
-                        <p class="record" id="categoryAndDate"><i class="fa fa-gamepad"></i>  {{record.Category}} | {{record.Date}}</p>
+                        <p class="record" id="categoryAndDate"><i class="fa fa-gamepad"></i> 休閒 | {{record.Date}}</p>
                     {% endif %}
                     <br>
                     <div id="buttonContainer">

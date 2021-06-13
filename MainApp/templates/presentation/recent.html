@@ -52,7 +52,13 @@
             <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
             {% for i in category_sum %}
             <div class="summaryCategory">
-                <h3>{{i[0]}}</h3>
+                {% if i[0] == 'Learning' %}
+                    <h3>學習</h3>
+                {% elif i[0] == 'Leisure' %}
+                    <h3>休閒</h3>
+                {% else %}
+                    <h3>運動</h3>
+                {% endif %}
                 <span>{{i[1]}} 分鐘</span>
             </div>
             {% endfor %}
@@ -97,11 +103,11 @@
                 </div>
             {% endif %}
             {% if r.Category == 'Learning' %}
-                <p class="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
+                <p class="categoryAndDate"><i class="fa fa-book"></i> 學習 | {{r.Date}}</p>
             {% elif r.Category == 'Sports' %}
-                <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  {{r.Category}} | {{r.Date}}</p>
+                <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i>  運動 | {{r.Date}}</p>
             {% else %}
-                <p class="categoryAndDate"><i class="fa fa-gamepad"></i>  {{r.Category}} | {{r.Date}}</p>
+                <p class="categoryAndDate"><i class="fa fa-gamepad"></i>  休閒 | {{r.Date}}</p>
             {% endif %}
         </div>
         {% endfor %}
@@ -169,11 +175,11 @@
                 {% endif %}
 
                 {% if g.Category == 'Learning' %}
-                    <p class="categoryAndDate"><i class="fa fa-book"></i> {{g.Category}} | {{g.SetDate}}</p>
+                    <p class="categoryAndDate"><i class="fa fa-book"></i> 學習 | {{g.SetDate}}</p>
                 {% elif g.Category == 'Sports' %}
-                    <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> {{g.Category}} | {{g.SetDate}}</p>
+                    <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> 運動 | {{g.SetDate}}</p>
                 {% else %}
-                    <p class="categoryAndDate"><i class="fa fa-gamepad"></i> {{g.Category}} | {{g.SetDate}}</p>
+                    <p class="categoryAndDate"><i class="fa fa-gamepad"></i> 休閒 | {{g.SetDate}}</p>
                 {% endif %}
             </div>
         </div>
@@ -196,10 +202,14 @@
             <div class="itemContainer">
                 {% if i.Category == 'Learning' %}
                     <h3 class="name">{{i.Name}} ({{i.ItemNumber}})</h3>
+                    <p class="category">類型: <i class="fa fa-book"></i> 學習</p>
+                {% elif i.Category == 'Sports' %}
+                    <h3 class="name">{{i.Name}}</h3>
+                    <p class="category">類型: <i class="fa fa-soccer-ball-o"></i> 運動</p>
                 {% else %}
                     <h3 class="name">{{i.Name}}</h3>
+                    <p class="category">類型: <i class="fa fa-gamepad"></i> 休閒</p>
                 {% endif %}
-                <p class="category">類型: <i class="fa fa-book"></i> {{i.Category}}</p>
             </div>
         </div>
         {% endfor %}
