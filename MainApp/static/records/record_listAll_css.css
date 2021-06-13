@@ -18,7 +18,8 @@ h3 {
 }
 
 h4 {
-    margin-top: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
     font-weight: normal;
     text-align: center;
 }
@@ -66,10 +67,15 @@ h4 {
 
 .categoryAndDate {
     color: rgb(90, 90, 90);
-    margin: 0;
+
+    font-size: smaller;
+
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .buttonContainer {
+    margin-top: 0;
     text-align: center;
 }
 

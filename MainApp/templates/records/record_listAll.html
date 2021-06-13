@@ -43,10 +43,12 @@
                             <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
                         </div>
                     {% endif %}
-                    <div class="recordInfoContainer">
-                        <p class="descriptionTitle">Description</p>
-                        <p class="description">{{r.Description}}</p>
-                    </div>
+                    {% if r.Description != '' %}
+                        <div class="recordInfoContainer">
+                            <p class="descriptionTitle">Description</p>
+                            <p class="description">{{r.Description}}</p>
+                        </div>
+                    {% endif %}
                     {% if r.Category == 'Learning' %}
                         <p class="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
                     {% elif r.Category == 'Sports' %}

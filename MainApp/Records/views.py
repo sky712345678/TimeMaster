@@ -23,8 +23,8 @@ def inputRecord(request):
         achievePercentage = request.form['achievePercentage']
         description = request.form['description']
 
+        # make sure nullable attributes are NULL in the databse if user didn't type anything
         if goalNumber == '':
-            # make sure nullable attributes are NULL in the databse if user didn't type anything
             goalNumber = None
             achievePercentage = None
         else:

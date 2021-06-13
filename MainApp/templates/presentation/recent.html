@@ -35,7 +35,7 @@
     <div id="chartContainer">
         <div class="cardHeaderContainer">
             <div class="titleContainer">
-                <h2 class="recentRecordsContainer"><i class="fa fa-pie-chart"></i> 總覽</h2>
+                <h2 class="recentRecordsContainer"><i class="fa fa-pie-chart"></i> 近期活動總覽</h2>
             </div>
         </div>
         <div id="pieChartContainer">
@@ -50,13 +50,17 @@
         <div id="summaryContainer">
         <!-- modified by sky712345678-->
             <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
-            <h3>近七天總活動時間</h3>
             {% for i in category_sum %}
-            <span>{{i[0]}}：</span><span>{{i[1]}} 分鐘 &nbsp;</span>
+            <div class="summaryCategory">
+                <h3>{{i[0]}}</h3>
+                <span>{{i[1]}} 分鐘</span>
+            </div>
             {% endfor %}
             <hr>
             {% for item,time in each_sum.items() %}
-            <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘</p>
+            <div class="summaryItem">
+                <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘&nbsp;&nbsp;&nbsp;</p>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -88,10 +92,12 @@
                     <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
                 </div>
             {% endif %}
-            <div class="recordInfoContainer">
-                <p class="descriptionTitle">Description</p>
-                <p class="description">{{r.Description}}</p>
-            </div>
+            {% if r.Description != '' %}
+                <div class="recordInfoContainer">
+                    <p class="descriptionTitle">Description</p>
+                    <p class="description">{{r.Description}}</p>
+                </div>
+            {% endif %}
             {% if r.Category == 'Learning' %}
                 <p class="categoryAndDate"><i class="fa fa-book"></i> {{r.Category}} | {{r.Date}}</p>
             {% elif r.Category == 'Sports' %}
