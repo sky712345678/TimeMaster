@@ -48,7 +48,6 @@
     <!-- modified by sky712345678-->
     <!--div style="position: absolute; top:55vh; left: 20vw;height:20vh; width:60vw"-->
         <div id="summaryContainer">
-        <!-- modified by sky712345678-->
             <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
             {% for i in category_sum %}
             <div class="summaryCategory">
@@ -59,12 +58,22 @@
                 {% else %}
                     <h3>運動</h3>
                 {% endif %}
-                <span>{{i[1]}} 分鐘</span>
+                {% if category_sum_14D[loop.index0] %}
+                    {% if i[1]-category_sum_14D[loop.index0][1] > 0 %}
+                        <span>{{i[1]}} 分鐘 (+{{i[1]-category_sum_14D[loop.index0][1]}} 分鐘)</span>
+                    {% else %}
+                        <span>{{i[1]}} 分鐘 (-{{category_sum_14D[loop.index0][1]-i[1]}} 分鐘)</span>
+                    {% endif %}
+                {% else %}
+                    <span>{{i[1]}} 分鐘 (+{{i[1]}} 分鐘)</span>
+                {% endif %}
             </div>
             {% endfor %}
             <hr>
             {% for item,time in each_sum.items() %}
-            <p>&nbsp;&nbsp;&nbsp;{{item}}: {{time}} 分鐘</p>
+            <div class="summaryItem">
+                <p>{{item}}: {{time}} 分鐘</p>
+            </div>
             {% endfor %}
         </div>
     </div>
