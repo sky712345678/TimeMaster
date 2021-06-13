@@ -103,7 +103,7 @@ def quitGoal(request):
         tupleToQuit = Goals.query.filter_by(GoalNumber=goalNumber).first()
 
         if tupleToQuit is not None:
-            tupleToQuit.Achieved = 'F'
+            tupleToQuit.Achieved = 'Q'
             db.session.commit()
 
             flash('目標已放棄')

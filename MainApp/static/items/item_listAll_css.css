@@ -47,7 +47,6 @@ h4 {
 }
 
 .itemTitleContainer, .buttonContainer {
-    width: 43%;
     margin-top: 2%;
     margin-bottom: 2%;
     margin-left: 3%;
@@ -57,10 +56,12 @@ h4 {
 }
 
 .itemTitleContainer {
+    width: 66%;
     text-align: left;
 }
 
 .buttonContainer {
+    width: 20%;
     margin-top: 0;
     text-align: right;
 }
@@ -71,7 +72,7 @@ button {
     border-style: none;
     border-radius: 6px;
 
-    font-size: 14px;
+    font-size: 16px;
 
     margin-top: 1%;
     margin-bottom: 1%;

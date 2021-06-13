@@ -89,7 +89,7 @@ def recent():
                                     'FROM Goals, Items '+
                                     'WHERE Goals.ItemNumber = Items.ItemNumber '+
                                       'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
-                                    'ORDER BY Goals.Achieved, Goals.SetDate ASC '+
+                                    'ORDER BY Goals.Achieved, Goals.SetDate DESC '+
                                     'LIMIT 0, 4',
                                     {'lb': past_14D, 'ub': today}).fetchall()
 
@@ -102,7 +102,7 @@ def recent():
                                                 'FROM Records '+
                                                 'GROUP BY Records.ItemNumber '+
                                                 'ORDER BY Time DESC '+
-                                                'LIMIT 0, 4) AS TimeSpentRanking)').fetchall()
+                                                'LIMIT 0, 3) AS TimeSpentRanking)').fetchall()
     
     # modified by sky712345678
 

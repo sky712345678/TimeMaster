@@ -48,15 +48,18 @@ h4 {
     margin: auto;
 }
 
-.recordTitleContainer, .buttonContainer {
-    width: 49%;
-    
+.recordTitleContainer{
+    width: 83%;
+
     display: inline-block;
 }
 
 .buttonContainer {
+    width: 15%;
     margin-top: 0;
     text-align: right;
+
+    display: inline-block;
 }
 
 button {

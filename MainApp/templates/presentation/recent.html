@@ -154,7 +154,7 @@
             <div class="goalContainer">
                 {% if g.Achieved == 'Y' %}
                     <h3 class="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-                {% elif g.Achieved == 'F' %}
+                {% elif g.Achieved == 'Q' %}
                     <h3 class="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
                 {% else %}
                     <h3 class="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>

@@ -58,7 +58,7 @@ def inputRecord(request):
                 else:
                     goalToUpdate.AchievePercentage = 0
 
-                if achievePercentage == '100':
+                if int(achievePercentage) >= 100:
                     # if the user input '100' in the achieve percentage field, update the goal tuple
                     if goalToUpdate.Achieved == 'N':
                         goalToUpdate.Achieved = 'Y'
@@ -213,6 +213,9 @@ def deleteRecord(request):
                 
                 if len(achievePercentageRanking) > 0:
                     goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+
+                    if goalToUpdate.Achieved == 'Y' and achievePercentageRanking[0].AchievePercentage < 100:
+                        goalToUpdate.Achieved = 'N'
                 else:
                     goalToUpdate.AchievePercentage = 0
 
@@ -307,8 +310,6 @@ def modifyRecord(request):
         tupleToUpdate = Records.query.filter_by(ItemNumber=originalItemNumber, SetDateTime=setDateTime).first()
 
         if tupleToUpdate is not None:
-            originalAchievePercentage = tupleToUpdate.AchievePercentage
-
             tupleToUpdate.ItemNumber = itemNumber
             tupleToUpdate.Date = date
             tupleToUpdate.Duration = duration
@@ -321,7 +322,7 @@ def modifyRecord(request):
             goalToUpdate = Goals.query.filter_by(GoalNumber=goalNumber).first()
 
             if goalToUpdate is not None:
-                if achievePercentage == '100':
+                if int(achievePercentage) >= 100:
                     # if the user input '100' in the achieve percentage field, update the goal tuple
                     if goalToUpdate.Achieved == 'N':
                         goalToUpdate.Achieved = 'Y'
@@ -336,6 +337,9 @@ def modifyRecord(request):
                     
                     if len(achievePercentageRanking) > 0:
                         goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+
+                        if goalToUpdate.Achieved == 'Y' and achievePercentageRanking[0].AchievePercentage < 100:
+                            goalToUpdate.Achieved = 'N'
                     else:
                         goalToUpdate.AchievePercentage = 0
                 
