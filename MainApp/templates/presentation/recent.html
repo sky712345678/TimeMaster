@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Recent</title>
+<title>Home</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='chart.css') }}"/>    
 
@@ -58,9 +58,7 @@
             {% endfor %}
             <hr>
             {% for item,time in each_sum.items() %}
-            <div class="summaryItem">
-                <p>&nbsp;&nbsp;&nbsp;{{item}}：{{time}} 分鐘&nbsp;&nbsp;&nbsp;</p>
-            </div>
+            <p>&nbsp;&nbsp;&nbsp;{{item}}: {{time}} 分鐘</p>
             {% endfor %}
         </div>
     </div>
@@ -82,19 +80,19 @@
         <div class="recordContainer">
             <hr>
             {% if r.Category == 'Learning' %}
-                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
+                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
             {% else %}
-                <h3 class="item">{{r.Name}} | {{r.Duration}} minutes</h3>
+                <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
             {% endif %}
             {% if r.Goal != None %}
                 <div class="recordInfoContainer">
-                    <p class="goalTitle">Goal</p>
+                    <p class="goalTitle">目標</p>
                     <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
                 </div>
             {% endif %}
             {% if r.Description != '' %}
                 <div class="recordInfoContainer">
-                    <p class="descriptionTitle">Description</p>
+                    <p class="descriptionTitle">備註</p>
                     <p class="description">{{r.Description}}</p>
                 </div>
             {% endif %}
@@ -132,11 +130,11 @@
     
             <div class="progressDetailContainer">
                 <div class="progressDetail" id="numberOfAchievedGoals">
-                    <h4 class="numberOfAchievedGoals">達成的目標: {{numberOfAchievedGoals}}</h4>
+                    <h4 class="numberOfAchievedGoals">達成: {{numberOfAchievedGoals}}</h4>
                 </div>
     
                 <div class="progressDetail" id="numberOfQuittedGoals">
-                    <h4 class="numberOfAchievedGoals">失敗的目標: {{numberOfQuittedGoals}}</h4>
+                    <h4 class="numberOfAchievedGoals">失敗: {{numberOfQuittedGoals}}</h4>
                 </div>
     
                 <div class="progressDetail" id="numberOfGoalsContainer">
@@ -163,11 +161,11 @@
                 {% endif %}
                 
                 {% if g.Achieved == 'Y' %}
-                    <p class="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
+                    <p class="achieveInfo">狀態: 已於{{g.AchieveDate}}達成</p>
                 {% elif g.Achieved == 'N' %}
-                    <p class="achieveInfo">Achieved: No</p>
+                    <p class="achieveInfo">狀態: 未達成</p>
                 {% else %}
-                    <p class="achieveInfo">Failed</p>
+                    <p class="achieveInfo">狀態: 失敗</p>
                 {% endif %}
 
                 {% if g.Category == 'Learning' %}
@@ -196,15 +194,12 @@
         {% for i in frequentItems%}
         <div class="itemOuterContainer">
             <div class="itemContainer">
-                <h3 class="name">{{i.Name}}</h3>
                 {% if i.Category == 'Learning' %}
-                    <p class="category">Category: <i class="fa fa-book"></i> {{i.Category}}</p>
-                    <p class="itemNumber">{{i.ItemNumber}}</p>
-                {% elif i.Category == 'Sports' %}
-                    <p class="category">Category: <i class="fa fa-soccer-ball-o"></i> {{i.Category}}</p>
+                    <h3 class="name">{{i.Name}} ({{i.ItemNumber}})</h3>
                 {% else %}
-                    <p class="category">Category: <i class="fa fa-gamepad"></i> {{i.Category}}</p>
+                    <h3 class="name">{{i.Name}}</h3>
                 {% endif %}
+                <p class="category">類型: <i class="fa fa-book"></i> {{i.Category}}</p>
             </div>
         </div>
         {% endfor %}

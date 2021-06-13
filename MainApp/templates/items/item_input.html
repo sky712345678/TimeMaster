@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <title>Item input</title>
+    <title>輸入項目</title>
     <body>
-        <a href="/home" title="go to Homepage">&lt; Go back home</a>
+        <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
                 {% for message in messages %}
-                - {{ message }} <a href="./listAll" title="item listAll">List all items</a>
+                - {{ message }} <a href="./listAll" title="item listAll">查看所有項目</a>
                 {% endfor %}
             </div>
             {% endwith %}
         {% endblock %}
 
         <div class="itemContainer">
-            <h1 class="containerTitle">Please enter an item</h1>
+            <h1 class="containerTitle">請輸入項目</h1>
 
             <form action="./input/submit" method="post" id="itemInfoForm"-->
             <!--form id="itemInfoForm" enctype="multipart/form-data"-->
-                Category <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
+                類型 <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
                             <option value="Learning">Learning</option>
                             <option value="Sports">Sports</option>
                             <option value="Leisure">Leisure</option>
                         </select>
                 <br>
                 <div id="itemNumberContainer" style="display: block;">
-                    Course number <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" required/>
+                    課程代號 <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" required/>
                 </div>
-                Name <input type="text" id="nameInput" name="name" placeholder="Please enter course name" required/>
+                名稱 <input type="text" id="nameInput" name="name" placeholder="Please enter course name" required/>
                 <br>
-                <button type="submit" id="submitButton">Submit</button>
+                <button type="submit" id="submitButton">新增</button>
             </form>
         </div>
         

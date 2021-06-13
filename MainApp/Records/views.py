@@ -69,7 +69,7 @@ def inputRecord(request):
                 
                 db.session.commit()
 
-            flash('The record was added successfully.')
+            flash('活動紀錄新增成功')
             return redirect('/records/input')
         else:
             # else, show existied record fot that date
@@ -160,7 +160,8 @@ def listRecords():
                                                                'FROM Records, Items '+
                                                                'WHERE Records.ItemNumber = Items.ItemNumber '+
                                                                  'AND Records.Date >= :lb AND Records.Date <= :ub '+
-                                                               'GROUP BY Items.Category',
+                                                               'GROUP BY Items.Category '+
+                                                               'ORDER BY Items.Category',
                                                                {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall())
 
                 recordsTemp = []
@@ -221,10 +222,10 @@ def deleteRecord(request):
                     
                 db.session.commit()
 
-            flash('Deleted successfully.')
+            flash('活動紀錄刪除成功')
             return redirect('/records/listAll')
         else:
-            flash('Error occured. Failed to delete record.')
+            flash('發生未知的錯誤，無法刪除活動紀錄')
             return redirect('/records/listAll')
 
 
@@ -340,8 +341,8 @@ def modifyRecord(request):
                 
                 db.session.commit()
 
-            flash('Updated successfully.')
+            flash('活動紀錄更新成功')
             return redirect('/records/listAll')
         else:
-            flash('Error occured. Failed to update record.')
+            flash('發生未知的錯誤，無法更新活動紀錄')
             return redirect('/records/listAll')

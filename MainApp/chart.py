@@ -45,14 +45,14 @@ def recent():
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
                                         'GROUP BY Items.Category '+ 
-                                        'ORDER BY Records.Date DESC',
+                                        'ORDER BY Items.Category, Records.Date DESC',
                                         {'lb':past_7D, 'ub':today})
     category_sum_14D = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
                                         'GROUP BY Items.Category '+ 
-                                        'ORDER BY Records.Date DESC',
+                                        'ORDER BY Items.Category, Records.Date DESC',
                                         {'lb':past_14D, 'ub':past_7D})
 
     # modified by sky712345678

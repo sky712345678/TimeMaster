@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
-    <title>Unfinished goals existed</title>
+    <title>未完成的目標</title>
 
     <link rel="stylesheet" href="/static/goals/goal_existed_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body>
-        <h1 class="containerTitle">There's an unfinished goal</h1>
+        <h1 class="containerTitle">還有未完成的目標</h1>
 
         <div id="goalOuterContainer">
             <div id="goalContainer">
@@ -24,7 +24,7 @@
                     <p class="goal" id="item">{{goal.Name}}</p>
                 {% endif %}
 
-                <p class="goal" id="achieveInfo">Achieved: No</p>
+                <p class="goal" id="achieveInfo">狀態: 未達成</p>
                 
                 {% if goal.Category == 'Learning' %}
                     <p class="goal" id="setDate"><i class="fa fa-book"></i> {{goal.Category}} | {{goal.SetDate}}</p>
@@ -35,9 +35,9 @@
                 {% endif %}
 
                 <div id="buttonContainer">
-                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{goal.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                    <button id="modifyRequestButton" onclick="sendModifyRequest('{{goal.GoalNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
                     <br>
-                    <button id="backButton" onclick="back()">Back</button>
+                    <button id="backButton" onclick="back()">返回</button>
                 </div>
             </div>
         </div>

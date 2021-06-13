@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
-    <title>List records</title>
+    <title>所有活動紀錄</title>
 
     <link rel="stylesheet" href="/static/records/record_listAll_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="setInfo()">
-        <a href="/home" title="go to Homepage">&lt; Go back home</a>
+        <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -18,34 +18,34 @@
         {% endblock %}
         
         <div id="recordListContainer">
-            <h1 class="recordListContainer">View all the records</h1>
+            <h1 class="recordListContainer">查看所有活動紀錄</h1>
             
             {% for rl in records %}
             <div class="intervalContainer">
                 <h2 class="interval">{{bound[loop.index0][0]}} - {{bound[loop.index0][1]}}</h2>
                 <h4 class="summary">
-                    {{summary[loop.index0][0].Category}}: {{summary[loop.index0][0].Total}} minutes
+                    {{summary[loop.index0][0].Category}}: {{summary[loop.index0][0].Total}} 分鐘
                     {% for s in summary[loop.index0][1:] %}
-                 | {{s.Category}}: {{s.Total}} minutes
+                 | {{s.Category}}: {{s.Total}} 分鐘
                     {% endfor %}
                 </h4>
                 {% for r in rl %}
                 <div class="recordContainer">
                     <hr>
                     {% if r.Category == 'Learning' %}
-                        <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} minutes</h3>
+                        <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
                     {% else %}
-                        <h3 class="item">{{r.Name}} | {{r.Duration}} minutes</h3>
+                        <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
                     {% endif %}
                     {% if r.Goal != None %}
                         <div class="recordInfoContainer">
-                            <p class="goalTitle">Goal</p>
+                            <p class="goalTitle">目標</p>
                             <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
                         </div>
                     {% endif %}
                     {% if r.Description != '' %}
                         <div class="recordInfoContainer">
-                            <p class="descriptionTitle">Description</p>
+                            <p class="descriptionTitle">備註</p>
                             <p class="description">{{r.Description}}</p>
                         </div>
                     {% endif %}
@@ -58,8 +58,8 @@
                     {% endif %}
                     <br>
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i> 編輯</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i> 刪除</button>
                     </div>
                 </div>
                 {% endfor %}

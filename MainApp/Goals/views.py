@@ -44,7 +44,7 @@ def inputGoal(request):
             db.session.add(tupleToInsert)
             db.session.commit()
 
-            flash('The goal was added successfully.')
+            flash('目標新增成功')
             return redirect('/goals/input')
         else:
             # else, show existied, unfinished goal
@@ -106,10 +106,10 @@ def quitGoal(request):
             tupleToQuit.Achieved = 'F'
             db.session.commit()
 
-            flash('Quitted successfully.')
+            flash('目標已放棄')
             return redirect('/goals/listAll')
         else:
-            flash('Error occured. Failed to quit the goal.')
+            flash('發生未知的錯誤，無法放棄目標')
             return redirect('/goals/listAll')
 
 
@@ -123,10 +123,10 @@ def deleteGoal(request):
             db.session.delete(tupleToDelete)
             db.session.commit()
 
-            flash('Deleted successfully.')
+            flash('目標刪除成功')
             return redirect('/goals/listAll')
         else:
-            flash('Error occured. Failed to delete goal.')
+            flash('發生未知的錯誤，無法刪除目標')
             return redirect('/goals/listAll')
 
 
@@ -182,8 +182,8 @@ def modifyGoal(request):
 
             db.session.commit()
 
-            flash('Updated successfully.')
+            flash('目標更新成功')
             return redirect('/goals/listAll')
         else:
-            flash('Error occured. Failed to update goal.')
+            flash('發生未知的錯誤，無法更新目標')
             return redirect('/goals/listAll')

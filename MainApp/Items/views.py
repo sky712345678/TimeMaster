@@ -80,10 +80,10 @@ def inputItem(request):
             db.session.add(tupleToInsert)
             db.session.commit()
 
-            flash('The item was added successfully.')
+            flash('項目新增程動')
             return redirect('/items/input')
         else:
-            flash('The item has already existed!')
+            flash('已有重複的項目')
             return redirect('/items/input')
 
 
@@ -108,10 +108,10 @@ def deleteItem(request):
             db.session.delete(tupleToDelete)
             db.session.commit()
 
-            flash('Deleted successfully.')
+            flash('項目刪除成功')
             return redirect('/items/listAll')
         else:
-            flash('Error occured. Failed to delete item.')
+            flash('發生未知的錯誤，無法刪除項目')
             return redirect('/items/listAll')
 
 
@@ -212,8 +212,8 @@ def modifyItem(request):
 
             db.session.commit()
             
-            flash('Updated successfully.')
+            flash('項目更新成功')
             return redirect('/items/listAll')
         else:
-            flash('Error occured. Failed to update item.')
+            flash('發生未知的錯誤，無法更新項目')
             return redirect('/items/listAll')

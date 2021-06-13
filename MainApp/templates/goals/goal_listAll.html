@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
-    <title>List goals</title>
+    <title>所有目標</title>
 
     <link rel="stylesheet" href="/static/goals/goal_listAll_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="setInfo()">
-        <a href="/home" title="go to Homepage">&lt; Go back home</a>
+        <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -20,11 +20,11 @@
         {% endblock %}
 
         <div id="titleContainer">
-            <h1 class="containerTitle">View all set goals</h1>
+            <h1 class="containerTitle">查看所有目標</h1>
 
             <div id="progressContainer">
                 <div class="progress" id="messageContainer">
-                    <h3 class="message">Achieve percentage</h3>
+                    <h3 class="message">{{percentage}}% 達成</h3>
                 </div>
 
                 <div class="progress" id="barContainer">
@@ -34,15 +34,15 @@
 
             <div id="progressDetailContainer">
                 <div class="progressDetail" id="numberOfAchievedGoals">
-                    <h4 class="numberOfAchievedGoals">Achieved goals: {{numberOfAchievedGoals}}</h4>
+                    <h4 class="numberOfAchievedGoals">達成: {{numberOfAchievedGoals}}</h4>
                 </div>
 
                 <div class="progressDetail" id="numberOfQuittedGoals">
-                    <h4 class="numberOfAchievedGoals">Quitted goals: {{numberOfQuittedGoals}}</h4>
+                    <h4 class="numberOfAchievedGoals">失敗: {{numberOfQuittedGoals}}</h4>
                 </div>
 
                 <div class="progressDetail" id="numberOfGoalsContainer">
-                    <p class="numberOfGoals">Number of goals: {{numberOfGoals}}</p>
+                    <p class="numberOfGoals">總數: {{numberOfGoals}}</p>
                 </div>
             </div>
         </div>
@@ -67,62 +67,22 @@
                     {% endif %}
                     
                     {% if g.Achieved == 'Y' %}
-                        <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
+                        <p class="goal" id="achieveInfo">狀態: 已於{{g.AchieveDate}}達成</p>
                     {% elif g.Achieved == 'N' %}
-                        <p class="goal" id="achieveInfo">Achieved: No</p>
+                        <p class="goal" id="achieveInfo">狀態: 未達成</p>
                     {% else %}
-                        <p class="goal" id="achieveInfo">Failed</p>
+                        <p class="goal" id="achieveInfo">狀態: 失敗</p>
                     {% endif %}
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
                     
                     <div class="buttonContainer">
                         {% if g.Achieved == 'N' %}
-                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> 放棄</button>
                             <br>
-                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
                         {% endif %}
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <h2 class="sportsGoals"><i class="fa fa-soccer-ball-o"></i> Sports</h2>
-            <div class="goalsOuterContainer" id="sportsGoalsContainer">
-                {% for g in sportsGoals %}
-                <div class="goalContainer">
-                    {% if g.Achieved == 'Y' %}
-                        <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
-                    {% elif g.Achieved == 'F' %}
-                        <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
-                    {% else %}
-                        <h3 class="goal" id="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
-                    {% endif %}
-
-                    {% if g.Category == 'Learning' %}
-                        <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
-                    {% else %}
-                        <p class="goal" id="item">{{g.Name}}</p>
-                    {% endif %}
-
-                    {% if g.Achieved == 'Y' %}
-                        <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
-                    {% elif g.Achieved == 'N' %}
-                        <p class="goal" id="achieveInfo">Achieved: No</p>
-                    {% else %}
-                        <p class="goal" id="achieveInfo">Failed</p>
-                    {% endif %}
-
-                    <p class="goal" id="setDate">{{g.SetDate}}</p>
-
-                    <div class="buttonContainer">
-                        {% if g.Achieved == 'N' %}
-                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
-                            <br>
-                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
-                        {% endif %}
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
                     </div>
                 </div>
                 {% endfor %}
@@ -147,22 +107,62 @@
                     {% endif %}
 
                     {% if g.Achieved == 'Y' %}
-                        <p class="goal" id="achieveInfo">Achieved: Yes. Achieved on {{g.AchieveDate}}.</p>
+                        <p class="goal" id="achieveInfo">狀態: 已於{{g.AchieveDate}}達成</p>
                     {% elif g.Achieved == 'N' %}
-                        <p class="goal" id="achieveInfo">Achieved: No</p>
+                        <p class="goal" id="achieveInfo">狀態: 未達成</p>
                     {% else %}
-                        <p class="goal" id="achieveInfo">Failed</p>
+                        <p class="goal" id="achieveInfo">狀態: 失敗</p>
                     {% endif %}
 
                     <p class="goal" id="setDate">{{g.SetDate}}</p>
 
                     <div class="buttonContainer">
                         {% if g.Achieved == 'N' %}
-                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> Quit</button>
+                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> 放棄</button>
                             <br>
-                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> Edit</button>
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
                         {% endif %}
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h2 class="sportsGoals"><i class="fa fa-soccer-ball-o"></i> Sports</h2>
+            <div class="goalsOuterContainer" id="sportsGoalsContainer">
+                {% for g in sportsGoals %}
+                <div class="goalContainer">
+                    {% if g.Achieved == 'Y' %}
+                        <h3 class="goal" id="goal"><i class="fa fa-check-circle"></i> {{g.Goal}}</h3>
+                    {% elif g.Achieved == 'F' %}
+                        <h3 class="goal" id="goal"><i class="fa fa-times-circle"></i> {{g.Goal}}</h3>
+                    {% else %}
+                        <h3 class="goal" id="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
+                    {% endif %}
+
+                    {% if g.Category == 'Learning' %}
+                        <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
+                    {% else %}
+                        <p class="goal" id="item">{{g.Name}}</p>
+                    {% endif %}
+
+                    {% if g.Achieved == 'Y' %}
+                        <p class="goal" id="achieveInfo">狀態: 已於{{g.AchieveDate}}達成</p>
+                    {% elif g.Achieved == 'N' %}
+                        <p class="goal" id="achieveInfo">狀態: 未達成</p>
+                    {% else %}
+                        <p class="goal" id="achieveInfo">狀態: 失敗</p>
+                    {% endif %}
+
+                    <p class="goal" id="setDate">{{g.SetDate}}</p>
+
+                    <div class="buttonContainer">
+                        {% if g.Achieved == 'N' %}
+                            <button class="quitRequestButton" onclick="quitWarn('{{g.GoalNumber}}')"><i class="fa fa-close"></i> 放棄</button>
+                            <br>
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{g.GoalNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
+                        {% endif %}
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{g.GoalNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
                     </div>
                 </div>
                 {% endfor %}

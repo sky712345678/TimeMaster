@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <title>Goal Input</title>
+    <title>輸入目標</title>
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; Go back home</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
                 {% for message in messages %}
-                - {{ message }} <a href="./listAll" title="goal listAll">List all goals</a>
+                - {{ message }} <a href="./listAll" title="goal listAll">查看所有目標</a>
                 {% endfor %}
             </div>
             {% endwith %}
         {% endblock %}
         
         <div id="goalContainer">
-            <h1 class="containerTitle">Please enter a goal</h1>
+            <h1 class="containerTitle">請輸入目標</h1>
 
             <form action="./input/submit" method="post" id="goalInfoForm">
             <!--form id="goalInfoForm" enctype="multipart/form-data"-->
-                Item <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
+                項目 <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
                         {% if i.Category == 'Learning' %}
                             <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
@@ -28,9 +28,9 @@
                     {% endfor %}
                 </select>
                 <br>
-                Goal <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" required>
+                目標 <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" required>
                 <br>
-                <button type="submit" id="submitButton">Submit</button>
+                <button type="submit" id="submitButton">新增</button>
             </form>
         </div>
         

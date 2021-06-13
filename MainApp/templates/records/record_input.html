@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <title>Record Input</title>
+    <title>輸入活動紀錄</title>
     <body onload="setInfo()">
-        <a href="/home" title="go to Homepage">&lt; Go back home</a>
+        <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
                 {% for message in messages %}
-                - {{ message }} <a href="./listAll" title="record listAll">List all records</a>
+                - {{ message }} <a href="./listAll" title="record listAll">查看所有活動紀錄</a>
                 {% endfor %}
             </div>
             {% endwith %}
         {% endblock %}
         
         <div id="recordContainer">
-            <h1 class="containerTitle">Please enter the time record</h1>
+            <h1 class="containerTitle">請輸入活動紀錄</h1>
 
             <form action="./input/submit" method="post" id="recordInfoForm">
-                Item <select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
+                項目 <select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
                         {% for i in items %}
                         {% if i.Category == 'Learning' %}
                             <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
@@ -27,17 +27,17 @@
                         {% endfor %}
                     </select>
                 <br>
-                Date <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" required>
+                日期 <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" required>
                 <br>
-                Duration <input type="text" id="durationInput" name="duration" placeholder="The time you spent (min.)" required>
+                時長 <input type="text" id="durationInput" name="duration" placeholder="The time you spent (min.)" required>
                 <br>
-                Goal <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
+                目標 <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
-                Achieve percentage <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%">
+                達成度 <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%">
                 <br>
-                Description <input type="text" id="descriptionInput" name="description">
+                備註 <input type="text" id="descriptionInput" name="description">
                 <br>
-                <button type="submit" id="submitButton">Submit</button>
+                <button type="submit" id="submitButton">新增</button>
             </form>
         </div>
         

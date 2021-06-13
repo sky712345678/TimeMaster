@@ -1,30 +1,30 @@
 <!doctype html>
 <html>
-    <title>Record existed</title>
+    <title>重複的活動紀錄</title>
 
     <link rel="stylesheet" href="/static/records/record_existed_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body>
-        <h1 class="recordContainer">There's already a record for that day</h1>
+        <h1 class="recordContainer">當天已有相同的活動紀錄</h1>
 
         <div id="contentContainer">
             <div id="recordOuterContainer">
                 <div id="recordContainer">
                     {% if record.Category == 'Learning' %}
-                        <h3 class="record" id="item">{{record.Name}} ({{record.ItemNumber}}) | {{record.Duration}} minutes</h3>
+                        <h3 class="record" id="item">{{record.Name}} ({{record.ItemNumber}}) | {{record.Duration}} 分鐘</h3>
                     {% else %}
-                        <h3 class="record" id="item">{{record.Name}} | {{record.Duration}} minutes</h3>
+                        <h3 class="record" id="item">{{record.Name}} | {{record.Duration}} 分鐘</h3>
                     {% endif %}
 
                     {% if record.Goal != None %}
                         <div id="recordInfoContainer">
-                            <p class="record" id="goalTitle">Goal</p>
+                            <p class="record" id="goalTitle">目標</p>
                             <p class="record" id="goal">{{record.Goal}} ({{record.AchievePercentage}}%)</p>
                         </div>
                     {% endif %}
                     <div id="recordInfoContainer">
-                        <p class="record" id="descriptionTitle">Description</p>
+                        <p class="record" id="descriptionTitle">備註</p>
                         <p class="record" id="description">{{record.Description}}</p>
                     </div>
 
@@ -37,9 +37,9 @@
                     {% endif %}
                     <br>
                     <div id="buttonContainer">
-                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{record.ItemNumber}}', '{{record.Date}}', '{{record.SetDateTime}}')"><i class="fa fa-edit"></i> Edit</button>
+                        <button id="modifyRequestButton" onclick="sendModifyRequest('{{record.ItemNumber}}', '{{record.Date}}', '{{record.SetDateTime}}')"><i class="fa fa-edit"></i> 編輯</button>
                         <br>
-                        <button id="backButton" onclick="back()">Back</button>
+                        <button id="backButton" onclick="back()">返回</button>
                     </div>
                 </div>
             </div>

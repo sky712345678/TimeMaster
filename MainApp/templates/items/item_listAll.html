@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
-    <title>List items</title>
+    <title>所有項目</title>
 
     <link rel="stylesheet" href="/static/items/item_listAll_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="setInfo()">
-        <a href="/home" title="go to Homepage">&lt; Go back home</a>
+        <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
             {% with messages = get_flashed_messages() %}
             <div class="messageContainer">
@@ -20,19 +20,17 @@
         {% endblock %}
 
         <div class="items" id="itemListContainer">
-            <h1 class="items">View all items</h1>
+            <h1 class="items">查看所有項目</h1>
 
             <h2 class="learningItems"><i class="fa fa-book"></i> Learning</h2>
             <div class="itemsOuterContainer" id="learningItemsContainer">
                 {% for i in learningItems%}
                 <div class="itemContainer">
-                    <h3 class="item" id="name">{{i.Name}}</h3>
-                    <p class="item" id="category">Category: {{i.Category}}</p>
-                    <p class="item" id="itemNumber">{{i.ItemNumber}}</p>
+                    <h3 class="item" id="name">{{i.Name}} ({{i.ItemNumber}})</h3>
 
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> Edit</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
                     </div>
                 </div>
                 {% endfor %}
@@ -41,12 +39,12 @@
             <h2 class="sportsItems"><i class="fa fa-soccer-ball-o"></i> Sports</h2>
             <div class="itemsOuterContainer" id="sportsItemsContainer">
                 {% for i in sportsItems%}
-                <div class="itemMinimalContainer">
+                <div class="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
 
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> Edit</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
                     </div>
                 </div>
                 {% endfor %}
@@ -55,12 +53,12 @@
             <h2 class="leisureItems"><i class="fa fa-gamepad"></i> Leisure</h2>
             <div class="itemsOuterContainer" id="leisureItemsContainer">
                 {% for i in leisureItems%}
-                <div class="itemMinimalContainer">
+                <div class="itemContainer">
                     <h3 class="item" id="name">{{i.Name}}</h3>
 
                     <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> Edit</button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> Delete</button>
+                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{i.ItemNumber}}')"><i class="fa fa-edit"></i> 編輯</button>
+                        <button class="deleteRequestButton" onclick="deleteWarn('{{i.ItemNumber}}')"><i class="fa fa-trash"></i> 刪除</button>
                     </div>
                 </div>
                 {% endfor %}
