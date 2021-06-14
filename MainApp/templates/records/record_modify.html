@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <title>Edit record</title>
+    <title>更改活動紀錄</i></title>
     
     <body onload="recordAndSetInfo()">
         <div id="recordContainer">
-            <h1 id="title">Edit record</h1>
+            <h1 id="title">更改活動紀錄 <i class="fa fa-wrench" aria-hidden="true"></i></h1>
+
+            <link rel="stylesheet" href="/static/records/record_modify_css.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
             <form id="recordInfoForm" action="./modify/submit" method="post">
-                Item <select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
+                <label>項目</label> <select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
                         {% for i in items %}
                         {% if i.Category == 'Learning' %}
                         <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
@@ -17,19 +20,19 @@
                         {% endfor %}
                     </select>
                 <br>
-                Date <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" value="{{record.Date}}" required>
+                <label>日期</label> <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" value="{{record.Date}}" required>
                 <br>
-                Duration <input type="text" id="durationInput" name="duration" placeholder="Please enter the time you spent (min.)" value="{{record.Duration}}" required>
+                <label>時長</label> <input type="text" id="durationInput" name="duration" placeholder="Please enter the time you spent (min.)" value="{{record.Duration}}" required>
                 <br>
-                Goal <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
+                <label>目標</label> <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
                 {% if record.GoalNumber == None %}
-                    Achieve percentage <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%" value="">
+                    <label>達成度</label> <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%" value="">
                 {% else %}
-                    Achieve percentage <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%" value="{{record.AchievePercentage}}">
+                    <label>達成度</label> <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%" value="{{record.AchievePercentage}}">
                 {% endif %}
                 <br>
-                Description <input type="text" id="descriptionInput" name="description" value="{{record.Description}}">
+                <label>備註</label> <input type="text" id="descriptionInput" name="description" value="{{record.Description}}">
                 <br>
                 
                 <div id="originalRecordInfoContainer" style="display: none;">
@@ -38,8 +41,8 @@
                     <input type="text" id="setDateTimeInput" name="setDateTime" value="{{record.SetDateTime}}" disabled>
                 </div>
 
-                <button type="submit" id="confirmButton">Save</button>
-                <button type="button" id="cancelButton">Cancel</button>
+                <button type="submit" id="confirmButton"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                <button type="button" id="cancelButton"><i class="fa fa-times-circle" aria-hidden="true"></i> Cancel</button>
             </form>
         </div>
         

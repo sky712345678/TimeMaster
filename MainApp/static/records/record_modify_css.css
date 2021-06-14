@@ -1,0 +1,48 @@
+body {
+    background-color: #f6f6f8;
+}
+
+a, div, h1, p {
+    font-family: sans-serif;
+}
+
+#recordContainer {
+    width: 40%;
+    margin: auto;
+    text-align: center;
+}
+
+#recordInfoForm {
+    background-color: white;
+    width: 100%;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+input, select {
+    margin-top: 15px;
+    width: 150px;
+    box-sizing: border-box;
+}
+
+label {
+    display:inline-block;
+    width: 150px;   
+}
+
+button {
+    
+    border-width: 1px;
+    border-radius: 5px;
+
+    font-size: 14px;
+
+    margin-top: 15px;
+    margin-bottom: 1%;
+
+    cursor: pointer;
+}

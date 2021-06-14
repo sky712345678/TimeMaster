@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
     <title>輸入項目</title>
+
+    <link rel="stylesheet" href="/static/items/item_input_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <body>
         <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
@@ -14,22 +18,24 @@
         {% endblock %}
 
         <div class="itemContainer">
-            <h1 class="containerTitle">請輸入項目</h1>
+            <h1 class="containerTitle">請輸入項目  <i class="fa fa-book"></i>  <i class="fa fa-soccer-ball-o"></i>
+                 <i class="fa fa-gamepad"></i> </h1>
 
             <form action="./input/submit" method="post" id="itemInfoForm"-->
             <!--form id="itemInfoForm" enctype="multipart/form-data"-->
-                類型 <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
+                <label>類型</label> <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
                             <option value="Learning">學習</option>
                             <option value="Sports">運動</option>
                             <option value="Leisure">休閒</option>
                         </select>
                 <br>
                 <div id="itemNumberContainer" style="display: block;">
-                    課程代號 <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" required/>
+                    <label>課程代號</label> <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" required/>
                 </div>
-                名稱 <input type="text" id="nameInput" name="name" placeholder="Please enter course name" required/>
+                <label>名稱</label> <input type="text" id="nameInput" name="name" placeholder="Please enter course name" required/>
                 <br>
-                <button type="submit" id="submitButton">新增</button>
+                <button type="submit" id="submitButton"><i class="fa fa-heart" aria-hidden="true"></i> 新增</button>
+
             </form>
         </div>
         

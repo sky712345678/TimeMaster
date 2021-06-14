@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <title>編輯目標</title>
+    <title>編輯目標</i></title>
+
+    <link rel="stylesheet" href="/static/goals/goal_modify_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="recordAndSetInfo()">
         <div id="goalContainer">
-            <h1 id="title">Edit goal</h1>
+            <h1 id="title">編輯目標 <i class="fa fa-wrench" aria-hidden="true"></i></h1>
 
             <form id="goalInfoForm" action="./modify/submit" method="post">
-                項目 <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
+                <label>項目</label> <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
                     {% if i.Category == 'Learning' %}
                         <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
@@ -17,11 +20,11 @@
                     {% endfor %}
                 </select>
                 <br>
-                目標 <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}" required>
+                <label>目標</label> <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" value="{{goal.Goal}}" required>
                 <br>
                 
                 <div id="hiddenGoalInfoContainer" style="display: none;">
-                    <input type="text" id="goalNumberInput" name="goalNumber" value="{{goal.GoalNumber}}" disabled>
+                    <label>目標編號</label> <input type="text" id="goalNumberInput" name="goalNumber" value="{{goal.GoalNumber}}" disabled>
                 </div>
 
                 <div id="originalGoalInfoContainer" style="display: none;">
@@ -29,8 +32,9 @@
                     <input type="text" id="originalAchievedInput" name="originalAchieved" value="{{goal.Achieved}}">
                 </div>
                 
-                <button type="submit" id="confirmButton">儲存</button>
-                <button type="button" id="cancelButton">取消</button>
+                <button type="submit" id="confirmButton"><i class="fa fa-floppy-o" aria-hidden="true"></i> 儲存</button>
+                <button type="button" id="cancelButton"><i class="fa fa-times-circle" aria-hidden="true"></i> 取消</button>
+
             </form>
         </div>
         

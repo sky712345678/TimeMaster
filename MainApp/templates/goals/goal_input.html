@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
     <title>輸入目標</title>
+
+    <link rel="stylesheet" href="/static/goals/goal_input_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <body onload="setInfo()">
         <a href="/home" title="go to Homepage">&lt; 回首頁</a>
         {% block flashMessage %}
@@ -14,11 +18,11 @@
         {% endblock %}
         
         <div id="goalContainer">
-            <h1 class="containerTitle">請輸入目標</h1>
+            <h1 class="containerTitle">請輸入目標  <i class="fa fa-flag" aria-hidden="true"></i></h1>
 
             <form action="./input/submit" method="post" id="goalInfoForm">
             <!--form id="goalInfoForm" enctype="multipart/form-data"-->
-                項目 <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
+                <label>項目</label> <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
                         {% if i.Category == 'Learning' %}
                             <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
@@ -28,9 +32,9 @@
                     {% endfor %}
                 </select>
                 <br>
-                目標 <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" required>
+                <label>目標</label> <input type="text" id="goalInput" name="goal" placeholder="Please describe a goal" required>
                 <br>
-                <button type="submit" id="submitButton">新增</button>
+                <button type="submit" id="submitButton"><i class="fa fa-heart" aria-hidden="true"></i> 新增</button>
             </form>
         </div>
         

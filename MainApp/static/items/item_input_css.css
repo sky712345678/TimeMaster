@@ -1,0 +1,45 @@
+body {
+    background-color: #f6f6f8;
+}
+
+a, div, h1, p {
+    font-family: sans-serif;
+}
+
+.itemContainer {
+    width: 40%;
+    text-align: center;
+    margin: auto;
+}
+
+#itemInfoForm {
+    background-color: white;
+    width: 100%;
+
+    border-width: 1px;
+    border-radius: 15px;
+
+}
+
+input, select {
+    width: 150px;
+    margin-top: 15px;
+    box-sizing: border-box;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+}
+
+button {
+    border-width: 1px;
+    border-radius: 5px;
+
+    font-size: 14px;
+
+    margin-top: 15px;
+    margin-bottom: 1%;
+
+    cursor: pointer;
+}

@@ -1,30 +1,34 @@
 <!doctype html>
 <html>
-    <title>編輯項目</title>
+    <title>編輯項目</i></title>
+
+    <link rel="stylesheet" href="/static/items/item_modify_css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body onload="recordAndSetInfo()">
         <div class="itemContainer">
-            <h1 class="itemContainer">編輯項目</h1>
+            <h1 class="itemContainer">編輯項目 <i class="fa fa-wrench" aria-hidden="true"></i></h1>
 
             <form id="itemInfoForm" action="./modify/submit" method="post">
-                類型 <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
-                            <option value="Learning">Learning</option>
-                            <option value="Sports">Sports</option>
-                            <option value="Leisure">Leisure</option>
+                <label>類型</label> <select id="categorySelect" name="category" form="itemInfoForm" onchange="categoryCheck(this)">
+
+                            <option value="Learning">學習</option>
+                            <option value="Sports">運動</option>
+                            <option value="Leisure">休閒</option>
                         </select>
                 <br>
                 <div id="itemNumberContainer" style="display: block;">
-                    課程代號 <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" value="{{item.ItemNumber}}" required>
+                    <label>課程代號</label> <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" value="{{item.ItemNumber}}" required>
                 </div>
-                名稱 <input type="text" id="nameInput" name="name" placeholder="Please enter course name" value="{{item.Name}}" required>
+                <label>名稱</label> <input type="text" id="nameInput" name="name" placeholder="Please enter course name" value="{{item.Name}}" required>
                 <br>
-
                 <div id="originalItemInfoContainer" style="display: none;">
                     <input type="text" id="originalCategoryInput" name="originalCategory" value="{{item.Category}}">
                 </div>
-                
-                <button type="submit" id="confirmButton">儲存</button>
-                <button type="button" id="cancelButton">取消</button>
+            
+                <button type="submit" id="confirmButton"><i class="fa fa-floppy-o" aria-hidden="true"></i> 儲存</button>
+                <button type="button" id="cancelButton"><i class="fa fa-times-circle" aria-hidden="true"></i> 取消</button>
+
             </form>
         </div>
 
