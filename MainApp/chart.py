@@ -65,18 +65,18 @@ def recent():
     numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
                                        'FROM Goals '+
                                        'WHERE Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                       {'lb': past_14D, 'ub': today}).fetchall()[0].Number
+                                       {'lb': past_7D, 'ub': today}).fetchall()[0].Number
 
     numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Y" '+
                                                   'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                                {'lb': past_14D, 'ub': today}).fetchall()[0].Number
+                                                {'lb': past_7D, 'ub': today}).fetchall()[0].Number
     numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Q" '+
                                                   'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                                {'lb': past_14D, 'ub': today}).fetchall()[0].Number
+                                                {'lb': past_7D, 'ub': today}).fetchall()[0].Number
     
     if numberOfGoals > 0:
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
@@ -89,7 +89,7 @@ def recent():
                                       'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
                                     'ORDER BY Goals.Achieved, Goals.SetDate DESC '+
                                     'LIMIT 0, 4',
-                                    {'lb': past_14D, 'ub': today}).fetchall()
+                                    {'lb': past_7D, 'ub': today}).fetchall()
 
     frequentItems = db.session.execute('SELECT * '+
                                        'FROM Items '+
