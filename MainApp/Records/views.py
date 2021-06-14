@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from datetime import datetime, timedelta
+import pandas as pd
 from MainApp.database import db          #created database
 from MainApp.models import Records
 from MainApp.models import Items
@@ -124,6 +125,8 @@ def listRecords():
                                          'FROM Records').fetchall()[0].Number
   
     if numberOfRecords > 0:
+        num_days = 7
+
         recordDates = db.session.execute('SELECT Records.Date '+
                                         'FROM Records '+
                                         'ORDER BY Records.Date ASC').fetchall()
@@ -131,7 +134,7 @@ def listRecords():
         oldest = recordDates[0].Date
 
         upperBoundDate = datetime.today()
-        deltaDate = timedelta(days=7)
+        deltaDate = timedelta(days=num_days)
 
         upperBoundString = upperBoundDate.strftime("%Y-%m-%d")
         lowerBoundString = (upperBoundDate-deltaDate+timedelta(days=1)).strftime("%Y-%m-%d")
@@ -142,21 +145,40 @@ def listRecords():
                                                          'AND Date <= :ub',
                                                        {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()[0].Number
 
-        orderedRecordSummary = []
-
-        orderedRecords = []
-        recordsBound = []
+        intervalRecordSummary = []
+        interval_dict_all_activity_7D = []
+        intervalDate = []
+        interval_dict_all_activity_sum_7D = []
+        intervalRecords = []
+        intervalBound = []
 
         while lowerBoundString >= oldest:
             if numberOfRecordsInInterval > 0:
+                # by as0027111
                 recordsInInterval = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '
                                                        'ORDER BY Records.Date DESC',
                                                        {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()
+                record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
+                for i,data in enumerate(recordsInInterval):
+                    record_df = record_df.append({  'ItemName': data.Name,
+                                                    'Date': data.Date,
+                                                    'Duration': data.Duration,
+                                                    'Content': data.Description}, ignore_index=True)
+                date_reord, time_record = course_statics(record_df.values)
+                
+                past = (upperBoundDate - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+                date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
+                dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(past, date, num_days, date_reord, time_record)
+                # by as0027111
 
-                orderedRecordSummary.append(db.session.execute('SELECT Items.Category, SUM(Records.Duration) AS Total '+
+                interval_dict_all_activity_7D.append(dict_all_activity_7D)
+                intervalDate.append(date)
+                interval_dict_all_activity_sum_7D.append(dict_all_activity_sum_7D)
+
+                intervalRecordSummary.append(db.session.execute('SELECT Items.Category, SUM(Records.Duration) AS Total '+
                                                                'FROM Records, Items '+
                                                                'WHERE Records.ItemNumber = Items.ItemNumber '+
                                                                  'AND Records.Date >= :lb AND Records.Date <= :ub '+
@@ -168,8 +190,8 @@ def listRecords():
                 for r in recordsInInterval:
                     recordsTemp.append(r)
                 
-                orderedRecords.append(recordsTemp)
-                recordsBound.append([lowerBoundString, upperBoundString])
+                intervalRecords.append(recordsTemp)
+                intervalBound.append([lowerBoundString, upperBoundString])
 
             upperBoundDate = upperBoundDate - deltaDate
 
@@ -183,9 +205,42 @@ def listRecords():
                                                            {'lb': lowerBoundString, 'ub': upperBoundString}).fetchall()[0].Number
 
         
-        return render_template('records/record_listAll.html', summary=orderedRecordSummary, records=orderedRecords, bound=recordsBound)
+        return render_template('records/record_listAll.html', \
+            time_record=interval_dict_all_activity_7D, date=intervalDate, each_sum=interval_dict_all_activity_sum_7D,
+            summary=intervalRecordSummary, records=intervalRecords, bound=intervalBound)
     else:
         return render_template('records/record_listAll.html')
+
+
+# by as0027111
+def course_statics(npdata):
+    date = {}
+    time = {}
+    for i in npdata:
+        if i[0] in time:
+            date[i[0]].append(i[1])
+            time[i[0]].append(i[2])
+        else:
+            date[i[0]] = [i[1]]
+            time[i[0]] = [i[2]]
+    return date, time
+
+
+def past_statics(past, date, num_days, date_reord, time_record):
+    dict_all_activity = {}
+    dict_all_activity_sum = {}
+    for i in time_record.keys():
+        values = [0 for i in range(num_days)]
+        d = date_reord[i]
+        t = time_record[i]
+        for j in range(len(d)):
+            for k in range(len(date)):
+                if d[j] == date[k]:
+                    values[k] += t[j]
+        dict_all_activity[i] = values
+        dict_all_activity_sum[i] = sum(values)
+    return dict_all_activity, dict_all_activity_sum
+# by as0027111
 
 
 def deleteRecord(request):

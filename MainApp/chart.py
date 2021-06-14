@@ -8,8 +8,6 @@ from MainApp.database import db          #created database
 # from MainApp.models import Assignments
 # from MainApp.models import Tests
 from MainApp.models import Items
-from MainApp.models import Goals
-from MainApp.models import Records
 import pandas as pd
 import random
 from datetime import datetime, timedelta
