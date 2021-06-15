@@ -34,3 +34,15 @@ function sendModifyRequest(itemNumber, date, setDateTime) {
     document.getElementById('modifyRequestSetDateTimeInput').value = setDateTime;
     document.getElementById('modifyRequestInfo').submit();
 }
+
+function foldOrUnfold(index) {
+    console.log(document.getElementById('recordListContainer' + index).style.display);
+    if (document.getElementById('recordListContainer' + index).style.display == 'none') {
+        $('#recordListContainer' + index).removeAttr('style');
+        $('#foldButton' + index + ' i').attr('class', 'fa fa-angle-up');
+    }
+    else {
+        $('#recordListContainer' + index).attr('style', 'display: none;');
+        $('#foldButton' + index + ' i').attr('class', 'fa fa-angle-down');
+    }
+}

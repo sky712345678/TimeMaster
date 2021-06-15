@@ -77,7 +77,7 @@ def inputRecord(request):
             if goalNumber is None:
                 return render_template('records/record_existed.html', record=result)
             else:
-                existedRecord = db.session.execute('SELECT Items.Category, Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
+                existedRecord = db.session.execute('SELECT Items.Category, Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description, Records.SetDateTime '+
                                                 'FROM Items, Records, Goals '+
                                                 'WHERE Records.ItemNumber = :it '+
                                                   'AND Records.Date = :dt '+

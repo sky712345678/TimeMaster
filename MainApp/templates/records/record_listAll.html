@@ -45,42 +45,47 @@
                     <span>{{s.Total}} 分鐘</span>
                 </div>
                 {% endfor %}
-                {% for r in rl %}
-                <div class="recordContainer">
-                    <hr>
-                    <div class="recordTitleContainer">
-                    {% if r.Category == 'Learning' %}
-                        <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
-                    {% else %}
-                        <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
-                    {% endif %}
-                    </div>
-                    <div class="buttonContainer">
-                        <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i></button>
-                        <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i></button>
-                    </div>
-                    {% if r.Goal != None %}
-                        <div class="recordInfoContainer">
-                            <p class="goalTitle">目標</p>
-                            <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
+                <div class="recordOuterContainer" id="recordListContainer{{loop.index0}}"style="display: none;">
+                    {% for r in rl %}
+                    <div class="recordContainer">
+                        <hr>
+                        <div class="recordTitleContainer">
+                        {% if r.Category == 'Learning' %}
+                            <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+                        {% else %}
+                            <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                        {% endif %}
                         </div>
-                    {% endif %}
-                    {% if r.Description != '' %}
-                        <div class="recordInfoContainer">
-                            <p class="descriptionTitle">備註</p>
-                            <p class="description">{{r.Description}}</p>
+                        <div class="buttonContainer">
+                            <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i></button>
+                            <button class="deleteRequestButton" onclick="deleteWarn('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-trash"></i></button>
                         </div>
-                    {% endif %}
-                    {% if r.Category == 'Learning' %}
-                        <p class="categoryAndDate"><i class="fa fa-book"></i> 學習 | {{r.Date}}</p>
-                    {% elif r.Category == 'Sports' %}
-                        <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> 運動 | {{r.Date}}</p>
-                    {% else %}
-                        <p class="categoryAndDate"><i class="fa fa-gamepad"></i> 休閒 | {{r.Date}}</p>
-                    {% endif %}
-                    <br>
+                        {% if r.Goal != None %}
+                            <div class="recordInfoContainer">
+                                <p class="goalTitle">目標</p>
+                                <p class="goal">{{r.Goal}} ({{r.AchievePercentage}}%)</p>
+                            </div>
+                        {% endif %}
+                        {% if r.Description != '' %}
+                            <div class="recordInfoContainer">
+                                <p class="descriptionTitle">備註</p>
+                                <p class="description">{{r.Description}}</p>
+                            </div>
+                        {% endif %}
+                        {% if r.Category == 'Learning' %}
+                            <p class="categoryAndDate"><i class="fa fa-book"></i> 學習 | {{r.Date}}</p>
+                        {% elif r.Category == 'Sports' %}
+                            <p class="categoryAndDate"><i class="fa fa-soccer-ball-o"></i> 運動 | {{r.Date}}</p>
+                        {% else %}
+                            <p class="categoryAndDate"><i class="fa fa-gamepad"></i> 休閒 | {{r.Date}}</p>
+                        {% endif %}
+                        <br>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="foldButtonContainer">
+                    <button class="foldButton" id="foldButton{{loop.index0}}" onclick="foldOrUnfold('{{loop.index0}}')"><i class="fa fa-angle-down"></i></button>
+                </div>
                 <!--by as0027111-->
                 <script>
                     var backgroundColor = [
@@ -93,7 +98,6 @@
                     ];
 
                     var time_record = {{time_record[loop.index0]|tojson}};
-                    console.log(Object.keys(time_record).length);
                     var test = [];
                     var color_counter = 0;
                     for (var [key, value] of Object.entries(time_record)) {

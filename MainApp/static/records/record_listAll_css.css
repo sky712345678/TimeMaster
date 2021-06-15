@@ -162,3 +162,13 @@ button:hover {
     margin-top: 1%;
     margin-bottom: 1%;
 }
+
+.foldButtonContainer {
+    text-align: center;
+}
+
+.foldButton {
+    font-size: 20px;
+
+    padding: 4px 45%;
+}
