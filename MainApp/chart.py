@@ -17,21 +17,31 @@ app = Flask(__name__)
 def recent():
     # deal with the data passed to chart.js
     num_days = 7
+    '''
     allRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'ORDER BY Records.Date DESC') # select all record
+    '''
+    #print(date_reord, time_record)
+    
+    past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+    date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
+
+    recordsInInterval = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Records.Description '+
+                                           'FROM Records, Items '+
+                                           'WHERE Records.ItemNumber = Items.ItemNumber '+
+                                             'AND Records.Date >= :lb AND Records.Date <= :ub '+
+                                           'ORDER BY Records.Date DESC',
+                                           {'lb': past, 'ub': datetime.today().strftime("%Y-%m-%d")}).fetchall()
+    
     record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
-    for i,data in enumerate(allRecords):
+    for i,data in enumerate(recordsInInterval):
         record_df = record_df.append({  'ItemName': data.Name,
                                         'Date': data.Date,
                                         'Duration': data.Duration,
                                         'Content': data.Description}, ignore_index=True)
     date_reord, time_record = course_statics(record_df.values)
-    #print(date_reord, time_record)
-    
-    past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
-    date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     #print(date)
     dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(7,date_reord,time_record)
     # deal with the staticial info of category 
