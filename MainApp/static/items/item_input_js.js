@@ -1,7 +1,7 @@
 function categoryCheck(that) {
     if (that.value != 'Learning') {
         $('#itemNumberInput').attr('disabled', true);
-        $('#itemNumberContainer').attr('style', 'none');
+        $('#itemNumberContainer').attr('style', 'display: none;');
         document.getElementById('nameInput').placeholder = 'Please enter item name';
     }
     else {

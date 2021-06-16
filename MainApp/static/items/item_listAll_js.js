@@ -21,7 +21,7 @@ function setInfo() {
 function deleteWarn(itemNumber) {
     $('#deleteRequestContainer').append('<form action = "/items/delete" method="post" id="deleteRequestInfoForm">' +
         '<input type="deleteRequestInfo" id="deleteRequestItemNumberInput" name="itemNumber"></form>');
-    var c = confirm('This will delete its corresponding goals and records. They can\'t be recovered, are you sure you want to delete it?');
+    var c = confirm('這將會刪除此「項目」，以及相關的「目標」與「活動紀錄」，並且無法復原，是否確定要刪除？');
     if (c == true) {
         deleteImplementation(itemNumber);
     }

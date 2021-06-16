@@ -39,7 +39,7 @@ function setInfo() {
 function quitWarn(goalNumber) {
     $('#requestContainer').append('<form action = "/goals/quit" method="post" id="quitRequestInfoForm">' +
         '<input type="text" id="quitRequestGoalNumberInput" name="goalNumber"></form>');
-    var c = confirm('Are you sure you want to quit?');
+    var c = confirm('是否確定放棄？');
     if (c == true) {
         document.getElementById('quitRequestGoalNumberInput').value = goalNumber;
         document.getElementById('quitRequestInfoForm').submit();
@@ -49,7 +49,7 @@ function quitWarn(goalNumber) {
 function deleteWarn(goalNumber) {
     $('#requestContainer').append('<form action = "/goals/delete" method="post" id="deleteRequestInfoForm">' +
         '<input type="text" id="deleteRequestGoalNumberInput" name="goalNumber"></form>');
-    var c = confirm('This will delete the selected goal and can\'t be recovered, are you sure you want to delete it?');
+    var c = confirm('這將會刪除此目標且無法復原，是否確定刪除？');
     if (c == true) {
         document.getElementById('deleteRequestGoalNumberInput').value = goalNumber;
         document.getElementById('deleteRequestInfoForm').submit();

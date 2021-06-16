@@ -15,6 +15,7 @@ h2 {
 h3 {
     font-size: larger;
     margin-bottom: 0%;
+    margin-top: 2%;
 }
 
 h4 {
@@ -160,7 +161,7 @@ button:hover {
     font-size: smaller;
 
     margin-top: 1%;
-    margin-bottom: 1%;
+    margin-bottom: 0%;
 }
 
 .foldButtonContainer {

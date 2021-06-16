@@ -352,6 +352,7 @@ def modifyRecord(request):
         setDateTime = request.form['setDateTime']
 
         originalItemNumber = request.form['originalItemNumber']
+        originalGoalNumber = request.form['originalGoalNumber']
 
         if goalNumber == '':
             # make sure nullable attributes are NULL in the databse if user didn't type anything
@@ -399,6 +400,25 @@ def modifyRecord(request):
                         goalToUpdate.AchievePercentage = 0
                 
                 db.session.commit()
+            else:
+                goalToUpdate = Goals.query.filter_by(GoalNumber=originalGoalNumber).first()
+
+                if goalToUpdate is not None:
+                    achievePercentageRanking = db.session.execute('SELECT AchievePercentage '+
+                                                                  'FROM Records '+
+                                                                  'WHERE GoalNumber = :gn '+
+                                                                  'ORDER BY AchievePercentage DESC',
+                                                                  {'gn': originalGoalNumber}).fetchall()
+
+                    if len(achievePercentageRanking) > 0:
+                        goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+
+                        if goalToUpdate.Achieved == 'Y' and achievePercentageRanking[0].AchievePercentage < 100:
+                            goalToUpdate.Achieved = 'N'
+                    else:
+                        goalToUpdate.AchievePercentage = 0
+                
+                    db.session.commit()
 
             flash('活動紀錄更新成功')
             return redirect('/records/listAll')

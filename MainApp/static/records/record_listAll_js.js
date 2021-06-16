@@ -10,7 +10,7 @@ function deleteWarn(itemNumber, date, setDateTime) {
         '<input type="text" id="deleteRequestItemNumberInput" name="itemNumber">' +
         '<input type="text" id="deleteRequestDateInput" name="date">' +
         '<input type="text" id="deleteRequestSetDateTimeInput" name="setDateTime"></form >');
-    var c = confirm('This will delete the selected record and can\'t be recovered, are you sure you want to delete it?');
+    var c = confirm('這將會刪除此活動紀錄且無法復原，是否確定要刪除？');
     if (c == true) {
         deleteImplementation(itemNumber, date, setDateTime);
     }
@@ -36,7 +36,6 @@ function sendModifyRequest(itemNumber, date, setDateTime) {
 }
 
 function foldOrUnfold(index) {
-    console.log(document.getElementById('recordListContainer' + index).style.display);
     if (document.getElementById('recordListContainer' + index).style.display == 'none') {
         $('#recordListContainer' + index).removeAttr('style');
         $('#foldButton' + index + ' i').attr('class', 'fa fa-angle-up');
