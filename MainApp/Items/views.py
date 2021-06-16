@@ -23,14 +23,14 @@ def inputCheck(request):
             if result is None:
                 return 'Y'
             else:
-                return 'The item has already existed!'
+                return '已經有這個項目了'
         else:
             result = Items.query.filter_by(Name=name).first()
 
             if result is None or result.Category != category:
                 return 'Y'
             else:
-                return 'The item has already existed!'
+                return '已經有這個項目了'
             
 
 def inputItem(request):

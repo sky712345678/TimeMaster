@@ -160,7 +160,7 @@ def modifyCheck(request):
                 return 'Y'
             else:
                 # otherwise, it is unsafe
-                return 'N'
+                return '已經有這個目標了'
 
 
 def modifyGoal(request):

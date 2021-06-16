@@ -335,7 +335,7 @@ def modifyCheck(request):
                 return 'Y'
             else:
                 # otherwise, it is unsafe
-                return 'The record for that day has already existed!'
+                return '已經有當天的紀錄了'
 
 
 def modifyRecord(request):

@@ -72,7 +72,7 @@ $('#goalInfoForm').on('submit', function (e) {
                 document.getElementById('goalInfoForm').submit();
             }
             else {
-                window.alert('The goal has already existed!');
+                window.alert(data);
                 $('#originalItemNumberInput').remove();
                 $('#originalGoalInput').remove();
             }
