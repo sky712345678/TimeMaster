@@ -22,14 +22,14 @@
                 <br>
                 <label>日期</label> <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" value="{{record.Date}}" required>
                 <br>
-                <label>時長</label> <input type="text" id="durationInput" name="duration" placeholder="Please enter the time you spent (min.)" value="{{record.Duration}}" required>
+                <label>時長</label> <input type="number" id="durationInput" name="duration" placeholder="Please enter the time you spent (min.)" value="{{record.Duration}}" min="0" required>
                 <br>
                 <label>目標</label> <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
                 {% if record.GoalNumber == None %}
-                    <label>達成度</label> <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%" value="">
+                    <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" value="" min="0">
                 {% else %}
-                    <label>達成度</label> <input type="text" id="achievePercentageInput" name="achievePercentage" placeholder="%" value="{{record.AchievePercentage}}">
+                    <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" value="{{record.AchievePercentage}}" min="0">
                 {% endif %}
                 <br>
                 <label>備註</label> <input type="text" id="descriptionInput" name="description" value="{{record.Description}}">
