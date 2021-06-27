@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, flash, jsonify
-from flask_sqlalchemy import SQLAlchemy  #SQL
+from flask_sqlalchemy import SQLAlchemy
+from numpy.core.arrayprint import TimedeltaFormat  #SQL
 from sqlalchemy import desc
 from datetime import datetime, timedelta
 import pandas as pd
@@ -133,7 +134,8 @@ def listRecords():
 
         oldest = recordDates[0].Date
 
-        upperBoundDate = datetime.today()
+        upperBoundDate = datetime.today()+timedelta(days=7-datetime.today().isoweekday())
+
         deltaDate = timedelta(days=num_days)
 
         upperBoundString = upperBoundDate.strftime("%Y-%m-%d")

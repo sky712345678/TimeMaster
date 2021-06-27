@@ -25,15 +25,19 @@ def recent():
     '''
     #print(date_reord, time_record)
     
-    past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
-    date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
+    upperBoundDate = datetime.today()+timedelta(days=7-datetime.today().isoweekday())
+    upperBoundString = upperBoundDate.strftime("%Y-%m-%d")
+    
+    past_7D = (upperBoundDate - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+    past_14D = (upperBoundDate - timedelta(days=(num_days*2)-1)).strftime("%Y-%m-%d")
+    date = [(datetime.strptime(past_7D,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
 
     recordsInInterval = db.session.execute('SELECT Items.Name, Records.Date, Records.Duration, Records.Description '+
                                            'FROM Records, Items '+
                                            'WHERE Records.ItemNumber = Items.ItemNumber '+
                                              'AND Records.Date >= :lb AND Records.Date <= :ub '+
                                            'ORDER BY Records.Date DESC',
-                                           {'lb': past, 'ub': datetime.today().strftime("%Y-%m-%d")}).fetchall()
+                                           {'lb': past_7D, 'ub': upperBoundString}).fetchall()
     
     record_df = pd.DataFrame(columns=['ItemName', 'Date', 'Duration', 'Content'])
     for i,data in enumerate(recordsInInterval):
@@ -45,16 +49,14 @@ def recent():
     #print(date)
     dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(7,date_reord,time_record)
     # deal with the staticial info of category 
-    today = (datetime.today().date()).strftime("%Y-%m-%d")
-    past_7D = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
-    past_14D = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
+    
     category_sum = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
                                         'GROUP BY Items.Category '+ 
                                         'ORDER BY Items.Category, Records.Date DESC',
-                                        {'lb':past_7D, 'ub':today}).fetchall()
+                                        {'lb':past_7D, 'ub':upperBoundString}).fetchall()
     category_sum_14D = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
@@ -70,23 +72,23 @@ def recent():
                                         'WHERE Records.Date >= :lb AND Records.Date <= :ub '
                                         'ORDER BY Records.Date DESC '+
                                         'LIMIT 0, 4',
-                                        {'lb': past_7D, 'ub': today}).fetchall()
+                                        {'lb': past_7D, 'ub': upperBoundString}).fetchall()
 
     numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
                                        'FROM Goals '+
                                        'WHERE Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                       {'lb': past_7D, 'ub': today}).fetchall()[0].Number
+                                       {'lb': past_7D, 'ub': upperBoundString}).fetchall()[0].Number
 
     numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Y" '+
                                                   'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                                {'lb': past_7D, 'ub': today}).fetchall()[0].Number
+                                                {'lb': past_7D, 'ub': upperBoundString}).fetchall()[0].Number
     numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Q" '+
                                                   'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                                {'lb': past_7D, 'ub': today}).fetchall()[0].Number
+                                                {'lb': past_7D, 'ub': upperBoundString}).fetchall()[0].Number
     
     if numberOfGoals > 0:
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
@@ -99,7 +101,7 @@ def recent():
                                       'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
                                     'ORDER BY Goals.Achieved, Goals.SetDate DESC '+
                                     'LIMIT 0, 4',
-                                    {'lb': past_7D, 'ub': today}).fetchall()
+                                    {'lb': past_7D, 'ub': upperBoundString}).fetchall()
 
     frequentItems = db.session.execute('SELECT * '+
                                        'FROM Items '+
