@@ -27,17 +27,24 @@
                 <label>目標</label> <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
                 {% if record.GoalNumber == None %}
-                    <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" value="" min="0">
+                    <div id="achievePercentageContainer" style="display: none;">
+                        <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" min="0">
+                    </div>
                 {% else %}
-                    <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" value="{{record.AchievePercentage}}" min="0">
+                    <div id="achievePercentageContainer">
+                        <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" value="{{record.AchievePercentage}}" min="0">
+                    </div>
                 {% endif %}
-                <br>
                 <label>備註</label> <input type="text" id="descriptionInput" name="description" value="{{record.Description}}">
                 <br>
                 
                 <div id="originalRecordInfoContainer" style="display: none;">
                     <input type="text" id="originalItemNumberInput" name="originalItemNumber" value="{{record.ItemNumber}}">
-                    <input type="text" id="originalGoalNumberInput" name="originalGoalNumber" value="{{record.GoalNumber}}">
+                    {% if record.GoalNumber == None %}
+                        <input type="text" id="originalGoalNumberInput" name="originalGoalNumber" value="">
+                    {% else %}
+                        <input type="text" id="originalGoalNumberInput" name="originalGoalNumber" value="{{record.GoalNumber}}">
+                    {% endif %}
                     <input type="text" id="setDateTimeInput" name="setDateTime" value="{{record.SetDateTime}}" disabled>
                 </div>
 

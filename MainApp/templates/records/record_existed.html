@@ -17,7 +17,7 @@
                         <h3 class="record" id="item">{{record.Name}} | {{record.Duration}} 分鐘</h3>
                     {% endif %}
 
-                    {% if record.Goal != None %}
+                    {% if record.Goal %}
                         <div id="recordInfoContainer">
                             <p class="record" id="goalTitle">目標</p>
                             <p class="record" id="goal">{{record.Goal}} ({{record.AchievePercentage}}%)</p>

@@ -76,7 +76,13 @@ def inputRecord(request):
         else:
             # else, show existied record fot that date
             if goalNumber is None:
-                return render_template('records/record_existed.html', record=result)
+                existedRecord = db.session.execute('SELECT Items.Category, Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Records.AchievePercentage, Records.Description, Records.SetDateTime '+
+                                                'FROM Items, Records '+
+                                                'WHERE Records.ItemNumber = :it '+
+                                                  'AND Records.Date = :dt '+
+                                                  'AND Records.ItemNumber = Items.ItemNumber ',
+                                                {'it': itemNumber, 'dt': date}).first()
+                return render_template('records/record_existed.html', record=existedRecord)
             else:
                 existedRecord = db.session.execute('SELECT Items.Category, Items.Name, Records.ItemNumber, Records.Date, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description, Records.SetDateTime '+
                                                 'FROM Items, Records, Goals '+
@@ -173,7 +179,7 @@ def listRecords():
                 
                 past = (upperBoundDate - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
                 date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
-                dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(past, date, num_days, date_reord, time_record)
+                dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(date, num_days, date_reord, time_record)
                 # by as0027111
 
                 interval_dict_all_activity_7D.append(dict_all_activity_7D)
@@ -228,7 +234,7 @@ def course_statics(npdata):
     return date, time
 
 
-def past_statics(past, date, num_days, date_reord, time_record):
+def past_statics(date, num_days, date_reord, time_record):
     dict_all_activity = {}
     dict_all_activity_sum = {}
     for i in time_record.keys():
@@ -331,6 +337,10 @@ def modifyCheck(request):
         else :
             # if the user DID modify the ItemNumber, Date, and GoalNumber, 
             # see if there's an record with a particular combination (ItemNumber, Date, GoalNumber) in the database
+
+            if goalNumber == '':
+                goalNumber = None
+
             result = Records.query.filter_by(ItemNumber=itemNumber, Date=date, GoalNumber=goalNumber).first()
             if result is None:
                 # if there isn't a record for that day, it is safe to be stored in the database
@@ -399,28 +409,30 @@ def modifyRecord(request):
                         if goalToUpdate.Achieved == 'Y' and achievePercentageRanking[0].AchievePercentage < 100:
                             goalToUpdate.Achieved = 'N'
                     else:
+                        print(originalGoalNumber)
                         goalToUpdate.AchievePercentage = 0
                 
                 db.session.commit()
-            else:
-                goalToUpdate = Goals.query.filter_by(GoalNumber=originalGoalNumber).first()
 
-                if goalToUpdate is not None:
-                    achievePercentageRanking = db.session.execute('SELECT AchievePercentage '+
-                                                                  'FROM Records '+
-                                                                  'WHERE GoalNumber = :gn '+
-                                                                  'ORDER BY AchievePercentage DESC',
-                                                                  {'gn': originalGoalNumber}).fetchall()
+            # update original goal
+            goalToUpdate = Goals.query.filter_by(GoalNumber=originalGoalNumber).first()
 
-                    if len(achievePercentageRanking) > 0:
-                        goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+            if goalToUpdate is not None:
+                achievePercentageRanking = db.session.execute('SELECT AchievePercentage '+
+                                                                'FROM Records '+
+                                                                'WHERE GoalNumber = :gn '+
+                                                                'ORDER BY AchievePercentage DESC',
+                                                                {'gn': originalGoalNumber}).fetchall()
 
-                        if goalToUpdate.Achieved == 'Y' and achievePercentageRanking[0].AchievePercentage < 100:
-                            goalToUpdate.Achieved = 'N'
-                    else:
-                        goalToUpdate.AchievePercentage = 0
-                
-                    db.session.commit()
+                if len(achievePercentageRanking) > 0:
+                    goalToUpdate.AchievePercentage = achievePercentageRanking[0].AchievePercentage
+
+                    if goalToUpdate.Achieved == 'Y' and achievePercentageRanking[0].AchievePercentage < 100:
+                        goalToUpdate.Achieved = 'N'
+                else:
+                    goalToUpdate.AchievePercentage = 0
+            
+                db.session.commit()
 
             flash('活動紀錄更新成功')
             return redirect('/records/listAll')

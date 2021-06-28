@@ -49,24 +49,26 @@
     <!--div style="position: absolute; top:55vh; left: 20vw;height:20vh; width:60vw"-->
         <div id="summaryContainer">
             <!--<span>近七天總活動時間：{{sum_7D}}分鐘 （</span><span style="color: red">↓ 分鐘</span><span>）</span>-->
-            {% for i in category_sum %}
+            {% for c in category_sum %}
             <div class="summaryCategory">
-                {% if i[0] == 'Learning' %}
+                {% if c.Category == 'Learning' %}
                     <h3>學習</h3>
-                {% elif i[0] == 'Leisure' %}
+                {% elif c.Category == 'Leisure' %}
                     <h3>休閒</h3>
                 {% else %}
                     <h3>運動</h3>
                 {% endif %}
-                {% if category_sum_14D[loop.index0] %}
-                    {% if i[1]-category_sum_14D[loop.index0][1] > 0 %}
-                        <span>{{i[1]}} 分鐘 (+{{i[1]-category_sum_14D[loop.index0][1]}} 分鐘)</span>
-                    {% else %}
-                        <span>{{i[1]}} 分鐘 (-{{category_sum_14D[loop.index0][1]-i[1]}} 分鐘)</span>
+
+                <span>{{c[1]}} 分鐘</span>
+                {% for c_14D in category_sum_14D %}
+                    {% if c.Category == c_14D.Category %}
+                        {% if c[1]-c_14D[1] > 0 %}
+                            <span> (+{{c[1]-c_14D[1]}} 分鐘)</span>
+                        {% elif c[1]-c_14D[1] < 0 %}
+                            <span> (-{{c_14D[1]-c[1]}} 分鐘)</span>
+                        {% endif %}
                     {% endif %}
-                {% else %}
-                    <span>{{i[1]}} 分鐘 (+{{i[1]}} 分鐘)</span>
-                {% endif %}
+                {% endfor %}
             </div>
             {% endfor %}
             <hr>

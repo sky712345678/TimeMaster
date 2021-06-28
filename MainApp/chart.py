@@ -47,7 +47,7 @@ def recent():
                                         'Content': data.Description}, ignore_index=True)
     date_reord, time_record = course_statics(record_df.values)
     #print(date)
-    dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(7,date_reord,time_record)
+    dict_all_activity_7D, dict_all_activity_sum_7D = past_statics(7,past_7D,date_reord,time_record)
     # deal with the staticial info of category 
     
     category_sum = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
@@ -55,14 +55,14 @@ def recent():
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
                                         'GROUP BY Items.Category '+ 
-                                        'ORDER BY Items.Category, Records.Date DESC',
+                                        'ORDER BY Items.Category ASC',
                                         {'lb':past_7D, 'ub':upperBoundString}).fetchall()
     category_sum_14D = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
-                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '+
+                                        'WHERE Records.Date >= :lb AND Records.Date < :ub '+
                                         'GROUP BY Items.Category '+ 
-                                        'ORDER BY Items.Category, Records.Date DESC',
+                                        'ORDER BY Items.Category ASC',
                                         {'lb':past_14D, 'ub':past_7D}).fetchall()
 
     # modified by sky712345678
@@ -77,18 +77,18 @@ def recent():
     numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
                                        'FROM Goals '+
                                        'WHERE Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                       {'lb': past_7D, 'ub': upperBoundString}).fetchall()[0].Number
+                                       {'lb': past_14D, 'ub': upperBoundString}).fetchall()[0].Number
 
     numberOfAchievedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Y" '+
                                                   'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                                {'lb': past_7D, 'ub': upperBoundString}).fetchall()[0].Number
+                                                {'lb': past_14D, 'ub': upperBoundString}).fetchall()[0].Number
     numberOfQuittedGoals = db.session.execute('SELECT COUNT (*) AS Number '+
                                                 'FROM Goals '+
                                                 'WHERE Goals.Achieved == "Q" '+
                                                   'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub',
-                                                {'lb': past_7D, 'ub': upperBoundString}).fetchall()[0].Number
+                                                {'lb': past_14D, 'ub': upperBoundString}).fetchall()[0].Number
     
     if numberOfGoals > 0:
         achievePercentage = int(float(numberOfAchievedGoals/numberOfGoals)*100)
@@ -101,7 +101,7 @@ def recent():
                                       'AND Goals.SetDate >= :lb AND Goals.SetDate <= :ub '+
                                     'ORDER BY Goals.Achieved, Goals.SetDate DESC '+
                                     'LIMIT 0, 4',
-                                    {'lb': past_7D, 'ub': upperBoundString}).fetchall()
+                                    {'lb': past_14D, 'ub': upperBoundString}).fetchall()
 
     frequentItems = db.session.execute('SELECT * '+
                                        'FROM Items '+
@@ -133,9 +133,8 @@ time_record: {'database system': [175, 120], 'cycling': [60]}
 dict_all_activity: {'database system':[0, 0, 0, 0, 175, 0, 0], 'cycling':...}
 dict_all_activity_sum: {'database system':295, 'cycling':60}
 '''
-def past_statics(num_days,date_reord,time_record):
-    past = (datetime.today().date() - timedelta(days=num_days-1)).strftime("%Y-%m-%d")
-    date = [(datetime.strptime(past,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
+def past_statics(num_days,past_7D,date_reord,time_record):
+    date = [(datetime.strptime(past_7D,'%Y-%m-%d')+timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     dict_all_activity = {}
     dict_all_activity_sum = {}
     for i in time_record.keys():

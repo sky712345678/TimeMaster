@@ -110,9 +110,20 @@ function ajax_getAvailableGoals() {
 }
 
 $('#itemNumberSelect').change(function () {
+    $('#achievePercentageContainer').attr('style', 'display: none;');
+    
     ajax_getAvailableGoals();
 })
 
 $('#dateInput').change(function () {
     ajax_getAvailableGoals();
+})
+
+$('#goalNumberSelect').change(function () {
+    if (document.getElementById('goalNumberSelect').value != '') {
+        $('#achievePercentageContainer').removeAttr('style');
+    }
+    else {
+        $('#achievePercentageContainer').attr('style', 'display: none;');
+    }
 })
