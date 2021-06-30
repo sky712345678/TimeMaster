@@ -3,6 +3,8 @@ function setInfo() {
     if (count == 0) {
         $('#recordListContainer').append('<h3 class="message" id="noExistedRecordMessage">There isn&apos;t any record</h3>');
     }
+
+    $('.recordOuterContainer:first').removeAttr('style');
 }
 
 function deleteWarn(itemNumber, date, setDateTime) {

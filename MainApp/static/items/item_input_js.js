@@ -1,13 +1,24 @@
 function categoryCheck(that) {
     if (that.value != 'Learning') {
         $('#itemNumberInput').attr('disabled', true);
-        $('#itemNumberContainer').attr('style', 'display: none;');
+        $('#itemNumberOuterContainer').attr('style', 'display: none;');
         document.getElementById('nameInput').placeholder = 'Please enter item name';
     }
     else {
         $('#itemNumberInput').removeAttr('disabled');
-        $('#itemNumberContainer').removeAttr('style');
+        $('#itemNumberOuterContainer').removeAttr('style');
         document.getElementById('nameInput').placeholder = 'Please enter course name';
+    }
+}
+
+function learningOptionCheck(that) {
+    if (that.value == 'yes') {
+        $('#itemNumberInput').removeAttr('disabled');
+        $('#itemNumberContainer').removeAttr('style');
+    }
+    else {
+        $('#itemNumberInput').attr('disabled', true);
+        $('#itemNumberContainer').attr('style', 'display: none;');
     }
 }
 

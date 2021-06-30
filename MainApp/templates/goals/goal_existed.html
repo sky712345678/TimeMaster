@@ -18,11 +18,7 @@
                     <h3 class="goal" id="goal">{{goal.Goal}}</h3>
                 {% endif %}
 
-                {% if goal.Category == 'Learning' %}
-                    <p class="goal" id="item">{{goal.Name}} ({{goal.ItemNumber}})</p>
-                {% else %}
-                    <p class="goal" id="item">{{goal.Name}}</p>
-                {% endif %}
+                <p class="goal" id="item">{{goal.Name}}</p>
 
                 <p class="goal" id="achieveInfo">狀態: 未達成</p>
                 

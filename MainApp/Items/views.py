@@ -9,14 +9,15 @@ def inputCheck(request):
     if request.method == 'POST':
         category = request.form['category']
         itemNumber = request.form['itemNumber']
+        learningOption = request.form['learningOption']
         name = request.form['name']
 
         name = name.lower()
 
         if category == 'Learning':
-            if itemNumber != '':
+            if learningOption == 'yes':
                 if '-' not in itemNumber or len(itemNumber) < 6:
-                    return 'Please enter a valid course number with 6 digits'
+                    return '請輸入有效的課程代號'
 
             result = Items.query.filter_by(ItemNumber=itemNumber).first()
 
@@ -45,36 +46,29 @@ def inputItem(request):
 
         category = request.form['category']
         itemNumber = request.form['itemNumber']
+        learningOption = request.form['learningOption']
         name = request.form['name']
 
         name = name.lower()
         
-        if category == 'Learning':
-            result = Items.query.filter_by(ItemNumber=itemNumber).first()
-            if result is None:
-                # if no tuple was retrieved, create a new tuple
-                tupleToInsert = Items(category, itemNumber, name)
+        if category == 'Learning' and learningOption == 'yes':
+            tupleToInsert = Items(category, itemNumber, name)
         else:
-            result = Items.query.filter_by(Name=name).first()
-
-            if result is None or result.Category != category:
-                # if no tuple was retrieved, create a new tuple
-                # generate a new goal number
-                numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
-                                                                'FROM Items '+
-                                                                'WHERE Category <> "Learning"').fetchall()[0].number
-                
-                if numberOfNonLearningTuples > 0:
-                    existedItemNumber = db.session.execute('SELECT ItemNumber '+
+            numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
                                                             'FROM Items '+
-                                                            'WHERE Category <> "Learning" '+
-                                                            'ORDER BY ItemNumber DESC').fetchall()
-                    latest = existedItemNumber[0].ItemNumber
-                    itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
-                else:
-                    itemNumber = 'I'+str(1).zfill(5)
+                                                            'WHERE Category <> "Learning"').fetchall()[0].number
+            
+            if numberOfNonLearningTuples > 0:
+                existedItemNumber = db.session.execute('SELECT ItemNumber '+
+                                                        'FROM Items '+
+                                                        'WHERE Category <> "Learning" '+
+                                                        'ORDER BY ItemNumber DESC').fetchall()
+                latest = existedItemNumber[0].ItemNumber
+                itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
+            else:
+                itemNumber = 'I'+str(1).zfill(5)
 
-                tupleToInsert = Items(category, itemNumber, name)
+            tupleToInsert = Items(category, itemNumber, name)
         
         if tupleToInsert is not None:
             db.session.add(tupleToInsert)
