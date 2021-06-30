@@ -50,7 +50,11 @@
                     <div class="recordContainer">
                         <hr>
                         <div class="recordTitleContainer">
-                            <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                            {% if '-' in r.ItemNumber %}
+                                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+                            {% else %}
+                                <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                            {% endif %}
                         </div>
                         <div class="buttonContainer">
                             <button class="modifyRequestButton" onclick="sendModifyRequest('{{r.ItemNumber}}', '{{r.Date}}', '{{r.SetDateTime}}')"><i class="fa fa-edit"></i></button>

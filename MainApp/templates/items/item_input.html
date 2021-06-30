@@ -31,12 +31,12 @@
                 <br>
                 <div id="itemNumberOuterContainer">
                     <label>是學校的課程嗎？</label>
-                    <input type="radio" id="learningOptionYesInput" name="learningOption" value="yes" onclick="learningOptionCheck(this)" checked>
+                    <input type="radio" id="learningOptionYesInput" name="learningOption" value="yes" onclick="learningOptionCheck(this)">
                     <label id="learningOptionYesLabel" for="yes">是</label>
-                    <input type="radio" id="learningOptionNoInput" name="learningOption" value="no" onclick="learningOptionCheck(this)">
+                    <input type="radio" id="learningOptionNoInput" name="learningOption" value="no" onclick="learningOptionCheck(this)" checked>
                     <label id="learningOptionNoLabel" for="no">不是</label>
                     <br>
-                    <div id="itemNumberContainer">
+                    <div id="itemNumberContainer" style="display: none;">
                         <label>課程代號</label> <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" required/>
                     </div>
                 </div>

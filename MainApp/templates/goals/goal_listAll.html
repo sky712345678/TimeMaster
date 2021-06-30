@@ -60,7 +60,11 @@
                         <h3 class="goal" id="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
                     {% endif %}
 
-                    <p class="goal" id="item">{{g.Name}}</p>
+                    {% if '-' in g.ItemNumber %}
+                        <p class="goal" id="item">{{g.Name}} ({{g.ItemNumber}})</p>
+                    {% else %}
+                        <p class="goal" id="item">{{g.Name}}</p>
+                    {% endif %}
                     
                     {% if g.Achieved == 'Y' %}
                         <p class="goal" id="achieveInfo">狀態: 已於{{g.AchieveDate}}達成</p>

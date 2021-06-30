@@ -22,9 +22,13 @@
 
             <form action="./input/submit" method="post" id="recordInfoForm">
                 <label>項目</label> <select id="itemNumberSelect" name="itemNumber" form="recordInfoForm"><!--onchange="categoryCheck(this)"-->
-                        {% for i in items %}
+                    {% for i in items %}
+                    {% if '-' in i.ItemNumber %}
+                        <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
+                    {% else %}
                         <option value="{{i.ItemNumber}}">{{i.Name}}</option>
-                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
                     </select>
                 <br>
 

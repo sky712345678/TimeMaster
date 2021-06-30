@@ -56,12 +56,12 @@ def inputItem(request):
         else:
             numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
                                                             'FROM Items '+
-                                                            'WHERE Category <> "Learning"').fetchall()[0].number
+                                                            'WHERE ItemNumber NOT LIKE "%-%"').fetchall()[0].number
             
             if numberOfNonLearningTuples > 0:
                 existedItemNumber = db.session.execute('SELECT ItemNumber '+
                                                         'FROM Items '+
-                                                        'WHERE Category <> "Learning" '+
+                                                        'WHERE ItemNumber NOT LIKE "%-%" '+
                                                         'ORDER BY ItemNumber DESC').fetchall()
                 latest = existedItemNumber[0].ItemNumber
                 itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
@@ -188,12 +188,12 @@ def modifyItem(request):
                     # generate a new item number
                     numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
                                                                     'FROM Items '+
-                                                                    'WHERE Category <> "Learning"').fetchall()[0].number
+                                                                    'WHERE ItemNumber NOT LIKE "%-%"').fetchall()[0].number
                     
                     if numberOfNonLearningTuples > 0:
                         existedItemNumber = db.session.execute('SELECT ItemNumber '+
                                                                 'FROM Items '+
-                                                                'WHERE Category <> "Learning" '+
+                                                                'WHERE ItemNumber NOT LIKE "%-%" '+
                                                                 'ORDER BY ItemNumber DESC').fetchall()
                         latest = existedItemNumber[0].ItemNumber
                         itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)

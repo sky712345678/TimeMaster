@@ -96,7 +96,11 @@
         {% for r in recentRecords %}
         <div class="recordContainer">
             <hr>
-            <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+            {% if '-' in r.ItemNumber %}
+                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+            {% else %}
+                <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+            {% endif %}
             {% if r.Goal != None %}
                 <div class="recordInfoContainer">
                     <p class="goalTitle">目標</p>
@@ -167,7 +171,11 @@
                     <h3 class="goal">({{g.AchievePercentage}}%) {{g.Goal}}</h3>
                 {% endif %}
 
-                <p class="item">{{g.Name}}</p>
+                {% if '-' in g.ItemNumber %}
+                    <p class="item">{{g.Name}} ({{g.ItemNumber}})</p>
+                {% else %}
+                    <p class="item">{{g.Name}}</p>
+                {% endif %}
                 
                 {% if g.Achieved == 'Y' %}
                     <p class="achieveInfo">狀態: 已於{{g.AchieveDate}}達成</p>
@@ -203,7 +211,11 @@
         {% for i in frequentItems%}
         <div class="itemOuterContainer">
             <div class="itemContainer">
-                <h3 class="name">{{i.Name}}</h3>
+                {% if '-' in i.ItemNumber %}
+                    <h3 class="name">{{i.Name}} ({{i.ItemNumber}})</h3>
+                {% else %}
+                    <h3 class="name">{{i.Name}}</h3>
+                {% endif %}
                 {% if i.Category == 'Learning' %}
                     <p class="category">類型: <i class="fa fa-book"></i> 學習</p>
                 {% elif i.Category == 'Sports' %}

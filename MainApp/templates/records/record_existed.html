@@ -11,7 +11,11 @@
         <div id="contentContainer">
             <div id="recordOuterContainer">
                 <div id="recordContainer">
-                    <h3 class="record" id="item">{{record.Name}} | {{record.Duration}} 分鐘</h3>
+                    {% if '-' in record.ItemNumber %}
+                        <h3 class="record" id="item">{{record.Name}} ({{record.ItemNumber}}) | {{record.Duration}} 分鐘</h3>
+                    {% else %}
+                        <h3 class="record" id="item">{{record.Name}} | {{record.Duration}} 分鐘</h3>
+                    {% endif %}
 
                     {% if record.Goal %}
                         <div id="recordInfoContainer">

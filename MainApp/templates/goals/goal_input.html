@@ -24,7 +24,11 @@
             <!--form id="goalInfoForm" enctype="multipart/form-data"-->
                 <label>項目</label> <select id="itemNumberSelect" name="itemNumber" form="goalInfoForm">
                     {% for i in items %}
-                        <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                        {% if '-' in i.ItemNumber %}
+                            <option value="{{i.ItemNumber}}">{{i.Name}} ({{i.ItemNumber}})</option>
+                        {% else %}
+                            <option value="{{i.ItemNumber}}">{{i.Name}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
                 <br>
