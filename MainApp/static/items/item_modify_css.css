@@ -32,6 +32,16 @@ label {
     width: 150px;
 }
 
+#learningOptionYesInput, #learningOptionNoInput {
+    width: 10px;
+}
+
+#learningOptionYesLabel, #learningOptionNoLabel{
+    width: 40px;
+
+    text-align: left;
+}
+
 button {
     border-width: 1px;
     border-radius: 5px;

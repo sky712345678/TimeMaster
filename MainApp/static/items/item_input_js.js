@@ -5,7 +5,8 @@ function categoryCheck(that) {
         document.getElementById('nameInput').placeholder = 'Please enter item name';
     }
     else {
-        $('#itemNumberInput').removeAttr('disabled');
+        $('#learningOptionNoInput').prop('checked', true);
+        learningOptionCheck(document.getElementById('learningOptionNoInput'));
         $('#itemNumberOuterContainer').removeAttr('style');
         document.getElementById('nameInput').placeholder = 'Please enter course name';
     }

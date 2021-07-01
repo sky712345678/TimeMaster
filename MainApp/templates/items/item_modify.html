@@ -17,8 +17,16 @@
                             <option value="Leisure">休閒</option>
                         </select>
                 <br>
-                <div id="itemNumberContainer" style="display: block;">
-                    <label>課程代號</label> <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" value="{{item.ItemNumber}}" required>
+                <div id="itemNumberOuterContainer">
+                    <label>是學校的課程嗎？</label>
+                    <input type="radio" id="learningOptionYesInput" name="learningOption" value="yes" onclick="learningOptionCheck(this)">
+                    <label id="learningOptionYesLabel" for="yes">是</label>
+                    <input type="radio" id="learningOptionNoInput" name="learningOption" value="no" onclick="learningOptionCheck(this)" checked>
+                    <label id="learningOptionNoLabel" for="no">不是</label>
+                    <br>
+                    <div id="itemNumberContainer" style="display: none;">
+                        <label>課程代號</label> <input type="text" id="itemNumberInput" name="itemNumber" placeholder="Please enter course number" value="{{item.ItemNumber}}" required/>
+                    </div>
                 </div>
                 <label>名稱</label> <input type="text" id="nameInput" name="name" placeholder="Please enter course name" value="{{item.Name}}" required>
                 <br>

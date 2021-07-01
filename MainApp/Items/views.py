@@ -120,6 +120,7 @@ def modifyCheck(request):
     if request.method == 'POST':
         category = request.form['category']
         itemNumber = request.form['itemNumber']
+        learningOption = request.form['learningOption']
         name = request.form['name']
 
         originalCategory = request.form['originalCategory']
@@ -130,20 +131,31 @@ def modifyCheck(request):
 
         if category == 'Learning':
             # if the category is 'Learning'
-            if originalCategory == category and originalItemNumber == itemNumber:
-                # if the user DIDN'T edit the Category and ItemNumber, the tuple is safe to be stored in the database
-                return 'Y'
-            else:
-                # else, check the ItemNumber and see if there's a tuple with the same ItemNumber
-                if '-' not in itemNumber or len(itemNumber) < 6:
-                    return 'Please enter a valid course number with 6 digits'
+            if learningOption == 'yes':
+                if originalCategory == category and originalItemNumber == itemNumber:
+                    # if the user DIDN'T edit the Category and ItemNumber, the tuple is safe to be stored in the database
+                    return 'Y'
                 else:
-                    result = Items.query.filter_by(ItemNumber=itemNumber).first()
+                    # else, check the ItemNumber and see if there's a tuple with the same ItemNumber
+                    if '-' not in itemNumber or len(itemNumber) < 6:
+                        return '請輸入有效的課程代號'
+                    else:
+                        result = Items.query.filter_by(ItemNumber=itemNumber).first()
+
+                        if result is None:
+                            return 'Y'
+                        else:
+                            return '已經有這個項目了'
+            else:
+                if originalCategory == category and originalName == name:
+                    return 'Y'
+                else:
+                    result = Items.query.filter_by(Name=name, Category=category).first()
 
                     if result is None:
                         return 'Y'
                     else:
-                        return 'The item has already existed!'
+                        return '已經有這個項目了'
         elif category == 'Sports' or category == 'Leisure':
             # if the casegory isn't 'Learning'
             if originalCategory == category and originalName == name:
@@ -156,7 +168,7 @@ def modifyCheck(request):
                 if result is None or result.Category != category:
                     return 'Y'
                 else:
-                    return 'The item has already existed!'
+                    return '已經有這個項目了'
 
 
 def modifyItem(request):
@@ -165,6 +177,7 @@ def modifyItem(request):
 
         category = request.form['category']
         itemNumber = request.form['itemNumber']
+        learningOption = request.form['learningOption']
         name = request.form['name']
 
         originalCategory = request.form['originalCategory']
@@ -176,6 +189,7 @@ def modifyItem(request):
         
         if tupleToUpdate is not None:
             tupleToUpdate.Name = name
+
             if originalCategory == category:
                 tupleToUpdate.ItemNumber = itemNumber
             else:
@@ -186,21 +200,22 @@ def modifyItem(request):
                 elif originalCategory == 'Learning' and (category == 'Sports' or category == 'Leisure'):
                     # if the category is change from 'Learning' to 'Sports' or 'Leisure',
                     # generate a new item number
-                    numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
+                    if '-' in originalItemNumber:
+                        numberOfNonLearningTuples = db.session.execute('SELECT COUNT (*) AS number '+
+                                                                        'FROM Items '+
+                                                                        'WHERE ItemNumber NOT LIKE "%-%"').fetchall()[0].number
+                        
+                        if numberOfNonLearningTuples > 0:
+                            existedItemNumber = db.session.execute('SELECT ItemNumber '+
                                                                     'FROM Items '+
-                                                                    'WHERE ItemNumber NOT LIKE "%-%"').fetchall()[0].number
-                    
-                    if numberOfNonLearningTuples > 0:
-                        existedItemNumber = db.session.execute('SELECT ItemNumber '+
-                                                                'FROM Items '+
-                                                                'WHERE ItemNumber NOT LIKE "%-%" '+
-                                                                'ORDER BY ItemNumber DESC').fetchall()
-                        latest = existedItemNumber[0].ItemNumber
-                        itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
-                    else:
-                        itemNumber = 'I'+str(1).zfill(5)
-                    
-                    tupleToUpdate.ItemNumber = itemNumber
+                                                                    'WHERE ItemNumber NOT LIKE "%-%" '+
+                                                                    'ORDER BY ItemNumber DESC').fetchall()
+                            latest = existedItemNumber[0].ItemNumber
+                            itemNumber = 'I'+str(int(latest[1:])+1).zfill(5)
+                        else:
+                            itemNumber = 'I'+str(1).zfill(5)
+                        
+                        tupleToUpdate.ItemNumber = itemNumber
                 
                 tupleToUpdate.Category = category
 
