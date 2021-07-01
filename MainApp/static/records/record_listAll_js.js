@@ -5,6 +5,7 @@ function setInfo() {
     }
 
     $('.recordOuterContainer:first').removeAttr('style');
+    $('#foldButton0 i').attr('class', 'fa fa-angle-up');
 }
 
 function deleteWarn(itemNumber, date, setDateTime) {

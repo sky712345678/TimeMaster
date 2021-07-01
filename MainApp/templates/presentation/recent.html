@@ -59,22 +59,39 @@
                     <h3>運動</h3>
                 {% endif %}
 
-                <span>{{c[1]}} 分鐘</span>
+                {% if c[1] > 60 %}
+                    <span class="timeThisWeek">{{c[1] // 60}}小時 {{c[1] % 60}}分鐘</span>
+                {% else %}
+                    <span class="timeThisWeek">{{c[1]}} 分鐘</span>
+                {% endif %}
+
                 {% for c_14D in category_sum_14D %}
                     {% if c.Category == c_14D.Category %}
                         {% if c[1]-c_14D[1] > 0 %}
-                            <span> (+{{c[1]-c_14D[1]}} 分鐘)</span>
+                            {% if c[1]-c_14D[1] > 60 %}
+                                <span class="timeDifferencePositive"> <i class="fa fa-caret-up"></i> {{(c[1]-c_14D[1])//60}}小時 {{(c[1]-c_14D[1])%60}}分鐘</span>
+                            {% else %}
+                                <span class="timeDifferencePositive"> <i class="fa fa-caret-up"></i> {{c[1]-c_14D[1]}} 分鐘</span>
+                            {% endif %}
                         {% elif c[1]-c_14D[1] < 0 %}
-                            <span> (-{{c_14D[1]-c[1]}} 分鐘)</span>
+                            {% if c[1]-c_14D[1] < -60 %}
+                                <span class="timeDifferenceNegative"> <i class="fa fa-caret-down"></i> {{(c_14D[1]-c[1])//60}}小時 {{(c_14D[1]-c[1])%60}}分鐘</span>
+                            {% else %}
+                                <span class="timeDifferenceNegative"> <i class="fa fa-caret-down"></i> {{c_14D[1]-c[1]}} 分鐘</span>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
             </div>
             {% endfor %}
             <hr>
-            {% for item,time in each_sum.items() %}
+            {% for item, time in each_sum.items() %}
             <div class="summaryItem">
-                <p>{{item}}: {{time}} 分鐘</p>
+                {% if time >60 %}
+                    <p>{{item}}: {{time // 60}}小時 {{time % 60}}分鐘</p>
+                {% else %}
+                    <p>{{item}}: {{time}} 分鐘</p>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -97,9 +114,17 @@
         <div class="recordContainer">
             <hr>
             {% if '-' in r.ItemNumber %}
-                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+                {% if r.Duration > 60 %}
+                    <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration // 60}}小時 {{r.Duration % 60}}分鐘</h3>
+                {% else %}
+                    <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+                {% endif %}
             {% else %}
-                <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                {% if r.Duration > 60 %}
+                    <h3 class="item">{{r.Name}} | {{r.Duration // 60}}小時 {{r.Duration % 60}}分鐘</h3>
+                {% else %}
+                    <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                {% endif %}
             {% endif %}
             {% if r.Goal != None %}
                 <div class="recordInfoContainer">

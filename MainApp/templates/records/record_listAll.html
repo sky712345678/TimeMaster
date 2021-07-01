@@ -42,7 +42,11 @@
                         <h3>運動</h3>
                     {% endif %}
 
-                    <span>{{s.Total}} 分鐘</span>
+                    {% if s.Total > 60 %}
+                        <span>{{s.Total // 60}}小時 {{s.Total % 60}}分鐘</span>
+                    {% else %}
+                        <span>{{s.Total}} 分鐘</span>
+                    {% endif %}
                 </div>
                 {% endfor %}
                 <div class="recordOuterContainer" id="recordListContainer{{loop.index0}}" style="display: none;">
@@ -51,9 +55,17 @@
                         <hr>
                         <div class="recordTitleContainer">
                             {% if '-' in r.ItemNumber %}
-                                <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+                                {% if r.Duration > 60 %}
+                                    <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration // 60}}小時 {{r.Duration % 60}}分鐘</h3>
+                                {% else %}
+                                    <h3 class="item">{{r.Name}} ({{r.ItemNumber}}) | {{r.Duration}} 分鐘</h3>
+                                {% endif %}
                             {% else %}
-                                <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                                {% if r.Duration > 60 %}
+                                    <h3 class="item">{{r.Name}} | {{r.Duration // 60}}小時 {{r.Duration % 60}}分鐘</h3>
+                                {% else %}
+                                    <h3 class="item">{{r.Name}} | {{r.Duration}} 分鐘</h3>
+                                {% endif %}
                             {% endif %}
                         </div>
                         <div class="buttonContainer">

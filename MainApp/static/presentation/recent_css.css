@@ -89,6 +89,20 @@ h1, h2 {
     margin-bottom: 2%;
 }
 
+.summaryCategory h3{
+    margin-top: 6%;
+}
+
+.summaryCategory .timeDifferencePositive{
+    color: red;
+    font-size: 10px;
+}
+
+.summaryCategory .timeDifferenceNegative{
+    color: royalblue;
+    font-size: 10px;
+}
+
 .summaryItem {
     width: 24%;
     
@@ -99,6 +113,7 @@ h1, h2 {
 
 .summaryItem p {
     text-align: center;
+    font-size: 14px;
 }
 
 #recentRecordsContainer {
