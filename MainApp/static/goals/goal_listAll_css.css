@@ -42,7 +42,7 @@ h4 {
     width: 65%;
     margin: 1% 5% 1% 1%;
 
-    background-color: #d4d3d3;
+    background-color: rgb(230, 230, 230);
     border-radius: 6px;
 
     align-items: center;
@@ -53,7 +53,7 @@ h4 {
     height: 30px;
 
     color: white;
-    background-color: #04AA6D;
+    background-color: #04bd79;
     border-radius: 6px;
 
     text-align: center; /* To center it horizontally (if you want) */
@@ -86,7 +86,6 @@ h4 {
     height: 240px;
     width: 43%;
     margin: 1%;
-    margin-bottom: 0%;
     padding-bottom: 2%;
 
     background-color: white;

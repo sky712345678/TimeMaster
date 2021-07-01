@@ -200,7 +200,7 @@ h1, h2 {
 #barContainer {
     width: 75%;
 
-    background-color: #d4d3d3;
+    background-color: rgb(239, 239, 239);
     border-radius: 6px;
 
     display: inline-block;
@@ -212,7 +212,7 @@ h1, h2 {
     height: 30px;
 
     color: white;
-    background-color: #04AA6D;
+    background-color: #04bd79;
     border-radius: 6px;
 
     text-align: center; /* To center it horizontally (if you want) */
