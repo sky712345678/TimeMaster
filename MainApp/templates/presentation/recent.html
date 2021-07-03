@@ -272,7 +272,7 @@
                 ]
 
     const time_record = {{time_record|tojson}};
-    console.log(Object.keys(time_record).length)
+    //console.log(Object.keys(time_record).length)
     var test = []
     var color_counter = 0
     for (const [key, value] of Object.entries(time_record)) {
@@ -283,9 +283,9 @@
             borderColor: backgroundColor[color_counter++],
             data: value,
         });
-        console.log(key, value);
+        //console.log(key, value);
     }
-    console.log(test);
+    //console.log(test);
     const label = {{date|tojson}};
     var data = {
         labels: label,
@@ -296,6 +296,8 @@
         type: 'line',
         data: data,
         options: {
+            borderWidth: 2,
+            pointRadius: 2,
             scales: {
                 
                 x: {
@@ -328,7 +330,7 @@
     );
     
     let index_test = {{each_sum|tojson}}
-    console.log(Object.keys(index_test))
+    //console.log(Object.keys(index_test))
 
     var ctx = document.getElementById("pie_chart").getContext('2d');
     var myChart = new Chart(ctx, {
