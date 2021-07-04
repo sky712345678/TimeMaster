@@ -3,10 +3,13 @@ from flask_sqlalchemy import SQLAlchemy  #SQL
 from sqlalchemy import desc
 from MainApp.database import db          #created database
 from MainApp.models import Items
+from MainApp.models import Records
 
 
 def inputCheck(request):
     if request.method == 'POST':
+        result = None
+
         category = request.form['category']
         itemNumber = request.form['itemNumber']
         learningOption = request.form['learningOption']
@@ -14,10 +17,9 @@ def inputCheck(request):
 
         name = name.lower()
 
-        if category == 'Learning':
-            if learningOption == 'yes':
-                if '-' not in itemNumber or len(itemNumber) < 6:
-                    return '請輸入有效的課程代號'
+        if category == 'Learning' and learningOption == 'yes':
+            if '-' not in itemNumber or len(itemNumber) < 6:
+                return '請輸入有效的課程代號'
 
             result = Items.query.filter_by(ItemNumber=itemNumber).first()
 
@@ -150,9 +152,9 @@ def modifyCheck(request):
                 if originalCategory == category and originalName == name:
                     return 'Y'
                 else:
-                    result = Items.query.filter_by(Name=name, Category=category).first()
+                    result = Items.query.filter_by(Name=name).first()
 
-                    if result is None:
+                    if result is None or result.Category != category:
                         return 'Y'
                     else:
                         return '已經有這個項目了'
@@ -196,7 +198,8 @@ def modifyItem(request):
                 if (originalCategory == 'Sports' or originalCategory == 'Leisure') and category == 'Learning':
                     # if the category is changed from 'Sports' or 'Leisure' to 'Learning',
                     # assign the new course number
-                    tupleToUpdate.ItemNumber = itemNumber
+                    if learningOption == 'yes':
+                        tupleToUpdate.ItemNumber = itemNumber
                 elif originalCategory == 'Learning' and (category == 'Sports' or category == 'Leisure'):
                     # if the category is change from 'Learning' to 'Sports' or 'Leisure',
                     # generate a new item number

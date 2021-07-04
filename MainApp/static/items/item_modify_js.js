@@ -7,13 +7,13 @@ function categoryCheck(that) {
     if (that.value != 'Learning') {
         $('#itemNumberInput').attr('disabled', true);
         $('#itemNumberOuterContainer').attr('style', 'display: none;');
-        document.getElementById('nameInput').placeholder = 'Please enter item name';
+        document.getElementById('nameInput').placeholder = '請輸入項目名稱';
     }
     else {
         $('#learningOptionNoInput').prop('checked', true);
         learningOptionCheck(document.getElementById('learningOptionNoInput'));
         $('#itemNumberOuterContainer').removeAttr('style');
-        document.getElementById('nameInput').placeholder = 'Please enter course name';
+        document.getElementById('nameInput').placeholder = '請輸入課程名稱';
     }
 }
 

@@ -20,19 +20,19 @@
                     {% endfor %}
                     </select>
                 <br>
-                <label>日期</label> <input type="date" id="dateInput" name="date" placeholder="YYYY/MM/DD" value="{{record.Date}}" required>
+                <label>日期</label> <input type="date" id="dateInput" name="date" value="{{record.Date}}" required>
                 <br>
-                <label>時長 (分鐘)</label> <input type="number" id="durationInput" name="duration" placeholder="Please enter the time you spent (min.)" value="{{record.Duration}}" min="0" required>
+                <label>時長 (分鐘)</label> <input type="number" id="durationInput" name="duration" placeholder="使用多少時間 (分鐘)" value="{{record.Duration}}" min="0" required>
                 <br>
                 <label>目標</label> <select id="goalNumberSelect" name="goalNumber" form="recordInfoForm"></select>
                 <br>
                 {% if record.GoalNumber == None %}
                     <div id="achievePercentageContainer" style="display: none;">
-                        <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" min="0">
+                        <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="完成百分比" min="0">
                     </div>
                 {% else %}
                     <div id="achievePercentageContainer">
-                        <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="percentage %" value="{{record.AchievePercentage}}" min="0">
+                        <label>達成度</label> <input type="number" id="achievePercentageInput" name="achievePercentage" placeholder="完成百分比" value="{{record.AchievePercentage}}" min="0">
                     </div>
                 {% endif %}
                 <label>備註</label> <input type="text" id="descriptionInput" name="description" value="{{record.Description}}">
