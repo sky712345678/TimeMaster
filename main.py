@@ -6,14 +6,14 @@ from MainApp import create
 from MainApp.Items import views as items_views
 from MainApp.Records import views as records_views
 from MainApp.Goals import views as goals_views
-from MainApp import chart 
+from MainApp import home
 
 app = create()
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/home')
 def recent():
-    return chart.recent()
+    return home.recent()
 
 @app.route('/items/input/check', methods=['POST', 'GET'])
 def items_input_check():
@@ -108,59 +108,8 @@ def records_modify_submit():
 
 @app.route('/presentation/chart', methods=['POST', 'GET'])
 def check_chart():
-    return chart.chart(request)
+    return home.chart(request)
 
-
-
-'''
-@app.route('/learning/Course/input')
-def course():
-    return learning.course()
-
-@app.route('/learning/Course/input/submit', methods=['POST', 'GET'])
-def inputCourse():
-    return learning.inputCourse(request)
-
-@app.route('/learning/Course/listAll')
-def listCourses():
-    return learning.listAllCourses()
-
-@app.route('/learning/Study/input')
-def study():
-    return learning.study()
-
-@app.route('/learning/Study/input/submit', methods=['POST', 'GET'])
-def inputStudy():
-    return learning.inputStudy(request)
-
-@app.route('/learning/Study/listAll')
-def listStudies():
-    return learning.listAllStudies()
-
-@app.route('/learning/Test/input')
-def test():
-    return learning.test()
-
-@app.route('/learning/Test/input/submit', methods=['POST', 'GET'])
-def inputTest():
-    return learning.inputTest(request)
-
-@app.route('/learning/Test/listAll')
-def listTests():
-    return learning.listAllTests()
-
-@app.route('/learning/Assignment/input')
-def assignment():
-    return learning.assignment()
-
-@app.route('/learning/Assignment/input/submit', methods=['POST', 'GET'])
-def inputAssignment():
-    return learning.inputAssignment(request)
-
-@app.route('/learning/Assignment/listAll')
-def listAssignments():
-    return learning.listAllAssignments()
-'''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
