@@ -187,3 +187,12 @@ def modifyGoal(request):
         else:
             flash('發生未知的錯誤，無法更新目標')
             return redirect('/goals/listAll')
+
+
+def getPercentage(request):
+    if request.method == 'POST':
+        goalNumber = request.form['goalNumber']
+
+        result = Goals.query.filter_by(GoalNumber=goalNumber).first()
+
+        return str(result.AchievePercentage)

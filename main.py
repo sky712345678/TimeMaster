@@ -73,6 +73,10 @@ def goals_modify_check():
 def goals_modify_submit():
     return goals_views.modifyGoal(request)
 
+@app.route('/goals/get_percentage', methods=['POST', 'GET'])
+def goals_get_percentage():
+    return goals_views.getPercentage(request)
+
 @app.route('/records/input', methods=['POST', 'GET'])
 @app.route('/records/input/submit', methods=['POST', 'GET'])
 def records_input():
