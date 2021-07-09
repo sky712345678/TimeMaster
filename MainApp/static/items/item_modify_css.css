@@ -43,13 +43,18 @@ label {
 }
 
 button {
-    border-width: 1px;
-    border-radius: 5px;
+    border-style: none;
+    border-radius: 6px;
 
     font-size: 14px;
 
-    margin-top: 15px;
-    margin-bottom: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 4px 30px;
 
     cursor: pointer;
+}
+
+button:hover {
+    background-color: #d4d3d3;
 }
