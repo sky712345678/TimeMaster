@@ -121,6 +121,24 @@ $('#dateInput').change(function () {
 
 $('#goalNumberSelect').change(function () {
     if (document.getElementById('goalNumberSelect').value != '') {
+        var form = $('#recordInfoForm')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '/goals/get_percentage',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                document.getElementById('achievePercentageInput').value = data;
+            },
+            error: function () {
+                window.alert('Ajax error occured');
+            }
+        })
+        
         $('#achievePercentageContainer').removeAttr('style');
     }
     else {
