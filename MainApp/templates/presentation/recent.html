@@ -102,13 +102,31 @@
     <div id="recentRecordsContainer">
         <div class="cardHeaderContainer">
             <div class="titleContainer">
-                <h2 class="recentRecordsContainer"><i class="fa fa-clock-o"></i> 最近的活動紀錄</h2>
+                <h2 class="recentRecordsContainer"><i class="fa fa-clock-o"></i> 今日活動</h2>
             </div>
             <div class="buttonContainer">
                 <button class="inputButton" onclick="location.href='/records/input'"><i class="fa fa-plus"></i> 新增</button>
                 <button class="listAllButton" onclick="location.href='/records/listAll'"><i class="fa fa-list-ul"></i> 查看所有</button>
             </div>
         </div>
+
+        {% for c in recent_category_sum %}
+        <div class="summaryCategory">
+            {% if c.Category == 'Learning' %}
+                <h3>學習</h3>
+            {% elif c.Category == 'Leisure' %}
+                <h3>休閒</h3>
+            {% else %}
+                <h3>運動</h3>
+            {% endif %}
+
+            {% if c[1] > 60 %}
+                <span class="timeThisWeek">{{c[1] // 60}}小時 {{c[1] % 60}}分鐘</span>
+            {% else %}
+                <span class="timeThisWeek">{{c[1]}} 分鐘</span>
+            {% endif %}
+        </div>
+        {% endfor %}
 
         {% for r in recentRecords %}
         <div class="recordContainer">

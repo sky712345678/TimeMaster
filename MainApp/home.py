@@ -66,13 +66,21 @@ def recent():
                                         {'lb':past_14D, 'ub':past_7D}).fetchall()
 
     # modified by sky712345678
+    recent_category_sum = db.session.execute('SELECT Items.Category, SUM(Records.Duration) '+
+                                        'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
+                                                'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
+                                        'WHERE Records.Date == :td '+
+                                        'GROUP BY Items.Category '+ 
+                                        'ORDER BY Items.Category ASC',
+                                        {'td':datetime.today().strftime("%Y-%m-%d")}).fetchall()
+    
     recentRecords = db.session.execute('SELECT Items.Category, Items.Name, Items.ItemNumber, Records.Date, Records.SetDateTime, Records.Duration, Goals.Goal, Records.AchievePercentage, Records.Description '+
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
-                                        'WHERE Records.Date >= :lb AND Records.Date <= :ub '
+                                        'WHERE Records.Date == :td '+
                                         'ORDER BY Records.Date DESC '+
                                         'LIMIT 0, 4',
-                                        {'lb': past_7D, 'ub': upperBoundString}).fetchall()
+                                        {'td':datetime.today().strftime("%Y-%m-%d")}).fetchall()
 
     numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
                                        'FROM Goals '+
@@ -120,7 +128,7 @@ def recent():
                 time_record=dict_all_activity_7D, date=date, each_sum=dict_all_activity_sum_7D,
                 category_sum=category_sum, category_sum_14D=category_sum_14D,
                 # modified by sky712345678
-                recentRecords=recentRecords, recentGoals=recentGoals, 
+                recent_category_sum=recent_category_sum, recentRecords=recentRecords, recentGoals=recentGoals, 
                 numberOfAchievedGoals=numberOfAchievedGoals, numberOfQuittedGoals=numberOfQuittedGoals,
                 numberOfGoals=numberOfGoals, percentage=achievePercentage,
                 frequentItems=frequentItems)
