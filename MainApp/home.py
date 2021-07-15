@@ -78,8 +78,7 @@ def recent():
                                         'FROM ((Records LEFT OUTER JOIN Goals ON Records.GoalNumber = Goals.GoalNumber)'+
                                                 'JOIN Items ON Records.ItemNumber = Items.ItemNumber) '+
                                         'WHERE Records.Date == :td '+
-                                        'ORDER BY Records.Date DESC '+
-                                        'LIMIT 0, 4',
+                                        'ORDER BY Records.Date DESC',
                                         {'td':datetime.today().strftime("%Y-%m-%d")}).fetchall()
 
     numberOfGoals = db.session.execute('SELECT COUNT(*) AS Number '+
