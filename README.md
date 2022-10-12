@@ -3,16 +3,35 @@ This is a project for Database System course at NCKU
 To read this in HackMD, go to: https://hackmd.io/@zewunwang/Sy-qZ3P_d
 
 ## Prerequisites ##
-#### Create a virtual environment ####
+### 1. Python 3.7
+### 2. Virtual Environment
+#### 1) Create a virtual environment ####
 On Linux: `$ python3 -m venv venv`  
-On Windows: `> py -3 -m venv venv`
-#### Activate/deactivate virtual environment ####
+On Windows: `> python -m venv venv`
+#### 2) Activate/deactivate the virtual environment ####
 On Linux: `$ . venv/bin/activate`  
 On Windows: `> venv\Scripts\activate`
-#### Install Flask in virtual environment ####
-`$ pip install Flask`
-#### Install Flask-SQLAlchemy in virtual environment ####
-`$ pip install flask-sqlalchemy`
+#### 3) Install Flask and all the required libraries in the virtual environment ####
+`$ pip install -r requirements.txt`
+#### 4) Required packages ####
+click 7.1.2, 
+colorama 0.4.5, 
+Flask 1.1.2, 
+Flask-SQLAlchemy 2.5.1, 
+greenlet 1.1.0, 
+importlib-metadata 5.0.0, 
+itsdangerous 1.1.0, 
+Jinja2 2.11.3, 
+MarkupSafe 1.1.1, 
+numpy 1.21.6, 
+pandas 1.2.4, 
+python-dateutil 2.8.1, 
+pytz 2021.1, 
+six 1.16.0, 
+SQLAlchemy 1.4.15, 
+typing-extensions 3.10.0.0, 
+Werkzeug 1.0.1, 
+zipp 3.4.1, 
 
 ## Run server ##
 On Linux, go to the path to app and run:
